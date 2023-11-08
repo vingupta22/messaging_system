@@ -33,11 +33,9 @@ public class Users {
         this.invisibleUsers = null;
     }
 
-    public void editAccnt(String email, String password, ArrayList<Users> blockedUsers, ArrayList<Users> invisibleUsers) {
+    public void editAccnt(String email, String password) {
         this.setEmail(email);
         this.setPassword(password);
-        this.setInvisibleUsers(invisibleUsers);
-        this.setBlockedUsers(blockedUsers);
     } // editing account by giving parameters, which is different from the method we did in the beggining, but I'm not sure how to do it 
     //without parameters
 
