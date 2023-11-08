@@ -17,8 +17,19 @@ public class Message {
         content = newMessage;
     }
 
-    public String getContent()
-    {
+    public String getContent() {
         return content;
+    }
+
+    public String getRecipientID() {
+        return recipientID;
+    }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
     }
 }
