@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Seller  /*extends User*/ {
+public class Seller extends Users {
 
 
     private ArrayList<Store> stores;
