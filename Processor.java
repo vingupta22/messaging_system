@@ -447,8 +447,8 @@ public class Processor {
                     brw.write(time + ", " + sender + ", " + content);
                 }
             }
-            System.out.println("Exported!");
         }
+        System.out.println("Exported!");
     }
 
 
