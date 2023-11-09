@@ -55,6 +55,7 @@ public class Processor {
                                     }
                                     allUsers.remove(user);
                                     user.deleteAccnt();
+                                    loggedIn = false;
                                     break;
                                 case "5":
                                     System.out.println("Enter user you would like to hide from:");
