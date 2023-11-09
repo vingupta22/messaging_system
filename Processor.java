@@ -433,10 +433,12 @@ public class Processor {
         BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
         if (name.isEmpty()) {
             for (Message allMessage : allMessages) {
-                String content = allMessage.getContent();
-                String time = allMessage.getTimeStamp();
-                String sender = allMessage.getSenderID();
-                brw.write(time + ", " + sender + ", " + content);
+                if (allMessage.getRecipientID().equals(user.email) || allMessage.getSenderID().equals(user.email)) {
+                    String content = allMessage.getContent();
+                    String time = allMessage.getTimeStamp();
+                    String sender = allMessage.getSenderID();
+                    brw.write(time + ", " + sender + ", " + content);
+                }
             }
         } else {
             for (Message allMessage : allMessages) {
