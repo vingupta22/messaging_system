@@ -1,6 +1,7 @@
 package messaging_system;
 
 import java.io.*;
+
 import java.util.ArrayList;
 
 public class Users {
@@ -16,6 +17,8 @@ public class Users {
         this.password = password;
         this.blockedUsers = new ArrayList<>();
         this.invisibleUsers = new ArrayList<>();
+        this.messagesSent = new ArrayList<>();
+        this.messagesReceived = new ArrayList<>();
     }
 
     public void hide(Users hiddenUser) {

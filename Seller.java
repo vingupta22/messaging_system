@@ -8,13 +8,10 @@ public class Seller extends Users {
     private ArrayList<Store> stores;
     private ArrayList<Message> messageThread;
 
-    public Seller(String email, String password, ArrayList<Users> blockedUsers, ArrayList<Users> invisibleUsers,
-                  ArrayList<Message> messagesSent, ArrayList<Message> messagesReceived,
-                  ArrayList<Store> stores,
-                  ArrayList<Message> messageThread) {
-        super(email, password, blockedUsers, invisibleUsers, messagesSent, messagesReceived);
-        this.stores = stores;
-        this.messageThread = messageThread;
+    public Seller(String email, String password) {
+        super(email, password);
+        this.stores = new ArrayList<>();
+        this.messageThread = new ArrayList<>();
     }
 
 
