@@ -6,9 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Array;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Processor {
 
@@ -272,7 +271,7 @@ public class Processor {
         if (user instanceof Seller) {
             for (Customer x : allCustomers) {
                 data.add(x.getEmail() + " has sent " + x.getNumMessages() + " messages." +
-                        " Common words include: "); //no idea how to figure this out
+                        " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
             }
         } else {
             for (Store x : allStores) {
@@ -458,6 +457,47 @@ public class Processor {
         }
         System.out.println("Exported!");
         brw.close();
+    }
+
+    public static String getCommonWords(ArrayList<Message> allMessages) // returns
+    {
+        HashMap<String, Integer> words = new HashMap<>();
+        for (Message message : allMessages) {
+            String[] messageContent = message.getContent().split(" ");
+            for (String word : messageContent) {
+                word = word.trim();
+                if (!word.isEmpty()) {
+                    words.put(word, words.getOrDefault(word, 0) + 1);
+                }
+            }
+        }
+
+        if (words.isEmpty()) {
+            System.out.println("The 'words' HashMap is empty. Ensure 'allMessages' contains valid messages.");
+        } else {
+            List<Map.Entry<String, Integer>> sortedEntries = words.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                    .collect(Collectors.toList());
+
+            if (sortedEntries.isEmpty()) {
+                System.out.println("The sorted entries list is empty. No words found.");
+            } else {
+                List<String> highestStrings = sortedEntries.stream()
+                        .limit(3)
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toList());
+
+                if (highestStrings.isEmpty()) {
+                    System.out.println("The 'highestStrings' list is empty. No top words found.");
+                } else {
+                    return String.join(" ", highestStrings);
+                }
+            }
+        }
+
+        return "No top words found";
+
     }
 
 
