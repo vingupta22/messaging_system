@@ -1,6 +1,7 @@
 package messaging_system;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Array;
@@ -431,6 +432,7 @@ public class Processor {
 
         System.out.println("Whose conversation would you like to export (leave blank for all).");
         String name = scanner.nextLine();
+        File f = new File("messageHistory.csv");
         BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
         if (name.isEmpty()) {
             for (Message allMessage : allMessages) {
