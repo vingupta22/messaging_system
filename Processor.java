@@ -437,7 +437,7 @@ public class Processor {
                     String content = allMessage.getContent();
                     String time = allMessage.getTimeStamp();
                     String sender = allMessage.getSenderID();
-                    brw.write(time + ", " + sender + ", " + content);
+                    brw.write(time + ", " + sender + ", " + content + "\n");
                 }
             }
         } else {
@@ -446,11 +446,12 @@ public class Processor {
                     String content = allMessage.getContent();
                     String time = allMessage.getTimeStamp();
                     String sender = allMessage.getSenderID();
-                    brw.write(time + ", " + sender + ", " + content);
+                    brw.write(time + ", " + sender + ", " + content + "\n");
                 }
             }
         }
         System.out.println("Exported!");
+        brw.close();
     }
 
 
