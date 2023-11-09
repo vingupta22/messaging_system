@@ -438,8 +438,17 @@ public class Processor {
                 String sender = allMessage.getSenderID();
                 brw.write(time + ", " + sender + ", " + content);
             }
+        } else {
+            for (Message allMessage : allMessages) {
+                if (allMessage.getRecipientID().equals(name)) {
+                    String content = allMessage.getContent();
+                    String time = allMessage.getTimeStamp();
+                    String sender = allMessage.getSenderID();
+                    brw.write(time + ", " + sender + ", " + content);
+                }
+            }
+            System.out.println("Exported!");
         }
-        System.out.println("Exported!");
     }
 
 
