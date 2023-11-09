@@ -54,7 +54,7 @@ public class Processor {
                                     user.deleteAccnt();
                                     break;
                                 case "5":
-                                    System.out.println("Enter user you would like to hide:");
+                                    System.out.println("Enter user you would like to hide from:");
                                     String hidden = scanner.nextLine();
                                     for (Users allUser : allUsers) {
                                         if (allUser.getEmail().equals(hidden)) {
@@ -198,12 +198,12 @@ public class Processor {
 
                         }
                     }
-                    if (recipUser == null) {
-                        System.out.println("Invalid recipient.");
-                        break;
-                    }
                 }
 
+                if (recipUser == null) {
+                    System.out.println("Invalid recipient.");
+                    break;
+                }
                 System.out.println("What is your message?");
                 String content = scanner.nextLine();
 
@@ -261,7 +261,7 @@ public class Processor {
         if (user instanceof Seller) {
             for (Customer x : allCustomers) {
                 data.add(x.getEmail() + " has sent " + x.getNumMessages() + " messages." +
-                        "Common words include: "); //no idea how to figure this out
+                        " Common words include: "); //no idea how to figure this out
             }
         } else {
             for (Store x : allStores) {
