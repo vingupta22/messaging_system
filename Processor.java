@@ -1,5 +1,8 @@
 package messaging_system;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Array;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ public class Processor {
 
     private static ArrayList<Users> allUsers = new ArrayList<Users>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -30,11 +33,11 @@ public class Processor {
                             if (user instanceof Seller) {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n" +
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n"
-                                        + "9.Edit Message\n10.Delete Message\n11.Create Store");
+                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store");
                             } else {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
                                         + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
-                                        "9.Edit Message\n10.Delete Message\n11.Buy products");
+                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products");
                             }
                             switch (scanner.nextLine()) {
                                 case "1":
@@ -87,6 +90,9 @@ public class Processor {
                                     deleteMessage(user);
                                     break;
                                 case "11":
+                                    exportCSV(user);
+                                    break;
+                                case "12":
                                     if (user instanceof Customer) {
                                         buyProducts((Customer) user);
                                         break;
@@ -405,6 +411,35 @@ public class Processor {
                 return "Invalid input.\n";
         }
 
+    }
+
+    public static void exportCSV(Users user) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        if (user instanceof Customer) {
+            for (Seller x : allSellers) {
+                System.out.println(x.getEmail());
+            }
+        } else {
+            for (Customer allCustomer : allCustomers) {
+                if (!allCustomer.invisibleUsers.contains(user)) {
+                    System.out.println(allCustomer.getEmail());
+                }
+            }
+        }
+        System.out.println();
+
+        System.out.println("Whose conversation would you like to export (leave blank for all).");
+        String name = scanner.nextLine();
+        BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
+        if (name.isEmpty()) {
+            for (Message allMessage : allMessages) {
+                String content = allMessage.getContent();
+                String time = allMessage.getTimeStamp();
+                String sender = allMessage.getSenderID();
+                brw.write(time + ", " + sender + ", " + content);
+            }
+        }
+        System.out.println("Exported!");
     }
 
 
