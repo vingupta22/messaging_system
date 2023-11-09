@@ -54,6 +54,9 @@ public class Processor {
                                     if (user instanceof Seller) {
                                         allSellers.remove(user);
                                     }
+                                    if (user instanceof Customer) {
+                                        allCustomers.remove(user);
+                                    }
                                     allUsers.remove(user);
                                     user.deleteAccnt();
                                     loggedIn = false;
