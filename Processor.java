@@ -336,11 +336,16 @@ public class Processor {
         for (Message x : msgsSent) {
             System.out.println(i + ": " + x.getContent());
         }
-        System.out.println("\nEnter the number of the message you would like to delete:");
-        Message message = msgsSent.get(scanner.nextInt()-1);
-        scanner.nextLine();
-        user.deleteMessage(message);
-        System.out.println("Message deleted.");
+        if (msgsSent.isEmpty()) {
+            System.out.println("No messsage history.");
+        } else {
+            System.out.println("\nEnter the number of the message you would like to delete:");
+            Message message = msgsSent.get(scanner.nextInt()-1);
+            scanner.nextLine();
+            user.deleteMessage(message);
+            System.out.println("Message deleted.");
+        }
+
     }
 
     public static void buyProducts(Customer user) {

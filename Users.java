@@ -92,19 +92,6 @@ public class Users {
 
     }
 
-    // for now, I'll be throwing all errors, but handling needs to be implemented
-    public void msgHist() throws IOException {
-        BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
-        for (var i = 0; i < messagesSent.size(); i++) {
-            /* Each message will be stored in a single line. The line is structured like this:
-            content, senderID, recipientID, timestamp
-             */
-            brw.write(messagesSent.get(i).getContent() + "," + "Sender: " + messagesSent.get(i).getSenderID()
-                    + "," + "Recipient: " + messagesSent.get(i).getRecipientID() + ", Time: " + messagesSent.get(i).getTimeStamp());
-
-
-        }
-    }
 
     public int getNumMessages() {
         return messagesSent.size();
