@@ -14,4 +14,7 @@ public class Customer extends Users {
     public ArrayList<String> getProductsPurchased() {
         return productsPurchased;
     }
+    public void setProductsPurchased(ArrayList<String> products) {
+        this.productsPurchased = products;
+    }
 }

@@ -346,7 +346,13 @@ public class Processor {
             System.out.println(i + ". " + product);
         }
         System.out.println("Enter the number for the product you want to buy:");
-        //user.productsPurchased.add(store.getProductList().get(scanner.nextInt()-1));
+        ArrayList<String> finalList = new ArrayList<>();
+        String product = store.getProductList().get(scanner.nextInt()-1);
+        if (user.getProductsPurchased() != null) {
+            finalList = user.getProductsPurchased();
+        }
+        finalList.add(product);
+        user.setProductsPurchased(finalList);
         System.out.println("Purchased!");
         scanner.nextLine();
     }
