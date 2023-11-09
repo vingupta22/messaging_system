@@ -119,26 +119,7 @@ public class Users {
         }
     }
 
-    public void sendFile(String filename, Users user) throws IOException {
-        String message = "";
-        BufferedReader bfr = null;
-        try {
-            bfr = new BufferedReader(new FileReader(filename));
-        } catch (FileNotFoundException e) {
-            System.out.println("Sorry, file does not exist!");
-        }
-        String line = bfr.readLine();
-        while (line != null) {
-            message.concat(line + "/n");
-        }
-
-        // assuming userID is email, timestamp is set to null for now because idk how to get timestamp
-        sendMessage(new Message(message, this.email, user.getEmail(), null), user);
-
-
-
-
-    }
+    
 
 
 }
