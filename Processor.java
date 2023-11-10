@@ -353,6 +353,7 @@ public class Processor {
         int i = 1;
         for (Store allStore : allStores) {
             System.out.println(i + ". " + allStore.getName());
+            i++;
         }
         System.out.println("Enter the number for the store you want to purchase from:");
         Store store = allStores.get(scanner.nextInt()-1);
@@ -363,6 +364,7 @@ public class Processor {
         System.out.println("Enter the number for the product you want to buy:");
         ArrayList<String> finalList = new ArrayList<>();
         String product = store.getProductList().get(scanner.nextInt()-1);
+        scanner.nextLine();
         if (user.getProductsPurchased() != null) {
             finalList = user.getProductsPurchased();
         }
