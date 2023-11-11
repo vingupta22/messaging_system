@@ -108,7 +108,7 @@ public class Processor {
                                     System.out.println("\nInvalid input.\n");
                                     break;
                             }
-                        } while(loggedIn);
+                        } while (loggedIn);
                     }
                     break;
                 case "2":
@@ -124,7 +124,7 @@ public class Processor {
 
             }
             System.out.println();
-        } while(!exit);
+        } while (!exit);
     }
 
     public static void printMsgs(Users user) {
@@ -229,6 +229,7 @@ public class Processor {
                 break;
         }
     }
+
     public static void printUsers(Users user) {
         if (user instanceof Customer) {
             for (Store allStore : allStores) {
@@ -317,7 +318,7 @@ public class Processor {
             System.out.println(i + ": " + x.getContent());
         }
         System.out.println("\nEnter the number of the message you would like to edit:");
-        Message message = msgsSent.get(scanner.nextInt()-1);
+        Message message = msgsSent.get(scanner.nextInt() - 1);
         String content = message.getContent();
         scanner.nextLine();
         System.out.println("What would you like the message to say now.");
@@ -328,7 +329,7 @@ public class Processor {
 
     public static void deleteMessage(Users user) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Message> msgsSent= new ArrayList<Message>();
+        ArrayList<Message> msgsSent = new ArrayList<Message>();
         if (user.messagesSent != null) {
             msgsSent = user.messagesSent;
         }
@@ -340,7 +341,7 @@ public class Processor {
             System.out.println("No messsage history.");
         } else {
             System.out.println("\nEnter the number of the message you would like to delete:");
-            Message message = msgsSent.get(scanner.nextInt()-1);
+            Message message = msgsSent.get(scanner.nextInt() - 1);
             scanner.nextLine();
             user.deleteMessage(message);
             System.out.println("Message deleted.");
@@ -356,14 +357,14 @@ public class Processor {
             i++;
         }
         System.out.println("Enter the number for the store you want to purchase from:");
-        Store store = allStores.get(scanner.nextInt()-1);
+        Store store = allStores.get(scanner.nextInt() - 1);
         scanner.nextLine();
         for (String product : store.getProductList()) {
             System.out.println(i + ". " + product);
         }
         System.out.println("Enter the number for the product you want to buy:");
         ArrayList<String> finalList = new ArrayList<>();
-        String product = store.getProductList().get(scanner.nextInt()-1);
+        String product = store.getProductList().get(scanner.nextInt() - 1);
         scanner.nextLine();
         if (user.getProductsPurchased() != null) {
             finalList = user.getProductsPurchased();
@@ -373,6 +374,7 @@ public class Processor {
         System.out.println("Purchased!");
         scanner.nextLine();
     }
+
     public static void makeStore(Seller user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the store name:");
@@ -390,6 +392,7 @@ public class Processor {
         user.addStore(store);
         System.out.println("Store made!");
     }
+
     public static String createAccount() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your email:");
@@ -466,7 +469,7 @@ public class Processor {
         brw.close();
     }
 
-    public static String getCommonWords(ArrayList<Message> allMessages) // returns
+    public static String getCommonWords(ArrayList<Message> allMessages) // returns with words separated by a space
     {
         HashMap<String, Integer> words = new HashMap<>();
         for (Message message : allMessages) {
@@ -480,7 +483,7 @@ public class Processor {
         }
 
         if (words.isEmpty()) {
-            System.out.println("The 'words' HashMap is empty. Ensure 'allMessages' contains valid messages.");
+            System.out.println("There are no messages saved!");
         } else {
             List<Map.Entry<String, Integer>> sortedEntries = words.entrySet()
                     .stream()
@@ -507,6 +510,86 @@ public class Processor {
 
     }
 
+    public void saveAll() throws IOException {
+        File users = new File("user_info.txt");
+        BufferedWriter usersWriter = new BufferedWriter(new FileWriter(users));
+        for (Users user : allUsers) {
+            if (user instanceof Seller) {
+                usersWriter.write("Seller\n");
+            }
+            if (user instanceof Customer) {
+                usersWriter.write("Customer\n");
+            }
+            String email = user.getEmail();
+            String password = user.getPassword();
+            usersWriter.write(email + "\n");
+            usersWriter.write(password + "\n");
+            String blockedUsers = ";";
+            if (!user.getBlockedUsers().isEmpty()) {
+                for (Users blockedUser : user.getBlockedUsers()) {
+                    blockedUsers += blockedUser.getEmail() + ",";
+                }
+                blockedUsers = blockedUsers.substring(0, blockedUsers.length() - 1);
+            }
+            blockedUsers += ";";
+            usersWriter.write(blockedUsers + "\n");
+
+            String invisibleUsers = "|";
+            if (!user.getInvisibleUsers().isEmpty()) {
+                for (Users invisibleUser : user.getInvisibleUsers()) {
+                    invisibleUsers += invisibleUser.getEmail() + ",";
+                }
+                invisibleUsers = invisibleUsers.substring(0, invisibleUsers.length() - 1);
+            }
+            invisibleUsers += "|";
+            usersWriter.write(invisibleUsers + "\n");
+
+
+            usersWriter.write("Sent" + "\n");
+            for (Message message : user.getMessagesSent()) {
+                String content = message.getContent();
+                String time = message.getTimeStamp();
+                String sender = message.getSenderID();
+                usersWriter.write(time + ", " + sender + ", " + content + "\n");
+            }
+
+            usersWriter.write("Received" + "\n");
+            for (Message message : user.getMessagesReceived()) {
+                String content = message.getContent();
+                String time = message.getTimeStamp();
+                String sender = message.getSenderID();
+                usersWriter.write(time + ", " + sender + ", " + content + "\n");
+            }
+
+            if (user instanceof Seller) {
+                usersWriter.write("Stores");
+                for (Store store : ((Seller) user).getStores()) {
+                    String name = store.getName();
+                    String sellerEmail = store.getSeller().getEmail();
+                    String items = "";
+                    for (String str : store.getProductList()) {
+                        items += str + ",";
+                    }
+                    items = items.substring(0, items.length() - 1);
+                    usersWriter.write(name + "," + sellerEmail + "," + ";" + items + ";");
+                }
+            }
+            if (user instanceof Customer) {
+                usersWriter.write("Purchased");
+                for (String str : ((Customer) user).getProductsPurchased()) {
+                    String items = "";
+                    items += str + ",";
+                    items = items.substring(0, items.length() - 1);
+                    usersWriter.write(items);
+                }
+            }
+            usersWriter.write("Done");
+        }
+        usersWriter.close();
+
+
+
+    }
 
 
 }

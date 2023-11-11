@@ -92,6 +92,13 @@ public class Users {
 
     }
 
+    public ArrayList<Message> getMessagesSent() {
+        return messagesSent;
+    }
+
+    public ArrayList<Message> getMessagesReceived() {
+        return messagesReceived;
+    }
 
     public int getNumMessages() {
         return messagesSent.size();
