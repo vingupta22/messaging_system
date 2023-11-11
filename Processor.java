@@ -86,6 +86,7 @@ public class Processor {
                                 case "8":
                                     System.out.println("\nLogging out!\n");
                                     loggedIn = false;
+                                    saveAll();
                                     break;
                                 case "9":
                                     editMessage(user);
@@ -510,7 +511,7 @@ public class Processor {
 
     }
 
-    public void saveAll() throws IOException {
+    public static void saveAll() throws IOException {
         File users = new File("user_info.txt");
         BufferedWriter usersWriter = new BufferedWriter(new FileWriter(users));
         for (Users user : allUsers) {
@@ -550,7 +551,7 @@ public class Processor {
                 String content = message.getContent();
                 String time = message.getTimeStamp();
                 String sender = message.getSenderID();
-                usersWriter.write(time + ", " + sender + ", " + content + "\n");
+                usersWriter.write(time + "," + sender + "," + content + "\n");
             }
 
             usersWriter.write("Received" + "\n");
@@ -558,7 +559,7 @@ public class Processor {
                 String content = message.getContent();
                 String time = message.getTimeStamp();
                 String sender = message.getSenderID();
-                usersWriter.write(time + ", " + sender + ", " + content + "\n");
+                usersWriter.write(time + "," + sender + "," + content + "\n");
             }
 
             if (user instanceof Seller) {
@@ -587,6 +588,32 @@ public class Processor {
         }
         usersWriter.close();
 
+
+        File stores = new File("store_info.txt");
+        BufferedWriter storeWriter = new BufferedWriter(new FileWriter(stores));
+        for (Store store : allStores)
+        {
+            String name = store.getName();
+            String sellerEmail = store.getSeller().getEmail();
+            String items = "";
+            for (String str : store.getProductList()) {
+                items += str + ",";
+            }
+            items = items.substring(0, items.length() - 1);
+            storeWriter.write(name + "," + sellerEmail + "," + ";" + items + ";");
+        }
+        storeWriter.close();
+
+        File messages = new File("message_info.txt");
+        BufferedWriter messageWriter = new BufferedWriter(new FileWriter(messages));
+        for (Message message : allMessages)
+        {
+            String content = message.getContent();
+            String time = message.getTimeStamp();
+            String sender = message.getSenderID();
+            messageWriter.write(time + "," + sender + "," + content + "\n");
+        }
+        messageWriter.close();
 
 
     }
