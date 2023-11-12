@@ -762,10 +762,10 @@ public class Processor {
             String[] messageInfo = line.split(",");
             Message message = new Message(messageInfo[3], messageInfo[1], messageInfo[2], messageInfo[0]);
             allMessages.add(message);
-            line = bfr.readLine();
+            line = bfr3.readLine();
         }
 
-
+        bfr3.close();
 
 
     }
