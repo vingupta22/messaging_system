@@ -1,6 +1,5 @@
 package messaging_system;
 
-import javax.annotation.processing.FilerException;
 import java.io.*;
 import java.sql.Array;
 import java.time.LocalTime;
@@ -20,8 +19,8 @@ public class Processor {
         File f1 = new File("user_info.txt");
         File f2 = new File("store_info.txt");
         File f3 = new File("message_info.txt");
-        if(f1.exists() && f2.exists() && f3.exists()){
-            loadFiles(f1,f2,f3);
+        if (f1.exists() && f2.exists() && f3.exists()) {
+            loadFiles(f1, f2, f3);
         }
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
@@ -36,12 +35,12 @@ public class Processor {
                             System.out.println("\nUser " + user.getEmail());
                             if (user instanceof Seller) {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n" +
-                                                   "4.Delete Account\n" + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n"
-                                                   + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store\n13.Censor Texts");
+                                        "4.Delete Account\n" + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n"
+                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store");
                             } else {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
-                                                   + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
-                                                   "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products\n13.Censor Texts");
+                                        + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
+                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products");
                             }
                             switch (scanner.nextLine()) {
                                 case "1":
@@ -108,28 +107,6 @@ public class Processor {
                                     }
                                     makeStore((Seller) user);
                                     break;
-                                case "13":
-                                    System.out.println("What text would you like to censor");
-                                    String censor = scanner.nextLine();
-                                    user.addCensored(censor);
-                                    user.setHaveCensor(true);
-                                    System.out.println("How would you like to replace the ceonsored texts?\n1" +
-                                                       ".Use default which is ****\n2.Make your own replacement");
-                                    switch(scanner.nextLine()){
-                                        case "1":
-                                            user.setCensorReplacement("****");
-                                            break;
-                                        case "2":
-                                            System.out.println("Enter your replacement words");
-                                            String replaceWords = scanner.nextLine();
-                                            user.setCensorReplacement(replaceWords);
-                                            break;
-                                        default:
-                                            System.out.println("\nInvalid input.\n");
-                                            break;
-                                    }
-
-                                    break;
 
                                 default:
                                     System.out.println("\nInvalid input.\n");
@@ -155,36 +132,21 @@ public class Processor {
     }
 
     public static void printMsgs(Users user) {
-        for (Message allMessage : allMessages) {
-            if (user.messagesReceived.contains(allMessage)) {
-                String content = allMessage.getContent();
-                if(user.haveCensor){
-                    for(int i=0;i<user.censored.size();i++){
-                        if(content.contains(user.censored.get(i)))
-                        {content = content.replaceAll("\\b"+user.censored.get(i)+"\\b",user.censorReplacement);}
-                    }
+        for (int i = 0; i < allMessages.size(); i++) {
+            if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
+                    user.getEmail().equals(allMessages.get(i).getRecipientID())) {
+                String content = allMessages.get(i).getContent();
+                String time = allMessages.get(i).getTimeStamp();
+                String recipient = allMessages.get(i).getRecipientID();
+                if (user.getEmail().equals(recipient))
+                {
+                    System.out.println("[" + time + "] " + recipient + " messaged you" +
+                            ": " + content);
                 }
-                String time = allMessage.getTimeStamp();
-                String sender = allMessage.getSenderID();
-                System.out.println("[" + time + "] " + sender + ": " + content);
-            }
-            if (user.messagesSent.contains(allMessage)) {
-                String content = allMessage.getContent();
-                if(user.haveCensor){
-                    for(int i=0;i<user.censored.size();i++){
-                        if(content.contains(user.censored.get(i)))
-                        {content = content.replaceAll("\\b"+user.censored.get(i)+"\\b",user.censorReplacement);}
-                    }
+                else {
+                    System.out.println("[" + time + "] " + "You messaged " + recipient +
+                            ": " + content);
                 }
-                String time = allMessage.getTimeStamp();
-                String recipient = allMessage.getRecipientID();
-                System.out.println("[" + time + "] " + "You messaged " + recipient + ": " + content);
-            }
-        }
-
-        for (var i = 0; i < user.messagesReceived.size(); i++) {
-            if (user.messagesReceived.get(i).isDisappearing()) {
-                user.messagesReceived.remove(i);
             }
         }
     }
@@ -208,7 +170,7 @@ public class Processor {
         return null;
     }
 
-    public static void sendMessage(Users user) throws IOException {
+    public static void sendMessage(Users user) {
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Seller) {
             System.out.println("1. View a list of people to message.\n2. Message a specific user.");
@@ -259,43 +221,13 @@ public class Processor {
                     System.out.println("Invalid recipient.");
                     break;
                 }
-                System.out.println("How would you like to send the message?\n1. Type the message\n2. Import a text file");
-                switch(scanner.nextLine()){
-                    case "1":
-                        System.out.println("Do you want your message to disappear after it's read?");
-                        String confirm = scanner.nextLine();
-                        System.out.println("What is your message?");
-                        String content = scanner.nextLine();
-                        Message message = new Message(content, user.getEmail(), recipUser.getEmail(),
-                                LocalTime.now().toString());
-                        if (confirm.equalsIgnoreCase("yes")) {
-                            message.setDisappearing(true);
-                        }
-                        allMessages.add(message);
-                        user.sendMessage(message, recipUser);
-                        for (var i = 0; i < user.messagesSent.size(); i++) {
-                            if (user.messagesSent.get(i).isDisappearing()) {
-                                user.messagesSent.remove(i);
-                            }
-                        }
+                System.out.println("What is your message?");
+                String content = scanner.nextLine();
 
-
-
-
-                        break;
-                    case "2":
-                        System.out.println("What is the text file you would like to import?");
-                        String file = scanner.next();
-                        content = importText(file);
-                        message = new Message(content, user.getEmail(), recipUser.getEmail(),
-                                LocalTime.now().toString());
-                        allMessages.add(message);
-                        user.sendMessage(message, recipUser);
-                        break;
-                    default:
-                        System.out.println("Invalid input.");
-                        break;
-                }
+                Message message = new Message(content, user.getEmail(), recipUser.getEmail(),
+                        LocalTime.now().toString());
+                allMessages.add(message);
+                user.sendMessage(message, recipUser);
 
 
                 break;
@@ -347,7 +279,7 @@ public class Processor {
         if (user instanceof Seller) {
             for (Customer x : allCustomers) {
                 data.add(x.getEmail() + " has sent " + x.getNumMessages() + " messages." +
-                         " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
+                        " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
             }
         } else {
             for (Store x : allStores) {
@@ -635,11 +567,11 @@ public class Processor {
                 String time = message.getTimeStamp();
                 String sender = message.getSenderID();
                 String recipient = message.getRecipientID();
-                usersWriter.write(time + "," + sender + "," + recipient + "," +  content + "\n");
+                usersWriter.write(time + "," + sender + "," + recipient + "," + content + "\n");
             }
 
             if (user instanceof Seller) {
-                usersWriter.write("Stores");
+                usersWriter.write("Stores\n");
                 for (Store store : ((Seller) user).getStores()) {
                     String name = store.getName();
                     String sellerEmail = store.getSeller().getEmail();
@@ -650,25 +582,26 @@ public class Processor {
                     items = items.substring(0, items.length() - 1);
                     usersWriter.write(name + "," + sellerEmail + "," + ";" + items + ";");
                 }
+                usersWriter.write("\n");
             }
             if (user instanceof Customer) {
-                usersWriter.write("Purchased");
+                usersWriter.write("Purchased\n");
                 for (String str : ((Customer) user).getProductsPurchased()) {
                     String items = "";
                     items += str + ",";
                     items = items.substring(0, items.length() - 1);
                     usersWriter.write(items);
                 }
+                usersWriter.write("\n");
             }
-            usersWriter.write("Done");
+            usersWriter.write("Done\n");
         }
         usersWriter.close();
 
 
         File stores = new File("store_info.txt");
         BufferedWriter storeWriter = new BufferedWriter(new FileWriter(stores));
-        for (Store store : allStores)
-        {
+        for (Store store : allStores) {
             String name = store.getName();
             String sellerEmail = store.getSeller().getEmail();
             String items = "";
@@ -682,13 +615,12 @@ public class Processor {
 
         File messages = new File("message_info.txt");
         BufferedWriter messageWriter = new BufferedWriter(new FileWriter(messages));
-        for (Message message : allMessages)
-        {
+        for (Message message : allMessages) {
             String content = message.getContent();
             String time = message.getTimeStamp();
             String sender = message.getSenderID();
             String recipient = message.getRecipientID();
-            messageWriter.write(time + "," + sender + "," + recipient + ","  + content + "\n");
+            messageWriter.write(time + "," + sender + "," + recipient + "," + content + "\n");
         }
         messageWriter.close();
 
@@ -696,163 +628,131 @@ public class Processor {
     }
 
 
-
-
-
-
-    public static void loadFiles(File fileOne, File fileTwo, File fileThree) throws FileNotFoundException, IOException{
-        FileReader fr = new FileReader(fileOne);
-        BufferedReader bfr = new BufferedReader(fr);
-        String line = bfr.readLine();
-        while(line!=null){
-            String sOrC = line;
-            line = bfr.readLine();
-            String email = line;
-            line = bfr.readLine();
-            String password = line;
-            ArrayList<String> blockedUsers = new ArrayList<>();
-            line = bfr.readLine();
-            if(!line.equals(";;")) {
-                String blockCheck = line.substring(1, line.length()-1);
-                String[] blockCheck2 = blockCheck.split(",");
-                blockedUsers.addAll(Arrays.asList(blockCheck2));
-            }
-            line = bfr.readLine();
-            ArrayList<String> invisibleUsers = new ArrayList<>();
-            if(!line.equals("||")){
-                String invCheck = line.substring(1, line.length()-1);
-                String[] invCheck2 = invCheck.split(",");
-                invisibleUsers.addAll(Arrays.asList(invCheck2));
-            }
-            line = bfr.readLine();
-            line = bfr.readLine();
-            ArrayList<Message> messagesSent = new ArrayList<>();
-            while(!(line.equals("Received") )){
-                if(!line.isEmpty()) {
-                    String[] messageCheck = line.split(",");
-                    Message message = new Message(messageCheck[3], messageCheck[1], messageCheck[2], messageCheck[0]);
-                    messagesSent.add(message);
-                    line = bfr.readLine();
-                } else{
-                    line = bfr.readLine();
-                }
-            }
-            line = bfr.readLine();
-            ArrayList<Message> messagesReceived = new ArrayList<>();
-            while(!(line.equals("Stores") || line.equals("Purchased"))){
-                if(!line.isEmpty()) {
-                    String[] messageCheck = line.split(",");
-                    Message message = new Message(messageCheck[3], messageCheck[1], messageCheck[2], messageCheck[0]);
-                    messagesReceived.add(message);
-                    line = bfr.readLine();
-                } else{
-                    line = bfr.readLine();
-                }
-            }
-            if(sOrC.equals("Seller")){
-                Seller seller = new Seller(email, password);
-                ArrayList<Store> stores = new ArrayList<>();
+    public static void loadFiles(File fileOne, File fileTwo, File fileThree) throws FileNotFoundException, IOException {
+        try (BufferedReader bfr = new BufferedReader(new FileReader(fileOne))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                String sOrC = line;
                 line = bfr.readLine();
-                while(!line.equals("Done")){
-                    String storeCheck = line.substring(0,line.indexOf(";"));
-                    String[] storeInfo = storeCheck.split(",");
-                    String storeName = storeInfo[0];
-                    String storeSeller = storeInfo[1];
-                    String products = line.substring(line.indexOf(";") + 1, line.length()-1);
-                    String[] productList = products.split(",");
-                    ArrayList<String> prodList = new ArrayList<>(Arrays.asList(productList));
-
-                    Store store = new Store(storeName, prodList, seller);
-                    stores.add(store);
-
-                }
-                seller.setBlockedUsers(blockedUsers);
-                seller.setInvisibleUsers(invisibleUsers);
-                seller.setMessagesSent(messagesSent);
-                seller.setMessagesReceived(messagesReceived);
-                seller.setStores(stores);
-
-                allSellers.add(seller);
-                allUsers.add(seller);
-
-            }else{
-                Customer customer = new Customer(email, password);
-                ArrayList<String> purchased = new ArrayList<>();
+                String email = line;
                 line = bfr.readLine();
-                String[] tempProd = line.split(",");
-                purchased.addAll(Arrays.asList(tempProd));
-
-
-                customer.setBlockedUsers(blockedUsers);
-                customer.setInvisibleUsers(invisibleUsers);
-                customer.setMessagesSent(messagesSent);
-                customer.setMessagesReceived(messagesReceived);
-                customer.setProductsPurchased(purchased);
-
+                String password = line;
+                ArrayList<String> blockedUsers = new ArrayList<>();
                 line = bfr.readLine();
-                allCustomers.add(customer);
-                allUsers.add(customer);
-            }
-            line = bfr.readLine();
-        }
-        bfr.close();
-
-        FileReader fr2 = new FileReader(fileTwo);
-        BufferedReader bfr2 = new BufferedReader(fr2);
-        line = bfr2.readLine();
-        while(line!=null){
-            String storeInfo = line.substring(0, line.indexOf(";"));
-            String[] storeList1 = storeInfo.split(",");
-            String storeName = storeList1[0];
-            String storeSellerID = storeList1[1];
-            Seller storeSeller = new Seller("", "");
-            for(Seller seller: allSellers){
-                if(storeSellerID.equals(seller.getEmail())){
-                    storeSeller = new Seller(seller.getEmail(), seller.getPassword());
-                    break;
+                if (!line.equals(";;")) {
+                    String blockCheck = line.substring(1, line.length() - 1);
+                    String[] blockCheck2 = blockCheck.split(",");
+                    blockedUsers.addAll(Arrays.asList(blockCheck2));
                 }
+                line = bfr.readLine();
+                ArrayList<String> invisibleUsers = new ArrayList<>();
+                if (!line.equals("||")) {
+                    String invCheck = line.substring(1, line.length() - 1);
+                    String[] invCheck2 = invCheck.split(",");
+                    invisibleUsers.addAll(Arrays.asList(invCheck2));
+                }
+                line = bfr.readLine();
+                line = bfr.readLine();
+                ArrayList<Message> messagesSent = new ArrayList<>();
+                while (!(line.equals("Received"))) {
+                    if (!line.isEmpty()) {
+                        String[] messageCheck = line.split(",");
+                        Message message = new Message(messageCheck[3], messageCheck[1], messageCheck[2], messageCheck[0]);
+                        messagesSent.add(message);
+                    }
+                    line = bfr.readLine();
+                }
+                line = bfr.readLine();
+                ArrayList<Message> messagesReceived = new ArrayList<>();
+                while (!(line.equals("Stores") || line.equals("Purchased"))) {
+                    if (!line.isEmpty()) {
+                        String[] messageCheck = line.split(",");
+                        Message message = new Message(messageCheck[3], messageCheck[1], messageCheck[2], messageCheck[0]);
+                        messagesReceived.add(message);
+                    }
+                    line = bfr.readLine();
+                }
+                if (sOrC.equals("Seller")) {
+                    Seller seller = new Seller(email, password);
+                    ArrayList<Store> stores = new ArrayList<>();
+                    line = bfr.readLine();
+                    while (line != null && !line.equals("Done")) {
+                        String storeCheck = line.substring(0, line.indexOf(";"));
+                        String[] storeInfo = storeCheck.split(",");
+                        String storeName = storeInfo[0];
+                        String storeSeller = storeInfo[1];
+                        String products = line.substring(line.indexOf(";") + 1, line.length() - 1);
+                        String[] productList = products.split(",");
+                        ArrayList<String> prodList = new ArrayList<>(Arrays.asList(productList));
+
+                        Store store = new Store(storeName, prodList, seller);
+                        stores.add(store);
+
+                        line = bfr.readLine();
+                    }
+                    seller.setBlockedUsers(blockedUsers);
+                    seller.setInvisibleUsers(invisibleUsers);
+                    seller.setMessagesSent(messagesSent);
+                    seller.setMessagesReceived(messagesReceived);
+                    seller.setStores(stores);
+
+                    allSellers.add(seller);
+                    allUsers.add(seller);
+
+                } else {
+                    Customer customer = new Customer(email, password);
+                    ArrayList<String> purchased = new ArrayList<>();
+                    line = bfr.readLine();
+                    String[] tempProd = line.split(",");
+                    purchased.addAll(Arrays.asList(tempProd));
+
+                    customer.setBlockedUsers(blockedUsers);
+                    customer.setInvisibleUsers(invisibleUsers);
+                    customer.setMessagesSent(messagesSent);
+                    customer.setMessagesReceived(messagesReceived);
+                    customer.setProductsPurchased(purchased);
+
+                    line = bfr.readLine();
+                    allCustomers.add(customer);
+                    allUsers.add(customer);
+                }
+                line = bfr.readLine();
             }
-            String products = line.substring(line.indexOf(";") + 1, line.length()-1);
-            String[] productList = products.split(",");
-            ArrayList<String> prodList = new ArrayList<>(Arrays.asList(productList));
-
-            Store store = new Store(storeName, prodList, storeSeller);
-
-            allStores.add(store);
-            line = bfr.readLine();
-
-
-        }
-        bfr2.close();
-
-        FileReader fr3 = new FileReader(fileThree);
-        BufferedReader bfr3 = new BufferedReader(fr3);
-        line = bfr3.readLine();
-
-        while(line!=null){
-            String[] messageInfo = line.split(",");
-            Message message = new Message(messageInfo[3], messageInfo[1], messageInfo[2], messageInfo[0]);
-            allMessages.add(message);
-            line = bfr3.readLine();
         }
 
-        bfr3.close();
+        try (BufferedReader bfr2 = new BufferedReader(new FileReader(fileTwo))) {
+            String line = bfr2.readLine();
+            while (line != null) {
+                String storeInfo = line.substring(0, line.indexOf(";"));
+                String[] storeList1 = storeInfo.split(",");
+                String storeName = storeList1[0];
+                String storeSellerID = storeList1[1];
+                Seller storeSeller = new Seller("", "");
+                for (Seller seller : allSellers) {
+                    if (storeSellerID.equals(seller.getEmail())) {
+                        storeSeller = seller;
+                        break;
+                    }
+                }
+                String products = line.substring(line.indexOf(";") + 1, line.length() - 1);
+                String[] productList = products.split(",");
+                ArrayList<String> prodList = new ArrayList<>(Arrays.asList(productList));
 
+                Store store = new Store(storeName, prodList, storeSeller);
 
-    }
-    public static String importText(String importedFIle) throws IOException {
-        try {
-            BufferedReader bfr = new BufferedReader(new FileReader(importedFIle));
-            String line = "";
-            StringBuilder recipient = new StringBuilder();
-            while ((line = bfr.readLine()) != null) {
-                recipient.append(line);
+                allStores.add(store);
+                line = bfr2.readLine();
             }
-            bfr.close();
-            return recipient.toString();
-        } catch (FilerException e){
-            e.printStackTrace();
-            throw e;
+        }
+
+        try (BufferedReader bfr3 = new BufferedReader(new FileReader(fileThree))) {
+            String line = bfr3.readLine();
+            while (line != null) {
+                String[] messageInfo = line.split(",");
+                Message message = new Message(messageInfo[3], messageInfo[1], messageInfo[2], messageInfo[0]);
+                allMessages.add(message);
+                line = bfr3.readLine();
+            }
         }
     }
 
