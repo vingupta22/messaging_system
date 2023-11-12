@@ -623,25 +623,6 @@ public class Processor {
 
 
     }
-    public static ArrayList<String> readFile(String fileName) throws FileNotFoundException {
-        ArrayList<String> list = new ArrayList<>();
-        try {
-            File f = new File(fileName);
-            FileReader fr = new FileReader(f);
-            BufferedReader bfr = new BufferedReader(fr);
-
-            String line = bfr.readLine();
-            while (line != null) {
-                list.add(line);
-                line = bfr.readLine();
-            }
-            bfr.close();
-        } catch (IOException e) {
-            throw new FileNotFoundException();
-
-        }
-        return list;
-    }
 
 
 
