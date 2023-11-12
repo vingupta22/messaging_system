@@ -165,25 +165,25 @@ public class Processor {
                                 user.censorReplacement));
                     }
                 }
-                if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
-                        user.getEmail().equals(allMessages.get(i).getRecipientID())) {
-                    String content = allMessages.get(i).getContent();
-                    String time = allMessages.get(i).getTimeStamp();
-                    String sender = allMessages.get(i).getSenderID();
-                    String recipient = allMessages.get(i).getRecipientID();
-                    if (user.getEmail().equals(recipient)) {
-                        System.out.println("[" + time + "] " + sender + " messaged you" +
-                                ": " + content);
-                        for (Message message : user.getMessagesReceived()) {
-                            if (message.getContent().equals(content)) {
-                                message.setHasRead(true);
-                            }
+            }
+            if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
+                    user.getEmail().equals(allMessages.get(i).getRecipientID())) {
+                String content = allMessages.get(i).getContent();
+                String time = allMessages.get(i).getTimeStamp();
+                String sender = allMessages.get(i).getSenderID();
+                String recipient = allMessages.get(i).getRecipientID();
+                if (user.getEmail().equals(recipient)) {
+                    System.out.println("[" + time + "] " + sender + " messaged you" +
+                            ": " + content);
+                    for (Message message : user.getMessagesReceived()) {
+                        if (message.getContent().equals(content)) {
+                            message.setHasRead(true);
                         }
-
-                    } else {
-                        System.out.println("[" + time + "] " + "You messaged " + recipient +
-                                ": " + content);
                     }
+
+                } else {
+                    System.out.println("[" + time + "] " + "You messaged " + recipient +
+                            ": " + content);
                 }
             }
         }

@@ -4,8 +4,8 @@ hello
 ;;
 ||
 Sent
-16:02:48.700027,ihanda,hg,hello how are you,true
 Received
+17:37:36.348524,hg,ihanda,hello,false
 Purchased
 
 Done
@@ -15,8 +15,8 @@ hg
 ;;
 ||
 Sent
+17:37:36.348524,hg,ihanda,hello,false
 Received
-16:02:48.700027,ihanda,hg,hello how are you,true
 Stores
 
 Done
