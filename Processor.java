@@ -181,6 +181,12 @@ public class Processor {
                 System.out.println("[" + time + "] " + "You messaged " + recipient + ": " + content);
             }
         }
+
+        for (var i = 0; i < user.messagesReceived.size(); i++) {
+            if (user.messagesReceived.get(i).isDisappearing()) {
+                user.messagesReceived.remove(i);
+            }
+        }
     }
 
     public static Users login() {
@@ -256,13 +262,26 @@ public class Processor {
                 System.out.println("How would you like to send the message?\n1. Type the message\n2. Import a text file");
                 switch(scanner.nextLine()){
                     case "1":
+                        System.out.println("Do you want your message to disappear after it's read?");
+                        String confirm = scanner.nextLine();
                         System.out.println("What is your message?");
                         String content = scanner.nextLine();
-
                         Message message = new Message(content, user.getEmail(), recipUser.getEmail(),
                                 LocalTime.now().toString());
+                        if (confirm.equalsIgnoreCase("yes")) {
+                            message.setDisappearing(true);
+                        }
                         allMessages.add(message);
                         user.sendMessage(message, recipUser);
+                        for (var i = 0; i < user.messagesSent.size(); i++) {
+                            if (user.messagesSent.get(i).isDisappearing()) {
+                                user.messagesSent.remove(i);
+                            }
+                        }
+
+
+
+
                         break;
                     case "2":
                         System.out.println("What is the text file you would like to import?");
