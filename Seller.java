@@ -31,7 +31,9 @@ public class Seller extends Users {
         messageThread.add(message);
     }
 
-
+    public void setStores(ArrayList<Store> storeList){
+        this.stores = storeList;
+    }
 
 
 }

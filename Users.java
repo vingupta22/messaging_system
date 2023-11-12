@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Users {
     String email;
     String password;
-    ArrayList<Users> blockedUsers;
-    ArrayList<Users> invisibleUsers;
+    ArrayList<String> blockedUsers; //Changed type to String from Users
+    ArrayList<String> invisibleUsers; //Changed type to String from Users
     ArrayList<Message> messagesSent;
     ArrayList<Message> messagesReceived;
 
@@ -21,11 +21,11 @@ public class Users {
         this.messagesReceived = new ArrayList<>();
     }
 
-    public void hide(Users hiddenUser) {
+    public void hide(String hiddenUser) {
         this.invisibleUsers.add(hiddenUser);
     } //hides the user by adding it to the invisible list
 
-    public void block(Users blockUser) { //block user my adding it to the user's blocklist
+    public void block(String blockUser) { //block user my adding it to the user's blocklist
         this.blockedUsers.add(blockUser);
     }
 
@@ -51,11 +51,11 @@ public class Users {
         return password;
     }
 
-    public ArrayList<Users> getBlockedUsers() {
+    public ArrayList<String> getBlockedUsers() {
         return blockedUsers;
     }
 
-    public ArrayList<Users> getInvisibleUsers() {
+    public ArrayList<String> getInvisibleUsers() {
         return invisibleUsers;
     }
 
@@ -67,11 +67,11 @@ public class Users {
         this.password = password;
     }
 
-    public void setBlockedUsers(ArrayList<Users> blockedUsers) {
+    public void setBlockedUsers(ArrayList<String> blockedUsers) {
         this.blockedUsers = blockedUsers;
     }
 
-    public void setInvisibleUsers(ArrayList<Users> invisibleUsers) {
+    public void setInvisibleUsers(ArrayList<String> invisibleUsers) {
         this.invisibleUsers = invisibleUsers;
     }
 
@@ -100,6 +100,13 @@ public class Users {
         return messagesReceived;
     }
 
+    public void setMessagesSent(ArrayList<Message> messageList){
+        this.messagesSent = messageList;
+    }
+
+    public void setMessagesReceived(ArrayList<Message> messageList){
+        this.messagesReceived = messageList;
+    }
     public int getNumMessages() {
         return messagesSent.size();
 
