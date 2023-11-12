@@ -11,6 +11,9 @@ public class Users {
     ArrayList<String> invisibleUsers; //Changed type to String from Users
     ArrayList<Message> messagesSent;
     ArrayList<Message> messagesReceived;
+    ArrayList<String> censored;
+    String censorReplacement;
+    Boolean haveCensor;
 
     public Users(String email, String password) { //Constructor
         this.email = email;
@@ -19,6 +22,37 @@ public class Users {
         this.invisibleUsers = new ArrayList<>();
         this.messagesSent = new ArrayList<>();
         this.messagesReceived = new ArrayList<>();
+        this.censored = new ArrayList<>();
+        this.censorReplacement = null;
+        this.haveCensor = false;
+    }
+
+    public Boolean getHaveCensor() {
+        return haveCensor;
+    }
+
+    public void setHaveCensor(Boolean haveCensor) {
+        this.haveCensor = haveCensor;
+    }
+
+    public void addCensored(String censor){
+        this.censored.add(censor);
+    }
+
+    public ArrayList<String> getCensored() {
+        return censored;
+    }
+
+    public void setCensored(ArrayList<String> censored) {
+        this.censored = censored;
+    }
+
+    public void setCensorReplacement(String censorReplacement) {
+        this.censorReplacement = censorReplacement;
+    }
+
+    public String getCensorReplacement() {
+        return censorReplacement;
     }
 
     public void hide(String hiddenUser) {
@@ -39,7 +73,7 @@ public class Users {
     public void editAccnt(String email, String password) {
         this.setEmail(email);
         this.setPassword(password);
-    } // editing account by giving parameters, which is different from the method we did in the beggining, but I'm not sure how to do it 
+    } // editing account by giving parameters, which is different from the method we did in the beggining, but I'm not sure how to do it
     //without parameters
 
 
@@ -120,7 +154,7 @@ public class Users {
         }
     }
 
-    
+
 
 
 }
