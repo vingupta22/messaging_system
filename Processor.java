@@ -39,11 +39,11 @@ public class Processor {
                             if (user instanceof Seller) {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n" +
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n"
-                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store");
+                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store\n13.Censor Texts");
                             } else {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
                                         + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
-                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products");
+                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products\n13.Censor Texts");
                             }
                             switch (scanner.nextLine()) {
                                 case "1":
@@ -110,6 +110,28 @@ public class Processor {
                                     }
                                     makeStore((Seller) user);
                                     break;
+                                case "13":
+                                    System.out.println("What text would you like to censor");
+                                    String censor = scanner.nextLine();
+                                    user.addCensored(censor);
+                                    user.setHaveCensor(true);
+                                    System.out.println("How would you like to replace the ceonsored texts?\n1" +
+                                            ".Use default which is ****\n2.Make your own replacement");
+                                    switch(scanner.nextLine()){
+                                        case "1":
+                                            user.setCensorReplacement("****");
+                                            break;
+                                        case "2":
+                                            System.out.println("Enter your replacement words");
+                                            String replaceWords = scanner.nextLine();
+                                            user.setCensorReplacement(replaceWords);
+                                            break;
+                                        default:
+                                            System.out.println("\nInvalid input.\n");
+                                            break;
+                                    }
+
+                                    break;
 
                                 default:
                                     System.out.println("\nInvalid input.\n");
@@ -136,6 +158,14 @@ public class Processor {
 
     public static void printMsgs(Users user) {
         for (int i = 0; i < allMessages.size(); i++) {
+            if(user.haveCensor){
+                for(int j = 0;i<user.censored.size();i++){
+                    if(allMessages.get(i).getContent().contains(user.censored.get(i)))
+                    {
+                        allMessages.get(i).editMessage(allMessages.get(i).getContent().replaceAll("\\b"+user.censored.get(i)+"\\b",
+                                user.censorReplacement));
+                    }
+                }
             if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
                     user.getEmail().equals(allMessages.get(i).getRecipientID())) {
                 String content = allMessages.get(i).getContent();
