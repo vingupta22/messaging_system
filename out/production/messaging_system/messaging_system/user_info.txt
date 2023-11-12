@@ -1,0 +1,22 @@
+Customer
+ihanda
+hello
+;;
+||
+Sent
+16:02:48.700027,ihanda,hg,hello how are you,true
+Received
+Purchased
+
+Done
+Seller
+hg
+hg
+;;
+||
+Sent
+Received
+16:02:48.700027,ihanda,hg,hello how are you,true
+Stores
+
+Done

@@ -6,11 +6,22 @@ public class Message {
     private String recipientID;
     private String timeStamp;
 
-    public Message(String content, String senderID, String recipientID, String timeStamp) {
+    private boolean hasRead;
+
+    public Message(String content, String senderID, String recipientID, String timeStamp, boolean hasRead) {
         this.content = content;
         this.senderID = senderID;
         this.recipientID = recipientID;
         this.timeStamp = timeStamp;
+        this.hasRead = hasRead;
+    }
+
+    public boolean HasRead() {
+        return hasRead;
+    }
+
+    public void setHasRead(boolean hasRead) {
+        this.hasRead = hasRead;
     }
 
     public void editMessage(String newMessage) {
@@ -34,7 +45,7 @@ public class Message {
     }
 
     public static void main(String[] args) {
-        Message first = new Message("Hello World", "Customer1", "Seller1", "13:09:13.103653700");
+        Message first = new Message("Hello World", "Customer1", "Seller1", "13:09:13.103653700", false);
         System.out.println("Test 1 for getContent method");
         if (first.getContent().equals("Hello World")) {
             System.out.println("getContent method passed the test case");
