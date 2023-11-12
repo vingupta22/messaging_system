@@ -2,6 +2,7 @@ package messaging_system;
 
 import java.io.*;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Users {
@@ -155,6 +156,91 @@ public class Users {
     }
 
 
+public static void main(String[] args){
+    Users user = new Users("email@email.com", "password");
+    System.out.println("Test1: Check getEmail and getPassword: ");
+    if(user.getEmail().equals("email@email.com") && user.getPassword().equals("password")){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test Failed: incorrect username or password");
+    }
 
+
+    System.out.println("");
+
+
+    System.out.println("Test2: hide and getInvisibleUsers methods");
+    user.hide("hiddenUser");
+    ArrayList<String> invisibleUsers = user.getInvisibleUsers();
+    if (invisibleUsers.size() == 1 && invisibleUsers.contains("hiddenUser")) {
+        System.out.println("Test Successful");
+    } else {
+        System.out.println("Test failed: Invisible users not updated correctly");
+    }
+
+
+    System.out.println("");
+
+
+    System.out.println("Test3: block and getBlockedUsers methods");
+    user.block("blockedUser");
+    ArrayList<String> blockedUsers = user.getBlockedUsers();
+    if(!blockedUsers.isEmpty() && blockedUsers.contains("blockedUser")){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test failed: blocked user not added correctly.");
+    }
+
+    System.out.println("");
+
+
+    System.out.println("Test4: Checks the editAccount method");
+    user.editAccnt("new@gmail.com", "newPassword");
+    if(user.getEmail().equals("new@gmail.com") && user.getPassword().equals("newPassword")){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test failed. There was an error editing the account");
+    }
+
+    System.out.println("");
+
+
+    System.out.println("Test5: Checks the sendMessage method");
+    Customer customer = new Customer("customer@gmail.com", "password");
+    Seller seller = new Seller("seller@gmail.com", "password");
+    Message message = new Message("testMessage", "customer@gmail.com", "seller@gmail.com", "", false);
+    customer.sendMessage(message, seller);
+    if(customer.getMessagesSent().size() == 1 && seller.getMessagesReceived().size() == 1){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test failed: the message was either not sent, or there was an error");
+    }
+
+    System.out.println("");
+
+
+    System.out.println("Test6: chekcs the delete message method");
+    customer.deleteMessage(message);
+    if(customer.getMessagesSent().isEmpty()){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test failed: there was an error deleting the message");
+    }
+
+    System.out.println("");
+
+
+    System.out.println("Test7: checks to see if the account deleted properly");
+    user.deleteAccnt();
+    if(user.getEmail() == null && user.getPassword() == null){
+        System.out.println("Test Successful");
+    } else{
+        System.out.println("Test failed: there was an error with deleting the account");
+    }
+
+
+
+
+}
 
 }
