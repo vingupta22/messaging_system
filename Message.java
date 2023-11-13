@@ -5,6 +5,7 @@ public class Message {
     private String senderID;
     private String recipientID;
     private String timeStamp;
+    private boolean isDisappearing;
 
     private boolean hasRead;
 
@@ -14,10 +15,19 @@ public class Message {
         this.recipientID = recipientID;
         this.timeStamp = timeStamp;
         this.hasRead = hasRead;
+        this.isDisappearing = false;
     }
 
     public boolean HasRead() {
         return hasRead;
+    }
+
+    public void setDisappearing(boolean disappearing) {
+        isDisappearing = disappearing;
+    }
+
+    public boolean isDisappearing() {
+        return this.isDisappearing;
     }
 
     public void setHasRead(boolean hasRead) {
