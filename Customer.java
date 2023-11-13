@@ -7,7 +7,7 @@ import java.util.*;
  *
  * This program holds a class called Customer that models a type of customer in an e-commerce system (extends user).
  *
- * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
  * @version November 13, 2023
  *

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * This program holds a class called Seller that models a type of seller in an e-commerce system (extends user).
  *
- * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
  * @version November 13, 2023
  *

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This program holds a class called Users that models a type of user in an e-commerce system
  * and is a template for the Seller and Customer classes
  *
- * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
  * @version November 13, 2023
  *

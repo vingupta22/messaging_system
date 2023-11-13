@@ -5,7 +5,7 @@ package messaging_system;
  *
  * This program holds a class called message that models a message object in an e-commerce chat system.
  *
- * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
  * @version November 13, 2023
  *

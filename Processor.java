@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * This program holds the main method for the program, and uses the classes Message, Customer, Users, Seller, and Store
  * to create an e-commerce mockup with a focus on the messaging system.
  *
- * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
  * @version November 13, 2023
  *
