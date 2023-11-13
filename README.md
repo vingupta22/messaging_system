@@ -5,8 +5,8 @@
    javac Processor.java
    java Processor
 ```
-3. Nandini Pande submitted the report on brightspace and Nick Patel submitted the Vocareum Workspace.
-4. **Classes:**
+2. Nandini Pande submitted the report on brightspace and Nick Patel submitted the Vocareum Workspace.
+3. **Classes:**
    - **Message**
        - The Message class contains the outline for a Message object. It represents a message that can be sent or received by users of the system. It has four private fields: content, senderID, recipientID, and timeStamp. These fields store the text of the message, the identifier of the sender, the identifier of the recipient, and the time when the message was created, respectively. The class has a constructor that takes four parameters and assigns them to the corresponding fields. It also has four getter methods that return the values of the fields. Additionally, it has a method editMessage that allows the sender to modify the content of the message after it has been created. This method takes a new message as a parameter and updates the content field accordingly. Message objects are created and stored in arrays within the Processor class.
 
