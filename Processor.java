@@ -173,18 +173,22 @@ public class Processor {
                 String time = allMessages.get(i).getTimeStamp();
                 String sender = allMessages.get(i).getSenderID();
                 String recipient = allMessages.get(i).getRecipientID();
-                if (user.getEmail().equals(recipient)) {
+                if (user.getEmail().equals(recipient) && allMessages.get(i).isDisappearing() == false) {
                     System.out.println("[" + time + "] " + sender + " messaged you" +
-                                       ": " + content);
-                    for (Message message : user.getMessagesReceived()) {
+                            ": " + content);
+                    for (messaging_system.Message message : user.getMessagesReceived()) {
                         if (message.getContent().equals(content)) {
                             message.setHasRead(true);
                         }
                     }
 
                 } else {
-                    System.out.println("[" + time + "] " + "You messaged " + recipient +
-                                       ": " + content);
+                    if (allMessages.get(i).isDisappearing() == false) {
+                        System.out.println("[" + time + "] " + "You messaged " + recipient +
+                                ": " + content);
+
+                    }
+
                 }
             }
         }
@@ -289,13 +293,23 @@ public class Processor {
                 System.out.println("How would you like to send the message?\n1. Type the message\n2. Import a text file");
                 switch (scanner.nextLine()) {
                     case "1":
+                        System.out.println("Do you want your message to disappear after it's read?");
+                        String confirm = scanner.nextLine();
                         System.out.println("What is your message?");
                         String content = scanner.nextLine();
 
-                        Message message = new Message(content, user.getEmail(), recipUser.getEmail(),
+                        messaging_system.Message message = new messaging_system.Message(content, user.getEmail(), recipUser.getEmail(),
                                 LocalTime.now().toString(), false);
+                        if (confirm.equalsIgnoreCase("yes")) {
+                            message.setDisappearing(true);
+                        }
                         allMessages.add(message);
                         user.sendMessage(message, recipUser);
+                        for (var i = 0; i < user.messagesSent.size(); i++) {
+                            if (user.messagesSent.get(i).isDisappearing()) {
+                                user.messagesSent.remove(i);
+                            }
+                        }
                         break;
                     case "2":
                         System.out.println("What is the text file you would like to import?");
