@@ -2,14 +2,23 @@ package messaging_system;
 
 import java.util.*;
 
+/**
+ * Project 4 Option 2
+ *
+ * This program holds a class called Customer that models a type of customer in an e-commerce system (extends user).
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ *
+ * @version November 13, 2023
+ *
+ */
+
 public class Customer extends Users {
     private ArrayList<String> productsPurchased;
-    private ArrayList<Message> messageThread;
 
     public Customer(String email, String password) {
         super(email, password);
         this.productsPurchased = new ArrayList<>();
-        this.messageThread = new ArrayList<>();
     }
 
     public ArrayList<String> getProductsPurchased() {
@@ -20,6 +29,7 @@ public class Customer extends Users {
         this.productsPurchased = products;
     }
 
+    //main method for testing
     public static void main(String[] args) {
 
         Users user = new Users("user@example.com", "password");

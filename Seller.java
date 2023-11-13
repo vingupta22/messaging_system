@@ -2,11 +2,22 @@ package messaging_system;
 
 import java.util.ArrayList;
 
+/**
+ * Project 4 Option 2
+ *
+ * This program holds a class called Seller that models a type of seller in an e-commerce system (extends user).
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ *
+ * @version November 13, 2023
+ *
+ */
+
 public class Seller extends Users {
 
 
     private ArrayList<Store> stores;
-    private ArrayList<Message> messageThread;
+    private final ArrayList<Message> messageThread;
 
     public Seller(String email, String password) {
         super(email, password);
@@ -31,14 +42,17 @@ public class Seller extends Users {
         messageThread.add(message);
     }
 
-    public void setStores(ArrayList<Store> storeList){
+    public void setStores(ArrayList<Store> storeList) {
         this.stores = storeList;
     }
 
+    //main method for testing
     public static void main(String[] args) {
         ArrayList<messaging_system.Message> messages = new ArrayList<messaging_system.Message>();
-        messaging_system.Message m = new messaging_system.Message("Hey", null, null, null, false);
-        messaging_system.Message l = new messaging_system.Message("Hi", null, null, null, false);
+        messaging_system.Message m = new messaging_system.Message("Hey", null, null,
+                null, false);
+        messaging_system.Message l = new messaging_system.Message("Hi", null, null,
+                null, false);
         messages.add(m);
         messages.add(l);
         ArrayList<String> prods = new ArrayList<String>();
@@ -58,7 +72,6 @@ public class Seller extends Users {
             stores.get(i).setSeller(theSeller);
         }
         theSeller.setStores(stores);
-
 
 
         if (theSeller.getStores().equals(stores)) {
@@ -90,10 +103,6 @@ public class Seller extends Users {
         } else {
             System.out.println("Test failed, message thread not gotten");
         }
-
-
-
-
 
 
     }

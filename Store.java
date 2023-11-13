@@ -2,8 +2,17 @@ package messaging_system;
 
 import java.util.ArrayList;
 
-public class Store {
+/**
+ * Project 4 Option 2
+ * <p>
+ * This program holds a class called Store that models a type of store in an e-commerce system that is created by
+ * sellers.
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ * @version November 13, 2023
+ */
 
+public class Store {
 
     private String name;
     ArrayList<String> productList;
@@ -46,6 +55,7 @@ public class Store {
         return false;
     }
 
+    //Main method for testing
     public static void main(String[] args) {
         ArrayList<String> products = new ArrayList<>();
         products.add("Iphone 91");

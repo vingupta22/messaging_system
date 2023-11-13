@@ -1,10 +1,20 @@
 package messaging_system;
 
+/**
+ * Project 4 Option 2
+ *
+ * This program holds a class called message that models a message object in an e-commerce chat system.
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ *
+ * @version November 13, 2023
+ *
+ */
 public class Message {
     private String content;
-    private String senderID;
-    private String recipientID;
-    private String timeStamp;
+    private final String senderID;
+    private final String recipientID;
+    private final String timeStamp;
     private boolean isDisappearing;
 
     private boolean hasRead;
@@ -54,8 +64,10 @@ public class Message {
         return timeStamp;
     }
 
+    //main method for testing
     public static void main(String[] args) {
-        Message first = new Message("Hello World", "Customer1", "Seller1", "13:09:13.103653700", false);
+        Message first = new Message("Hello World", "Customer1", "Seller1",
+                "13:09:13.103653700", false);
         System.out.println("Test 1 for getContent method");
         if (first.getContent().equals("Hello World")) {
             System.out.println("getContent method passed the test case");

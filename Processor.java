@@ -1,23 +1,34 @@
 package messaging_system;
 
-import javax.annotation.processing.FilerException;
 import java.io.*;
-import java.sql.Array;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Project 4 Option 2
+ *
+ * This program holds the main method for the program, and uses the classes Message, Customer, Users, Seller, and Store
+ * to create an e-commerce mockup with a focus on the messaging system.
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
+ *
+ * @version November 13, 2023
+ *
+ */
 public class Processor {
 
-    private static ArrayList<Store> allStores = new ArrayList<Store>();
-    private static ArrayList<Message> allMessages = new ArrayList<Message>();
-    private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
-    private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
+    private static final ArrayList<Store> allStores = new ArrayList<Store>();
+    private static final ArrayList<Message> allMessages = new ArrayList<Message>();
+    private static final ArrayList<Seller> allSellers = new ArrayList<Seller>();
+    private static final ArrayList<Customer> allCustomers = new ArrayList<Customer>();
 
-    private static ArrayList<Users> allUsers = new ArrayList<Users>();
+    private static final ArrayList<Users> allUsers = new ArrayList<Users>();
 
+    //main method to run program
     public static void main(String[] args) throws IOException {
         boolean fileCheck = false;
+        //loads files for saved data
         File f1 = new File("user_info.txt");
         File f2 = new File("store_info.txt");
         File f3 = new File("message_info.txt");
@@ -27,7 +38,9 @@ public class Processor {
         }
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
+        //starts console menu loop
         do {
+            saveAll(); //Saves all data everytime outer-main menu is loaded
             System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
             switch (scanner.nextLine()) {
                 case "1":
@@ -35,16 +48,21 @@ public class Processor {
                     if (user != null) {
                         boolean loggedIn = true;
                         do {
+                            saveAll(); //Saves all data everytime inner-main menu is loaded
                             System.out.println("\nUser " + user.getEmail());
                             showNewMessages(user);
+                            //switch case for menu
                             if (user instanceof Seller) {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n" +
-                                                   "4.Delete Account\n" + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n"
-                                                   + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Create Store\n13.Censor Texts");
+                                        "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
+                                        "7.Get Statistics\n8.Logout\n"
+                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
+                                        "Create Store\n13.Censor Texts");
                             } else {
                                 System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
-                                                   + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
-                                                   "9.Edit Message\n10.Delete Message\n11.Export CSV\n12.Buy products\n13.Censor Texts");
+                                        + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
+                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n" +
+                                        "12.Buy products\n13.Censor Texts");
                             }
                             switch (scanner.nextLine()) {
                                 case "1":
@@ -68,20 +86,24 @@ public class Processor {
                                     loggedIn = false;
                                     break;
                                 case "5":
+                                    printUsers(user);
                                     System.out.println("Enter user you would like to hide from:");
+                                    //hides from a user by adding to a users hidden list
                                     String hidden = scanner.nextLine();
                                     for (Users allUser : allUsers) {
-                                        if (allUser.getEmail().equals(hidden)) {
+                                        if (allUser.getEmail().equalsIgnoreCase(hidden)) {
                                             user.hide(allUser.getEmail());
                                         }
                                     }
                                     System.out.println("User hidden.");
                                     break;
                                 case "6":
+                                    printUsers(user);
                                     System.out.println("Enter user you would like to block:");
+                                    //blocks a user by adding them to a users blocked list
                                     String blocked = scanner.nextLine();
                                     for (Users allUser : allUsers) {
-                                        if (allUser.getEmail().equals(blocked)) {
+                                        if (allUser.getEmail().equalsIgnoreCase(blocked)) {
                                             user.block(allUser.getEmail());
                                         }
                                     }
@@ -93,7 +115,6 @@ public class Processor {
                                 case "8":
                                     System.out.println("Logging out!");
                                     loggedIn = false;
-                                    saveAll();
                                     break;
                                 case "9":
                                     editMessage(user);
@@ -112,12 +133,13 @@ public class Processor {
                                     makeStore((Seller) user);
                                     break;
                                 case "13":
+                                    //censors cetain text
                                     System.out.println("What text would you like to censor");
                                     String censor = scanner.nextLine();
                                     user.addCensored(censor);
                                     user.setHaveCensor(true);
                                     System.out.println("How would you like to replace the censored texts?\n1" +
-                                                       ".Use default which is ****\n2.Make your own replacement");
+                                            ".Use default which is ****\n2.Make your own replacement");
                                     switch (scanner.nextLine()) {
                                         case "1":
                                             user.setCensorReplacement("****");
@@ -157,23 +179,25 @@ public class Processor {
         } while (!exit);
     }
 
+    //prints message history depending on the user, includes disappearing and censor functionality
     public static void printMsgs(Users user) {
         for (int i = 0; i < allMessages.size(); i++) {
             if (user.haveCensor) {
                 for (int j = 0; i < user.censored.size(); i++) {
                     if (allMessages.get(i).getContent().contains(user.censored.get(i))) {
-                        allMessages.get(i).editMessage(allMessages.get(i).getContent().replaceAll("\\b" + user.censored.get(i) + "\\b",
+                        allMessages.get(i).editMessage(allMessages.get(i).getContent().replaceAll("\\b" +
+                                        user.censored.get(i) + "\\b",
                                 user.censorReplacement));
                     }
                 }
             }
             if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
-                user.getEmail().equals(allMessages.get(i).getRecipientID())) {
+                    user.getEmail().equals(allMessages.get(i).getRecipientID())) {
                 String content = allMessages.get(i).getContent();
                 String time = allMessages.get(i).getTimeStamp();
                 String sender = allMessages.get(i).getSenderID();
                 String recipient = allMessages.get(i).getRecipientID();
-                if (user.getEmail().equals(recipient) && allMessages.get(i).isDisappearing() == false) {
+                if (user.getEmail().equals(recipient) && !allMessages.get(i).isDisappearing()) {
                     System.out.println("[" + time + "] " + sender + " messaged you" +
                             ": " + content);
                     for (messaging_system.Message message : user.getMessagesReceived()) {
@@ -183,7 +207,7 @@ public class Processor {
                     }
 
                 } else {
-                    if (allMessages.get(i).isDisappearing() == false) {
+                    if (!allMessages.get(i).isDisappearing()) {
                         System.out.println("[" + time + "] " + "You messaged " + recipient +
                                 ": " + content);
 
@@ -194,6 +218,7 @@ public class Processor {
         }
     }
 
+    //shows new messages when a user logs on
     public static void showNewMessages(Users user) {
         ArrayList<Message> messagesReceived = user.getMessagesReceived();
         if (messagesReceived.isEmpty()) {
@@ -213,13 +238,14 @@ public class Processor {
                 System.out.println("Unread messages:");
                 for (Message m : unread) {
                     System.out.println("[" + m.getTimeStamp() + "] " + m.getSenderID() + " messaged you" +
-                                       ": " + m.getContent());
+                            ": " + m.getContent());
                 }
             }
 
         }
     }
 
+    //Method for login functionality
     public static Users login() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your email:");
@@ -239,6 +265,7 @@ public class Processor {
         return null;
     }
 
+    //Handles all functionality for sending a message
     public static void sendMessage(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Seller) {
@@ -290,15 +317,17 @@ public class Processor {
                     System.out.println("Invalid recipient.");
                     break;
                 }
-                System.out.println("How would you like to send the message?\n1. Type the message\n2. Import a text file");
+                System.out.println("How would you like to send the message?\n1. Type the message\n2. " +
+                        "Import a text file");
                 switch (scanner.nextLine()) {
                     case "1":
-                        System.out.println("Do you want your message to disappear after it's read?");
+                        System.out.println("Do you want your message to disappear after it's read? (Yes/No)");
                         String confirm = scanner.nextLine();
                         System.out.println("What is your message?");
                         String content = scanner.nextLine();
 
-                        messaging_system.Message message = new messaging_system.Message(content, user.getEmail(), recipUser.getEmail(),
+                        messaging_system.Message message = new messaging_system.Message(content, user.getEmail(),
+                                recipUser.getEmail(),
                                 LocalTime.now().toString(), false);
                         if (confirm.equalsIgnoreCase("yes")) {
                             message.setDisappearing(true);
@@ -312,6 +341,7 @@ public class Processor {
                         }
                         break;
                     case "2":
+                        //allows user to import a txt file for a message
                         System.out.println("What is the text file you would like to import?");
                         String file = scanner.next();
                         content = importText(file);
@@ -337,6 +367,7 @@ public class Processor {
         }
     }
 
+    //prints a list of messageable users
     public static void printUsers(Users user) {
         if (user instanceof Customer) {
             for (Store allStore : allStores) {
@@ -352,6 +383,7 @@ public class Processor {
         System.out.println();
     }
 
+    //edit account functionality
     public static void editAccount(Users user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter updated email:");
@@ -370,6 +402,7 @@ public class Processor {
         }
     }
 
+    //handles the getStatistics functionality
     public static void getStatistics(Users user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
@@ -379,7 +412,7 @@ public class Processor {
         if (user instanceof Seller) {
             for (Customer x : allCustomers) {
                 data.add(x.getEmail() + " has sent " + x.getNumMessages() + " messages." +
-                         " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
+                        " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
             }
         } else {
             for (Store x : allStores) {
@@ -413,6 +446,7 @@ public class Processor {
         }
     }
 
+    //method for editing previous messages
     public static void editMessage(Users user) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Message> msgsSent = new ArrayList<Message>();
@@ -425,15 +459,20 @@ public class Processor {
             System.out.println(i + ": " + x.getContent());
         }
         System.out.println("\nEnter the number of the message you would like to edit:");
-        Message message = msgsSent.get(scanner.nextInt() - 1);
-        String content = message.getContent();
-        scanner.nextLine();
-        System.out.println("What would you like the message to say now.");
-        String update = scanner.nextLine();
-        message.editMessage(update);
-        System.out.println("Message updated.");
+        try {
+            Message message = msgsSent.get(scanner.nextInt() - 1);
+            String content = message.getContent();
+            scanner.nextLine();
+            System.out.println("What would you like the message to say now.");
+            String update = scanner.nextLine();
+            message.editMessage(update);
+            System.out.println("Message updated.");
+        } catch (Exception e) {
+            System.out.println("Invalid response.");
+        }
     }
 
+    //similar to edit message method, but for deletion of messages
     public static void deleteMessage(Users user) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Message> msgsSent = new ArrayList<Message>();
@@ -448,14 +487,19 @@ public class Processor {
             System.out.println("No messsage history.");
         } else {
             System.out.println("\nEnter the number of the message you would like to delete:");
-            Message message = msgsSent.get(scanner.nextInt() - 1);
-            scanner.nextLine();
-            user.deleteMessage(message);
-            System.out.println("Message deleted.");
+            try {
+                Message message = msgsSent.get(scanner.nextInt() - 1);
+                scanner.nextLine();
+                user.deleteMessage(message);
+                System.out.println("Message deleted.");
+            } catch (Exception e) {
+                System.out.println("Invalid response.");
+            }
         }
 
     }
 
+    //allows a user to buy a product, adds it to the user's list of purchased products
     public static void buyProducts(Customer user) {
         Scanner scanner = new Scanner(System.in);
         int i = 1;
@@ -464,66 +508,72 @@ public class Processor {
             i++;
         }
         System.out.println("Enter the number for the store you want to purchase from:");
-        Store store = allStores.get(scanner.nextInt() - 1);
-        scanner.nextLine();
-        for (String product : store.getProductList()) {
-            System.out.println(i + ". " + product);
+        try {
+            Store store = allStores.get(scanner.nextInt() - 1);
+            scanner.nextLine();
+            i = 1;
+            for (String product : store.getProductList()) {
+                System.out.println(i + ". " + product);
+                i++;
+            }
+            System.out.println("Enter the number for the product you want to buy:");
+            ArrayList<String> finalList = new ArrayList<>();
+            String product = store.getProductList().get(scanner.nextInt() - 1);
+            scanner.nextLine();
+            if (user.getProductsPurchased() != null) {
+                finalList = user.getProductsPurchased();
+            }
+            finalList.add(product);
+            user.setProductsPurchased(finalList);
+            System.out.println("Purchased!");
+        } catch (Exception e) {
+            System.out.println("Invalid response.");
         }
-        System.out.println("Enter the number for the product you want to buy:");
-        ArrayList<String> finalList = new ArrayList<>();
-        String product = store.getProductList().get(scanner.nextInt() - 1);
-        scanner.nextLine();
-        if (user.getProductsPurchased() != null) {
-            finalList = user.getProductsPurchased();
-        }
-        finalList.add(product);
-        user.setProductsPurchased(finalList);
-        System.out.println("Purchased!");
-        scanner.nextLine();
     }
 
+    //allows a seller to create a store, and sell a certain number of products
     public static void makeStore(Seller user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the store name:");
         String name = scanner.nextLine();
         System.out.println("How many items will you be selling?");
-        int count = scanner.nextInt();
-        scanner.nextLine();
-        ArrayList<String> products = new ArrayList<String>();
-        for (int i = 1; i <= count; i++) {
-            System.out.println("Name of product " + i + "?");
-            products.add(scanner.nextLine());
+        try {
+            int count = scanner.nextInt();
+            scanner.nextLine();
+            ArrayList<String> products = new ArrayList<String>();
+            for (int i = 1; i <= count; i++) {
+                System.out.println("Name of product " + i + "?");
+                products.add(scanner.nextLine());
+            }
+            Store store = new Store(name, products, user);
+            allStores.add(store);
+            user.addStore(store);
+            System.out.println("Store made!");
+        } catch (Exception e) {
+            System.out.println("Invalid response.");
         }
-        Store store = new Store(name, products, user);
-        allStores.add(store);
-        user.addStore(store);
-        System.out.println("Store made!");
     }
 
+    //functionality for creating new, unique, accounts
     public static String createAccount() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your email:");
         String email = scanner.nextLine();
+        for (Users user : allUsers) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                return "Account with that email already exists.";
+            }
+        }
         System.out.println("Enter your password:");
         String password = scanner.nextLine();
         System.out.println("Choose type of account to create:\n1.Customer\n2.Seller\n");
         switch (scanner.nextLine()) {
             case "1":
-                for (Customer allCustomer : allCustomers) {
-                    if (allCustomer.getEmail().equals(email)) {
-                        return "Account with that email already exists.";
-                    }
-                }
                 Customer customer = new Customer(email, password);
                 allCustomers.add(customer);
                 allUsers.add(customer);
                 return "Account created! You may now login.";
             case "2":
-                for (Seller allSeller : allSellers) {
-                    if (allSeller.getEmail().equals(email)) {
-                        return "Account with that email already exists.";
-                    }
-                }
                 Seller seller = new Seller(email, password);
                 allSellers.add(seller);
                 allUsers.add(seller);
@@ -534,6 +584,7 @@ public class Processor {
 
     }
 
+    //exports all or partial message history to a csv
     public static void exportCSV(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Customer) {
@@ -576,6 +627,7 @@ public class Processor {
         brw.close();
     }
 
+    //uses a hasmap to find the most common words in a user's message history with a seller
     public static String getCommonWords
             (ArrayList<Message> allMessages) // returns with words separated by a space
     {
@@ -618,6 +670,7 @@ public class Processor {
 
     }
 
+    //saves all current data to the 3 files store_info, user_info, message_info
     public static void saveAll() throws IOException {
         File users = new File("user_info.txt");
         BufferedWriter usersWriter = new BufferedWriter(new FileWriter(users));
@@ -724,8 +777,8 @@ public class Processor {
             String sender = message.getSenderID();
             String recipient = message.getRecipientID();
             boolean hasRead = message.HasRead();
-            messageWriter.write(time + "," + sender + "," + recipient + "," + content + "," + String.valueOf(hasRead) +
-                                "\n");
+            messageWriter.write(time + "," + sender + "," + recipient + "," + content + "," + hasRead +
+                    "\n");
         }
         messageWriter.close();
 
@@ -733,8 +786,9 @@ public class Processor {
     }
 
 
+    //loads files that have saved data from previous uses
     public static void loadFiles(File fileOne, File fileTwo, File fileThree) throws
-            FileNotFoundException, IOException {
+            IOException {
         try (BufferedReader bfr = new BufferedReader(new FileReader(fileOne))) {
             String line = bfr.readLine();
             while (line != null) {
@@ -873,6 +927,7 @@ public class Processor {
         }
     }
 
+    //imports text from a file to be used in a message
     public static String importText(String importedFIle) throws IOException {
         try {
             BufferedReader bfr = new BufferedReader(new FileReader(importedFIle));
@@ -884,7 +939,7 @@ public class Processor {
             bfr.close();
             return recipient.toString();
         } catch (FileNotFoundException e) {
-            System.out.println("Wrong File Name");
+            System.out.println("File not found.");
             return "Wrong";
         }
     }
