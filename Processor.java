@@ -301,11 +301,15 @@ public class Processor {
                         System.out.println("What is the text file you would like to import?");
                         String file = scanner.next();
                         content = importText(file);
-                        message = new Message(content, user.getEmail(), recipUser.getEmail(),
-                                LocalTime.now().toString(), false);
-                        allMessages.add(message);
-                        user.sendMessage(message, recipUser);
-                        break;
+                        if (!content.equals("Wrong")) {
+                            message = new Message(content, user.getEmail(), recipUser.getEmail(),
+                                    LocalTime.now().toString(), false);
+                            allMessages.add(message);
+                            user.sendMessage(message, recipUser);
+                            break;
+                        } else {
+                            break;
+                        }
                     default:
                         System.out.println("Invalid input.");
                         break;
@@ -867,7 +871,7 @@ public class Processor {
             return recipient.toString();
         } catch (FileNotFoundException e) {
             System.out.println("Wrong File Name");
-            return null;
+            return "Wrong";
         }
     }
 }
