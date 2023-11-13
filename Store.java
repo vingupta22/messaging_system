@@ -33,6 +33,10 @@ public class Store {
         return seller;
     }
 
+    public void setSeller(Seller s) {
+        this.seller = s;
+    }
+
     public boolean itemExists(String item) {
         for (String product : productList) {
             if (item.equalsIgnoreCase(product)) {
