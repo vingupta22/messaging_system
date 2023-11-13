@@ -281,9 +281,10 @@ public class Processor {
                 String recipient = scanner.nextLine();
                 Users recipUser = null;
                 if (user instanceof Seller) {
-                    for (Customer allCustomer : allCustomers) {
+                    for (Users allCustomer : allCustomers) {
                         if (allCustomer.getEmail().equals(recipient)) {
-                            if (allCustomer.blockedUsers.contains(user) || allCustomer.invisibleUsers.contains(user)) {
+                            if (allCustomer.blockedUsers.contains(user.getEmail()) ||
+                                    allCustomer.invisibleUsers.contains(user.getEmail())) {
                                 System.out.println("You cannot message that customer.");
                             } else {
                                 recipUser = allCustomer;
@@ -293,7 +294,7 @@ public class Processor {
                 } else {
                     for (Seller allSeller : allSellers) {
                         if (allSeller.getEmail().equals(recipient)) {
-                            if (allSeller.blockedUsers.contains(user)) {
+                            if (allSeller.blockedUsers.contains(user.getEmail())) {
                                 System.out.println("You cannot message that seller.");
                             } else {
                                 recipUser = allSeller;
@@ -303,7 +304,7 @@ public class Processor {
                     }
                     for (Store allStore : allStores) {
                         if (allStore.getName().equals(recipient)) {
-                            if (allStore.getSeller().blockedUsers.contains(user)) {
+                            if (allStore.getSeller().blockedUsers.contains(user.getEmail())) {
                                 System.out.println("You cannot message that store.");
                             } else {
                                 recipUser = allStore.getSeller();
