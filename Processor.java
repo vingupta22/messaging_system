@@ -28,7 +28,7 @@ public class Processor {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit\n");
+            System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
             switch (scanner.nextLine()) {
                 case "1":
                     Users user = login();
@@ -91,7 +91,7 @@ public class Processor {
                                     getStatistics(user);
                                     break;
                                 case "8":
-                                    System.out.println("\nLogging out!\n");
+                                    System.out.println("Logging out!");
                                     loggedIn = false;
                                     saveAll();
                                     break;
@@ -116,7 +116,7 @@ public class Processor {
                                     String censor = scanner.nextLine();
                                     user.addCensored(censor);
                                     user.setHaveCensor(true);
-                                    System.out.println("How would you like to replace the ceonsored texts?\n1" +
+                                    System.out.println("How would you like to replace the censored texts?\n1" +
                                                        ".Use default which is ****\n2.Make your own replacement");
                                     switch (scanner.nextLine()) {
                                         case "1":
