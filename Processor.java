@@ -376,7 +376,7 @@ public class Processor {
             }
         } else {
             for (Customer allCustomer : allCustomers) {
-                if (!allCustomer.invisibleUsers.contains(user)) {
+                if (!allCustomer.invisibleUsers.contains(user.getEmail())) {
                     System.out.println(allCustomer.getEmail());
                 }
             }
@@ -413,7 +413,7 @@ public class Processor {
         if (user instanceof Seller) {
             for (Customer x : allCustomers) {
                 data.add(x.getEmail() + " has sent " + x.getNumMessages() + " messages." +
-                        " Common words include: " + getCommonWords(allMessages)); //no idea how to figure this out
+                        " Common words include: " + getCommonWords(allMessages));
             }
         } else {
             for (Store x : allStores) {
@@ -594,7 +594,7 @@ public class Processor {
             }
         } else {
             for (Customer allCustomer : allCustomers) {
-                if (!allCustomer.invisibleUsers.contains(user)) {
+                if (!allCustomer.invisibleUsers.contains(user.getEmail())) {
                     System.out.println(allCustomer.getEmail());
                 }
             }
