@@ -13,7 +13,7 @@ public class Client {
     private static boolean exit;
     public static boolean loggedIn;
 
-
+    // NEED TO FIX ALL READER LOGIC
     public static String userStatus = null;
 
     public static void main(String[] args) throws IOException {
@@ -67,15 +67,25 @@ public class Client {
 
                 if (userType.equals("Seller")) {
                     userStatus = "Seller";
-                    String menu = reader.readLine();
-                    System.out.println(menu);
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while (!(line = reader.readLine()).equals("END")) {
+                        sb.append(line).append("\n");
+                    }
+                    String menu = sb.toString();
+                    System.out.println(sb);
                     nextOption = scanner.nextLine();
                     writer.println(nextOption);
                     writer.flush();
                 } else {
                     userStatus = "Customer";
-                    String menu = reader.readLine();
-                    System.out.println(menu);
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while (!(line = reader.readLine()).equals("END")) {
+                        sb.append(line).append("\n");
+                    }
+                    String menu = sb.toString();
+                    System.out.println(sb);
                     nextOption = scanner.nextLine();
                     writer.println(nextOption);
                     writer.flush();
@@ -185,6 +195,7 @@ public class Client {
                         System.out.println(messages);
                         System.out.println("\nEnter the number of the message you would like to edit:");
                         int choice = scanner.nextInt();
+                        scanner.nextLine();
                         writer.println(choice);
                         writer.flush();
 
@@ -208,6 +219,7 @@ public class Client {
                         if (!reader.equals("No message history.")) {
                             System.out.println("\nEnter the number of the message you would like to delete:");
                             int choice = scanner.nextInt();
+                            scanner.nextLine();
                             writer.println(choice);
                             writer.flush();
                             String finalResp = reader.readLine();
@@ -233,6 +245,7 @@ public class Client {
                             System.out.println(stores);
                             System.out.println("Enter the number for the store you want to purchase from:");
                             int choice = scanner.nextInt();
+                            scanner.nextLine();
                             writer.println(choice);
                             writer.flush();
 
@@ -241,6 +254,7 @@ public class Client {
                             if (!storeOptions.equals("Invalid response.")) {
                                 System.out.println("Enter the number for the product you want to buy:");
                                 int select = scanner.nextInt();
+                                scanner.nextLine();
                                 writer.println(select);
                                 writer.flush();
                                 String success = reader.readLine();
@@ -256,6 +270,7 @@ public class Client {
                             String response = reader.readLine();
                             if (!response.equals("Invalid response.")) {
                                 int items = scanner.nextInt();
+                                scanner.nextLine();
                                 writer.println(items);
                                 writer.flush();
 
@@ -280,6 +295,7 @@ public class Client {
                         System.out.println("How would you like to replace the censored texts?\n1" +
                                 ".Use default which is ****\n2.Make your own replacement");
                         int choice = scanner.nextInt();
+                        scanner.nextLine();
                         writer.println(choice);
                         writer.flush();
                         if (choice == 2) {

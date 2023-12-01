@@ -921,7 +921,7 @@ public class Processor {
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                         "7.Get Statistics\n8.Logout\n"
                                         + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
-                                        "Create Store\n13.Censor Texts";
+                                        "Create Store\n13.Censor Texts\nEND";
                                 writer.println(ret);
                                 writer.flush();
                             } else {
@@ -931,7 +931,7 @@ public class Processor {
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                         "7.Get Statistics\n8.Logout\n"
                                         + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
-                                        "Create Store\n13.Censor Texts";
+                                        "Create Store\n13.Censor Texts\nEND";
                                 writer.println(ret);
                                 writer.flush();
                             }
