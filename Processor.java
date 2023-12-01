@@ -358,7 +358,8 @@ public class Processor {
     }
 
     //method for editing previous messages
-    public static void editMessage(Users user) {
+    public static void editMessage(Users user) throws IOException {
+        String ret = "";
         Scanner scanner = new Scanner(System.in);
         ArrayList<Message> msgsSent = new ArrayList<Message>();
 
@@ -367,24 +368,31 @@ public class Processor {
         }
         int i = 1;
         for (Message x : msgsSent) {
-            System.out.println(i + ": " + x.getContent());
+            ret += (i + ": " + x.getContent()) + "\n";
         }
-        System.out.println("\nEnter the number of the message you would like to edit:");
+        writer.println(ret);
+        writer.flush();
+
+        int choice = Integer.parseInt(reader.readLine());
         try {
-            Message message = msgsSent.get(scanner.nextInt() - 1);
+            Message message = msgsSent.get(choice - 1);
             String content = message.getContent();
             scanner.nextLine();
-            System.out.println("What would you like the message to say now.");
-            String update = scanner.nextLine();
+            writer.println("What would you like the message to say now.");
+            writer.flush();
+            String update = reader.readLine();
             message.editMessage(update);
-            System.out.println("Message updated.");
+            writer.println("Message updated.");
+            writer.flush();
         } catch (Exception e) {
-            System.out.println("Invalid response.");
+            writer.println("Invalid response.");
+            writer.flush();
         }
     }
 
     //similar to edit message method, but for deletion of messages
     public static void deleteMessage(Users user) {
+        String ret = "";
         Scanner scanner = new Scanner(System.in);
         ArrayList<Message> msgsSent = new ArrayList<Message>();
         if (user.messagesSent != null) {
@@ -392,76 +400,92 @@ public class Processor {
         }
         int i = 1;
         for (Message x : msgsSent) {
-            System.out.println(i + ": " + x.getContent());
+            ret += (i + ": " + x.getContent()) + "\n";
         }
+        writer.println(ret);
+        writer.flush();
         if (msgsSent.isEmpty()) {
-            System.out.println("No messsage history.");
+            writer.println("No message history.");
+            writer.flush();
         } else {
-            System.out.println("\nEnter the number of the message you would like to delete:");
+            //System.out.println("\nEnter the number of the message you would like to delete:");
             try {
-                Message message = msgsSent.get(scanner.nextInt() - 1);
+                int choice = Integer.parseInt(reader.readLine());
+                Message message = msgsSent.get(choice - 1);
                 scanner.nextLine();
                 user.deleteMessage(message);
-                System.out.println("Message deleted.");
+                writer.println("Message deleted.");
+                writer.flush();
             } catch (Exception e) {
-                System.out.println("Invalid response.");
+                writer.println("Invalid response.");
+                writer.flush();
             }
         }
 
     }
 
     //allows a user to buy a product, adds it to the user's list of purchased products
-    public static void buyProducts(Customer user) {
+    public static void buyProducts(Customer user) throws IOException {
+        String ret = "";
         Scanner scanner = new Scanner(System.in);
         int i = 1;
         for (Store allStore : allStores) {
-            System.out.println(i + ". " + allStore.getName());
+            ret += (i + ". " + allStore.getName()) + "\n";
             i++;
         }
-        System.out.println("Enter the number for the store you want to purchase from:");
+        writer.println(ret);
+        writer.flush();
+        //System.out.println("Enter the number for the store you want to purchase from:");
+        int choice = Integer.parseInt(reader.readLine());
         try {
-            Store store = allStores.get(scanner.nextInt() - 1);
-            scanner.nextLine();
+            String ret1 = "";
+            Store store = allStores.get(choice);
             i = 1;
             for (String product : store.getProductList()) {
-                System.out.println(i + ". " + product);
+                ret += (i + ". " + product) + "\n";
                 i++;
             }
-            System.out.println("Enter the number for the product you want to buy:");
+            writer.println(ret1);
+            writer.flush();
+            //System.out.println("Enter the number for the product you want to buy:");
+            int pick = Integer.parseInt(reader.readLine());
             ArrayList<String> finalList = new ArrayList<>();
-            String product = store.getProductList().get(scanner.nextInt() - 1);
+            String product = store.getProductList().get(pick - 1);
             scanner.nextLine();
             if (user.getProductsPurchased() != null) {
                 finalList = user.getProductsPurchased();
             }
             finalList.add(product);
             user.setProductsPurchased(finalList);
-            System.out.println("Purchased!");
+            writer.println("Purchased!");
+            writer.flush();
         } catch (Exception e) {
             System.out.println("Invalid response.");
         }
     }
 
     //allows a seller to create a store, and sell a certain number of products
-    public static void makeStore(Seller user) {
+    public static void makeStore(Seller user) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the store name:");
-        String name = scanner.nextLine();
-        System.out.println("How many items will you be selling?");
+        String name = reader.readLine();
+
         try {
-            int count = scanner.nextInt();
-            scanner.nextLine();
+            String ret = "";
+            writer.println("How many items will you be selling?");
+            writer.flush();
+            int count = Integer.parseInt(reader.readLine());
             ArrayList<String> products = new ArrayList<String>();
             for (int i = 1; i <= count; i++) {
-                System.out.println("Name of product " + i + "?");
-                products.add(scanner.nextLine());
+                products.add(reader.readLine());
             }
             Store store = new Store(name, products, user);
             allStores.add(store);
             user.addStore(store);
-            System.out.println("Store made!");
+            writer.println("Store made!");
+            writer.flush();
         } catch (Exception e) {
-            System.out.println("Invalid response.");
+            writer.println("Invalid response.");
+            writer.flush();
         }
     }
 
@@ -498,22 +522,23 @@ public class Processor {
 
     //exports all or partial message history to a csv
     public static void exportCSV(Users user) throws IOException {
+        String ret = "";
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Customer) {
             for (Seller x : allSellers) {
-                System.out.println(x.getEmail());
+                ret += (x.getEmail()) + "\n";
             }
         } else {
             for (Customer allCustomer : allCustomers) {
                 if (!allCustomer.invisibleUsers.contains(user.getEmail())) {
-                    System.out.println(allCustomer.getEmail());
+                    ret += (allCustomer.getEmail()) + "\n";
                 }
             }
         }
-        System.out.println();
+        writer.println();
+        writer.flush();
 
-        System.out.println("Whose conversation would you like to export (leave blank for all).");
-        String name = scanner.nextLine();
+        String name = reader.readLine();
         File f = new File("messageHistory.csv");
         BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
         if (name.isEmpty()) {
@@ -535,7 +560,8 @@ public class Processor {
                 }
             }
         }
-        System.out.println("Exported!");
+        writer.println("Exported!");
+        writer.flush();
         brw.close();
     }
 
@@ -985,23 +1011,23 @@ public class Processor {
                                     break;
                                 case "13":
                                     //censors cetain text
-                                    System.out.println("What text would you like to censor");
-                                    String censor = scanner.nextLine();
+                                    String censor = reader.readLine();
                                     user.addCensored(censor);
                                     user.setHaveCensor(true);
-                                    System.out.println("How would you like to replace the censored texts?\n1" +
-                                            ".Use default which is ****\n2.Make your own replacement");
-                                    switch (scanner.nextLine()) {
+                                    String choice = reader.readLine();
+                                    switch (choice) {
                                         case "1":
                                             user.setCensorReplacement("****");
                                             break;
                                         case "2":
-                                            System.out.println("Enter your replacement words");
-                                            String replaceWords = scanner.nextLine();
+                                            writer.println("Enter your replacement words");
+                                            writer.flush();
+                                            String replaceWords = reader.readLine();
                                             user.setCensorReplacement(replaceWords);
                                             break;
                                         default:
-                                            System.out.println("\nInvalid input.\n");
+                                            writer.println("\nInvalid input.\n");
+                                            writer.flush();
                                             break;
                                     }
 
