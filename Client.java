@@ -52,12 +52,19 @@ public class Client {
                     loggedIn = true;
                 System.out.println(loginMessage);
 
+                String ema = reader.readLine();
+                System.out.println(ema);
+
+                String emai = reader.readLine();
+                System.out.println(emai);
+
                 String newMessages = reader.readLine();
                 System.out.println(newMessages);
 
                 //If user is customer or seller
                 String userType = reader.readLine();
                 String nextOption = "";
+
                 if (userType.equals("Seller")) {
                     userStatus = "Seller";
                     String menu = reader.readLine();

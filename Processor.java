@@ -132,7 +132,7 @@ public class Processor {
         for (Users allUser : allUsers) {
             if (allUser.getEmail().equals(email)) {
                 if (allUser.getPassword().equals(password)) {
-                    writer.println("!Logged in");
+                    writer.println("Logged in!");
                     writer.flush();
                     return allUser;
                 }
@@ -917,19 +917,22 @@ public class Processor {
                             if (user instanceof Seller) {
                                 writer.println("Seller");
                                 writer.flush();
-                                writer.println("1.See messages\n2.Send message\n3.Edit Account\n" +
+                                String ret = "1.See messages\n2.Send message\n3.Edit Account\n" +
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                         "7.Get Statistics\n8.Logout\n"
                                         + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
-                                        "Create Store\n13.Censor Texts");
+                                        "Create Store\n13.Censor Texts";
+                                writer.println(ret);
                                 writer.flush();
                             } else {
                                 writer.println("Customer");
                                 writer.flush();
-                                writer.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
-                                        + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
-                                        "9.Edit Message\n10.Delete Message\n11.Export CSV\n" +
-                                        "12.Buy products\n13.Censor Texts");
+                                String ret = "1.See messages\n2.Send message\n3.Edit Account\n" +
+                                        "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
+                                        "7.Get Statistics\n8.Logout\n"
+                                        + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
+                                        "Create Store\n13.Censor Texts";
+                                writer.println(ret);
                                 writer.flush();
                             }
                             String nextOption = reader.readLine();
