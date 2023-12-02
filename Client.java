@@ -15,6 +15,7 @@ public class Client {
 
     // NEED TO FIX ALL READER LOGIC
     public static String userStatus = null;
+    public static String menu = "";
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket();
@@ -64,7 +65,7 @@ public class Client {
                 //If user is customer or seller
                 String userType = reader.readLine();
                 String nextOption = "";
-
+                String menu;
                 if (userType.equals("Seller")) {
                     userStatus = "Seller";
                     StringBuilder sb = new StringBuilder();
@@ -72,11 +73,7 @@ public class Client {
                     while (!(line = reader.readLine()).equals("END")) {
                         sb.append(line).append("\n");
                     }
-                    String menu = sb.toString();
-                    System.out.println(sb);
-                    nextOption = scanner.nextLine();
-                    writer.println(nextOption);
-                    writer.flush();
+                    menu = sb.toString();
                 } else {
                     userStatus = "Customer";
                     StringBuilder sb = new StringBuilder();
@@ -84,14 +81,13 @@ public class Client {
                     while (!(line = reader.readLine()).equals("END")) {
                         sb.append(line).append("\n");
                     }
-                    String menu = sb.toString();
-                    System.out.println(sb);
+                    menu = sb.toString();
+                }
+                do {
+                    System.out.println(menu);
                     nextOption = scanner.nextLine();
                     writer.println(nextOption);
                     writer.flush();
-                }
-
-                do {
                     if (nextOption.equals("1")) {
                         StringBuilder sb = new StringBuilder();
                         String line;
@@ -108,13 +104,13 @@ public class Client {
                         System.out.println(prompt);
                         String choice = scanner.nextLine();
                         writer.println(choice);
-                        writer.println();
+                        writer.flush();
                         switch (choice) {
                             case "1":
                                 //show messages
                                 StringBuilder sb = new StringBuilder();
                                 String line2;
-                                while (!(line2 = reader.readLine()).equals("END")) {
+                                while ((!(line2 = reader.readLine()).equals("END")) && !line2.isEmpty()) {
                                     sb.append(line2).append("\n");
                                 }
                                 System.out.println(sb);
@@ -177,15 +173,23 @@ public class Client {
                     } else if (nextOption.equals("4")) {
                         loggedIn = false;
                     } else if (nextOption.equals("5")) {
-                        String hiddenUser = reader.readLine();
-                        System.out.println(hiddenUser);
+                        StringBuilder sb = new StringBuilder();
+                        String line2;
+                        while (!(line2 = reader.readLine()).equals("END")) {
+                            sb.append(line2).append("\n");
+                        }
+                        System.out.println(sb);
                         String selectedUser = scanner.nextLine();
                         writer.println(selectedUser);
                         writer.flush();
 
                     } else if (nextOption.equals("6")) {
-                        String blockedUser = reader.readLine();
-                        System.out.println(blockedUser);
+                        StringBuilder sb = new StringBuilder();
+                        String line2;
+                        while (!(line2 = reader.readLine()).equals("END")) {
+                            sb.append(line2).append("\n");
+                        }
+                        System.out.println(sb);
                         String selectedUser = scanner.nextLine();
                         writer.println(selectedUser);
                         writer.flush();
@@ -213,8 +217,12 @@ public class Client {
                         loggedIn = false;
 
                     } else if (nextOption.equals("9")) {
-                        String messages = reader.readLine();
-                        System.out.println(messages);
+                        StringBuilder sb = new StringBuilder();
+                        String line2;
+                        while (!(line2 = reader.readLine()).equals("END")) {
+                            sb.append(line2).append("\n");
+                        }
+                        System.out.println(sb);
                         System.out.println("\nEnter the number of the message you would like to edit:");
                         int choice = scanner.nextInt();
                         scanner.nextLine();
@@ -235,8 +243,12 @@ public class Client {
                         }
 
                     } else if (nextOption.equals("10")) {
-                        String messages = reader.readLine();
-                        System.out.println(messages);
+                        StringBuilder sb = new StringBuilder();
+                        String line2;
+                        while (!(line2 = reader.readLine()).equals("END")) {
+                            sb.append(line2).append("\n");
+                        }
+                        System.out.println(sb);
                         String out = reader.readLine();
                         if (!reader.equals("No message history.")) {
                             System.out.println("\nEnter the number of the message you would like to delete:");
@@ -251,8 +263,12 @@ public class Client {
                         }
 
                     } else if (nextOption.equals("11")) {
-                        String emails = reader.readLine();
-                        System.out.println(emails);
+                        StringBuilder sb = new StringBuilder();
+                        String line2;
+                        while (!(line2 = reader.readLine()).equals("END")) {
+                            sb.append(line2).append("\n");
+                        }
+                        System.out.println(sb);
                         System.out.println("Whose conversation would you like to export (leave blank for all).");
                         String name = scanner.nextLine();
                         writer.println(name);
@@ -263,17 +279,26 @@ public class Client {
 
                     } else if (nextOption.equals("12")) {
                         if (userStatus.equalsIgnoreCase("customer")) {
-                            String stores = reader.readLine();
-                            System.out.println(stores);
+                            StringBuilder sb = new StringBuilder();
+                            String line2;
+                            while (!(line2 = reader.readLine()).equals("END")) {
+                                sb.append(line2).append("\n");
+                            }
+                            System.out.println(sb);
                             System.out.println("Enter the number for the store you want to purchase from:");
                             int choice = scanner.nextInt();
                             scanner.nextLine();
                             writer.println(choice);
                             writer.flush();
 
-                            String storeOptions = reader.readLine();
+                            StringBuilder storeOptions = new StringBuilder();
+                            String line;
+                            while (!(line = reader.readLine()).equals("END")) {
+                                sb.append(line).append("\n");
+                            }
                             System.out.println(storeOptions);
-                            if (!storeOptions.equals("Invalid response.")) {
+                            System.out.println(storeOptions);
+                            if (!storeOptions.toString().equals("Invalid response.")) {
                                 System.out.println("Enter the number for the product you want to buy:");
                                 int select = scanner.nextInt();
                                 scanner.nextLine();

@@ -160,8 +160,8 @@ public class Processor {
                 String users = printUsers(user);
                 writer.println(users);
                 writer.flush();
-            case "2": //SERVER/CLIENT SPLIT
-                System.out.println("Who would you like to message?");
+            case "2":
+                //System.out.println("Who would you like to message?");
                 String recipient = reader.readLine();
                 String ret = "";
                 Users recipUser = null;
@@ -171,7 +171,7 @@ public class Processor {
                             if (allCustomer.blockedUsers.contains(user.getEmail()) ||
                                     allCustomer.invisibleUsers.contains(user.getEmail())) {
                                 ret = ("You cannot message that customer.");
-                                writer.println();
+                                writer.println(ret);
                                 writer.flush();
                             } else {
                                 recipUser = allCustomer;
@@ -199,7 +199,7 @@ public class Processor {
                         if (allStore.getName().equals(recipient)) {
                             if (allStore.getSeller().blockedUsers.contains(user.getEmail())) {
                                 ret = ("You cannot message that store.");
-                                writer.println();
+                                writer.println(ret);
                                 writer.flush();
                             } else {
                                 recipUser = allStore.getSeller();
@@ -214,12 +214,10 @@ public class Processor {
 
                 if (recipUser == null) {
                     ret = ("Invalid recipient.");
-                    writer.println();
+                    writer.println(ret);
                     writer.flush();
                     break;
                 }
-                //System.out.println("How would you like to send the message?\n1. Type the message\n2. " +
-                        //"Import a text file"); // fix reader
                 String msgChoice = reader.readLine();
 
                 switch (msgChoice) {
@@ -294,7 +292,7 @@ public class Processor {
         boolean alrExists = false;
         for (Users allUser : allUsers) {
             if (allUser.getEmail().equals(email)) {
-                System.out.println("Account with that email already exists."); // fix
+                //System.out.println("Account with that email already exists."); // fix
                 alrExists = true;
                 writer.println("exists");
                 writer.flush();
@@ -374,6 +372,7 @@ public class Processor {
         for (Message x : msgsSent) {
             ret += (i + ": " + x.getContent()) + "\n";
         }
+        ret += "END";
         writer.println(ret);
         writer.flush();
 
@@ -406,6 +405,7 @@ public class Processor {
         for (Message x : msgsSent) {
             ret += (i + ": " + x.getContent()) + "\n";
         }
+        ret += "END";
         writer.println(ret);
         writer.flush();
         if (msgsSent.isEmpty()) {
@@ -437,6 +437,7 @@ public class Processor {
             ret += (i + ". " + allStore.getName()) + "\n";
             i++;
         }
+        ret += "END";
         writer.println(ret);
         writer.flush();
         //System.out.println("Enter the number for the store you want to purchase from:");
@@ -446,9 +447,10 @@ public class Processor {
             Store store = allStores.get(choice);
             i = 1;
             for (String product : store.getProductList()) {
-                ret += (i + ". " + product) + "\n";
+                ret1 += (i + ". " + product) + "\n";
                 i++;
             }
+            ret1 += "END";
             writer.println(ret1);
             writer.flush();
             //System.out.println("Enter the number for the product you want to buy:");
@@ -539,7 +541,8 @@ public class Processor {
                 }
             }
         }
-        writer.println();
+        ret += "END";
+        writer.println(ret);
         writer.flush();
 
         String name = reader.readLine();
@@ -935,7 +938,7 @@ public class Processor {
                                         "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                         "7.Get Statistics\n8.Logout\n"
                                         + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
-                                        "Create Store\n13.Censor Texts\nEND";
+                                        "Buy Products\n13.Censor Texts\nEND";
                                 writer.println(ret);
                                 writer.flush();
                             }
