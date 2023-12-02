@@ -93,20 +93,34 @@ public class Client {
 
                 do {
                     if (nextOption.equals("1")) {
-                        String messages = reader.readLine();
-                        System.out.println(messages);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while (!(line = reader.readLine()).equals("END")) {
+                            sb.append(line).append("\n");
+                        }
+                        System.out.println(sb);
                     } else if (nextOption.equals("2")) {
-                        String prompt = reader.readLine();
+                        StringBuilder prompt = new StringBuilder();
+                        String line;
+                        while (!(line = reader.readLine()).equals("END")) {
+                            prompt.append(line).append("\n");
+                        }
                         System.out.println(prompt);
                         String choice = scanner.nextLine();
                         writer.println(choice);
                         writer.println();
                         switch (choice) {
                             case "1":
-                                String users = reader.readLine();
-                                System.out.println(users);
+                                //show messages
+                                StringBuilder sb = new StringBuilder();
+                                String line2;
+                                while (!(line2 = reader.readLine()).equals("END")) {
+                                    sb.append(line2).append("\n");
+                                }
+                                System.out.println(sb);
                                 break;
                             case "2":
+                                //send message
                                 System.out.println("Who would you like to message?");
                                 String recipient = scanner.nextLine();
                                 writer.println(recipient);
@@ -137,6 +151,7 @@ public class Client {
                                         String file = scanner.next();
                                         writer.println(file);
                                         writer.flush();
+                                        break;
                                     default:
                                         System.out.println("Invalid input.");
                                         break;
@@ -160,8 +175,7 @@ public class Client {
                             writer.flush();
                         }
                     } else if (nextOption.equals("4")) {
-                        //log out here
-
+                        loggedIn = false;
                     } else if (nextOption.equals("5")) {
                         String hiddenUser = reader.readLine();
                         System.out.println(hiddenUser);
@@ -180,11 +194,19 @@ public class Client {
                         String choice = scanner.nextLine();
                         writer.println(choice);
                         writer.flush();
-                        String ret = reader.readLine();
-                        System.out.println(ret);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while (!(line = reader.readLine()).equals("END")) {
+                            sb.append(line).append("\n");
+                        }
+                        System.out.println(sb);
                         if (userType.equalsIgnoreCase(("customer"))) {
-                            String ret2 = reader.readLine();
-                            System.out.println(ret2);
+                            StringBuilder sb2 = new StringBuilder();
+                            String line2;
+                            while (!(line2 = reader.readLine()).equals("END")) {
+                                sb.append(line2).append("\n");
+                            }
+                            System.out.println(sb2);
                         }
                     } else if (nextOption.equals("8")) {
                         System.out.println("Logging out!");

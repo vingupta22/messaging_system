@@ -88,6 +88,7 @@ public class Processor {
                 }
             }
         }
+        ret += "END";
         return ret;
     }
 
@@ -147,10 +148,10 @@ public class Processor {
     public static void sendMessage(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Seller) {
-            writer.println("1. View a list of people to message.\n2. Message a specific user.");
+            writer.println("1. View a list of people to message.\n2. Message a specific user.\nEND"); // fix reader here
             writer.flush();
         } else {
-            writer.println("1. View a list of stores to message.\n2. Message a specific seller.");
+            writer.println("1. View a list of stores to message.\n2. Message a specific seller.\nEND");
             writer.flush();
         }
         String messageChoice = reader.readLine();
@@ -159,7 +160,7 @@ public class Processor {
                 String users = printUsers(user);
                 writer.println(users);
                 writer.flush();
-            case "2":
+            case "2": //SERVER/CLIENT SPLIT
                 System.out.println("Who would you like to message?");
                 String recipient = reader.readLine();
                 String ret = "";
@@ -217,8 +218,8 @@ public class Processor {
                     writer.flush();
                     break;
                 }
-                System.out.println("How would you like to send the message?\n1. Type the message\n2. " +
-                        "Import a text file");
+                //System.out.println("How would you like to send the message?\n1. Type the message\n2. " +
+                        //"Import a text file"); // fix reader
                 String msgChoice = reader.readLine();
 
                 switch (msgChoice) {
@@ -283,6 +284,7 @@ public class Processor {
                 }
             }
         }
+        ret += "END";
         return ret;
     }
 
@@ -292,7 +294,7 @@ public class Processor {
         boolean alrExists = false;
         for (Users allUser : allUsers) {
             if (allUser.getEmail().equals(email)) {
-                System.out.println("Account with that email already exists.");
+                System.out.println("Account with that email already exists."); // fix
                 alrExists = true;
                 writer.println("exists");
                 writer.flush();
@@ -341,8 +343,9 @@ public class Processor {
         }
         String ret = "";
         for (String x : data) {
-            ret += (x) + "\n";
+            ret += (x) + "\n"; // fix reader
         }
+        ret += "END";
         writer.println(ret);
         writer.flush();
         System.out.println();
@@ -351,6 +354,7 @@ public class Processor {
             for (String x : data2) {
                 ret2 += (x) + "\n";
             }
+            ret2 += "END";
             writer.println(ret2);
             writer.flush();
             System.out.println();
@@ -992,9 +996,6 @@ public class Processor {
                                 case "8":
                                     System.out.println("Logging out!");
                                     loggedIn = false;
-                                    socket.close();
-                                    writer.close();
-                                    reader.close();
                                     break;
                                 case "9":
                                     editMessage(user);
@@ -1049,10 +1050,10 @@ public class Processor {
                     break;
                 case "3":
                     exit = true;
-                    System.out.println("Ending application!");
+                    //System.out.println("Ending application!");
                     break;
                 default:
-                    System.out.println("Invalid input.");
+                    //System.out.println("Invalid input.");
                     break;
 
             }
