@@ -13,9 +13,7 @@ public class Client {
     private static boolean exit;
     public static boolean loggedIn;
 
-    // NEED TO FIX ALL READER LOGIC
     public static String userStatus = null;
-    public static String menu = "";
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket();
@@ -40,6 +38,7 @@ public class Client {
             writer.flush();
             //need to fix error about keeping the menu going
             if (initOption.equals("1")) {
+                String menu = "";
                 System.out.println("Enter your email:");
                 String email = scanner.nextLine();
                 writer.println(email);
@@ -52,10 +51,10 @@ public class Client {
                 if (loginMessage.equals("Logged in!"))
                     loggedIn = true;
                 System.out.println(loginMessage);
-
+                /*
                 String ema = reader.readLine();
                 System.out.println(ema);
-
+                */
                 String emai = reader.readLine();
                 System.out.println(emai);
 
@@ -65,7 +64,6 @@ public class Client {
                 //If user is customer or seller
                 String userType = reader.readLine();
                 String nextOption = "";
-                String menu;
                 if (userType.equals("Seller")) {
                     userStatus = "Seller";
                     StringBuilder sb = new StringBuilder();
@@ -82,6 +80,7 @@ public class Client {
                         sb.append(line).append("\n");
                     }
                     menu = sb.toString();
+                    System.out.println(menu);
                 }
                 do {
                     System.out.println(menu);
@@ -106,7 +105,7 @@ public class Client {
                         writer.println(choice);
                         writer.flush();
                         switch (choice) {
-                            case "1":
+                            case "1": // Complete logic
                                 //show messages
                                 StringBuilder sb = new StringBuilder();
                                 String line2;
@@ -352,8 +351,7 @@ public class Client {
                                 String rep = scanner.nextLine();
                                 writer.println(rep);
                                 writer.flush();
-                            }
-                            else {
+                            } else {
                                 System.out.println(out);
                             }
                         }
@@ -383,6 +381,5 @@ public class Client {
                 System.out.println("error");
             }
         } while (!exit); //FIX LOOP
-
     }
 }

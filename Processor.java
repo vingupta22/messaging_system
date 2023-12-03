@@ -10,14 +10,12 @@ import java.util.stream.Collectors;
 
 /**
  * Project 4 Option 2
- *
+ * <p>
  * This program holds the main method for the program, and uses the classes Message, Customer, Users, Seller, and Store
  * to create an e-commerce mockup with a focus on the messaging system.
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
- *
  * @version November 13, 2023
- *
  */
 public class Processor {
 
@@ -125,6 +123,7 @@ public class Processor {
     //Method for login functionality
     public static Users login() throws IOException {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Testing login");
         //System.out.println("Enter your email:");
         String email = reader.readLine();
         //System.out.println("Enter your password:");
@@ -156,7 +155,7 @@ public class Processor {
         }
         String messageChoice = reader.readLine();
         switch (messageChoice) {
-            case "1":
+            case "1": // Incomplete logic
                 String users = printUsers(user);
                 writer.println(users);
                 writer.flush();
@@ -211,7 +210,6 @@ public class Processor {
                     }
 
                 }
-
                 if (recipUser == null) {
                     ret = ("Invalid recipient.");
                     writer.println(ret);
@@ -574,7 +572,7 @@ public class Processor {
 
     //uses a hashmap to find the most common words in a user's message history with a seller
     public static String getCommonWords
-            (ArrayList<Message> allMessages) // returns with words separated by a space
+    (ArrayList<Message> allMessages) // returns with words separated by a space
     {
         HashMap<String, Integer> words = new HashMap<>();
         for (Message message : allMessages) {
