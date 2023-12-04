@@ -566,54 +566,62 @@ public class Processor {
     public static void buyProducts(Customer user) {
         Scanner scanner = new Scanner(System.in);
         int i = 1;
-        for (Store allStore : allStores) {
-            System.out.println(i + ". " + allStore.getName());
-            i++;
-        }
-        System.out.println("Enter the number for the store you want to purchase from:");
-        try {
-            Store store = allStores.get(scanner.nextInt() - 1);
-            scanner.nextLine();
-            i = 1;
-            for (String product : store.getProductList()) {
-                System.out.println(i + ". " + product);
+        writer.println(allStores.size());
+        if (allStores.size() > 0) {
+            for (Store allStore : allStores) {
+                writer.println(i + ". " + allStore.getName());
+                writer.flush();
                 i++;
             }
-            System.out.println("Enter the number for the product you want to buy:");
+        }
+        //System.out.println("Enter the number for the store you want to purchase from:");
+        try {
+            Store store = allStores.get(Integer.parseInt(reader.readLine()) - 1);
+            i = 1;
+            writer.println(store.getProductList().size());
+            writer.flush();
+            for (String product : store.getProductList()) {
+                writer.println(i + ". " + product);
+                writer.flush();
+                i++;
+            }
+            //System.out.println("Enter the number for the product you want to buy:");
             ArrayList<String> finalList = new ArrayList<>();
-            String product = store.getProductList().get(scanner.nextInt() - 1);
-            scanner.nextLine();
+            String product = store.getProductList().get(Integer.parseInt(reader.readLine()) - 1);
             if (user.getProductsPurchased() != null) {
                 finalList = user.getProductsPurchased();
             }
             finalList.add(product);
             user.setProductsPurchased(finalList);
-            System.out.println("Purchased!");
+            writer.println("Purchased!");
+            writer.flush();
         } catch (Exception e) {
-            System.out.println("Invalid response.");
+            writer.println("Invalid response.");
+            writer.flush();
         }
     }
 
     //allows a seller to create a store, and sell a certain number of products
-    public static void makeStore(Seller user) {
+    public static void makeStore(Seller user) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the store name:");
-        String name = scanner.nextLine();
-        System.out.println("How many items will you be selling?");
+        //System.out.println("Enter the store name:");
+        String name = reader.readLine();
+        //System.out.println("How many items will you be selling?");
         try {
-            int count = scanner.nextInt();
-            scanner.nextLine();
+            int count = Integer.parseInt(reader.readLine());
             ArrayList<String> products = new ArrayList<String>();
             for (int i = 1; i <= count; i++) {
-                System.out.println("Name of product " + i + "?");
-                products.add(scanner.nextLine());
+                //System.out.println("Name of product " + i + "?");
+                products.add(reader.readLine());
             }
             Store store = new Store(name, products, user);
             allStores.add(store);
             user.addStore(store);
-            System.out.println("Store made!");
+            writer.println("Store made!");
+            writer.flush();
         } catch (Exception e) {
-            System.out.println("Invalid response.");
+            writer.println("Invalid response.");
+            writer.flush();
         }
     }
 

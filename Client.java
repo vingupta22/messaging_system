@@ -264,7 +264,50 @@ public class Client {
                                 break;
                             case "12":
                                 // create store / buy products
-
+                                if (sOrC.equalsIgnoreCase("customer"))
+                                {
+                                    int storeSize = Integer.parseInt(reader.readLine());
+                                    if (storeSize == 0)
+                                    {
+                                        System.out.println("No available stores!");
+                                    }
+                                    else {
+                                        for (int i = 0; i < storeSize; i++) {
+                                            System.out.println(reader.readLine());
+                                        }
+                                        System.out.println("Enter the number for the store you want to purchase from:");
+                                        String store = scanner.nextLine();
+                                        writer.println(store);
+                                        writer.flush();
+                                        int itemsSize = Integer.parseInt(reader.readLine());
+                                        for (int i = 0; i < itemsSize; i++) {
+                                            System.out.println(reader.readLine());
+                                        }
+                                        System.out.println("Enter the number for the product you want to buy:");
+                                        String item = scanner.nextLine();
+                                        writer.println(item);
+                                        writer.flush();
+                                        String result = reader.readLine();
+                                        System.out.println(result);
+                                    }
+                                } else if (sOrC.equalsIgnoreCase("seller")) {
+                                    System.out.println("Enter the store name:");
+                                    String storeName = scanner.nextLine();
+                                    writer.println(storeName);
+                                    writer.flush();
+                                    System.out.println("How many items will you be selling?");
+                                    String items = scanner.nextLine();
+                                    writer.println(items);
+                                    writer.flush();
+                                    for (int i = 1; i <= Integer.parseInt(items); i++)
+                                    {
+                                        System.out.println("Name of product " + i + "?");
+                                        writer.println(scanner.nextLine());
+                                        writer.flush();
+                                    }
+                                    String resultStore = reader.readLine();
+                                    System.out.println(resultStore);
+                                }
                                 break;
                             case "13":
                                 // censor texts
