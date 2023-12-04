@@ -55,7 +55,7 @@ public class Client {
                     writer.flush();
                     String logInResult = reader.readLine();
                     System.out.println(logInResult);
-                    if(logInResult.equals("Email or password is incorrect.")){
+                    if (logInResult.equals("Email or password is incorrect.")) {
                         break;
                     }
                     loggedIn = true;
@@ -66,7 +66,7 @@ public class Client {
                     System.out.println(messageTitle);
                     if (!messageTitle.equals("No new Messages!")) {
                         for (int i = 0; i < unreadSize; i++) {
-                                System.out.println(reader.readLine());
+                            System.out.println(reader.readLine());
                         }
                     }
 
@@ -121,10 +121,10 @@ public class Client {
                                 switch (messageChoice) {
                                     case "1":
                                         int size = Integer.parseInt(reader.readLine());
-                                        if(size==0){
-                                            if(sOrC.equals("customer")){
+                                        if (size == 0) {
+                                            if (sOrC.equals("customer")) {
                                                 System.out.println("There are no stores!");
-                                            } else{
+                                            } else {
                                                 System.out.println("There are no customers right now!");
                                             }
                                         }
@@ -197,10 +197,26 @@ public class Client {
                                 break;
                             case "7":
                                 // get stats
+                                System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
+                                String sort = scanner.nextLine();
+                                writer.println(sort);
+                                writer.flush();
+
+                                int sizeData = Integer.parseInt(reader.readLine());
+                                for (int i = 0; i < sizeData; i++) {
+                                    System.out.println(reader.readLine());
+                                }
+
+                                if (sOrC.equalsIgnoreCase("customer")) {
+                                    int size2 = Integer.parseInt(reader.readLine());
+                                    for (int i = 0; i < size2; i++) {
+                                        System.out.println(reader.readLine());
+                                    }
+                                }
                                 break;
                             case "8":
                                 //logout
-                               String logOutMessage = reader.readLine();
+                                String logOutMessage = reader.readLine();
                                 System.out.println(logOutMessage);
                                 loggedIn = false;
                                 break;
@@ -215,15 +231,13 @@ public class Client {
                                 writer.println(editedMessage);
                                 writer.flush();
                                 String enteredTry = reader.readLine();
-                                if (enteredTry.equals("entered try."))
-                                {
+                                if (enteredTry.equals("entered try.")) {
                                     System.out.println("What would you like the message to say now.");
                                     String update = scanner.nextLine();
                                     writer.println(update);
                                     writer.flush();
                                     System.out.println("Message updated.");
-                                }
-                                else {
+                                } else {
                                     System.out.println("Invalid response.");
                                 }
 
@@ -231,11 +245,9 @@ public class Client {
                             case "10":
                                 // delete message
                                 int msgsSize = Integer.parseInt(reader.readLine());
-                                if (msgsSize == 0)
-                                {
+                                if (msgsSize == 0) {
                                     System.out.println(reader.readLine());
-                                }
-                                else {
+                                } else {
                                     for (int i = 0; i < msgsSize; i++) {
                                         System.out.println(reader.readLine());
                                     }
@@ -249,15 +261,12 @@ public class Client {
                                 break;
                             case "11":
                                 // export csv
-                                if (sOrC.equalsIgnoreCase("customer"))
-                                {
+                                if (sOrC.equalsIgnoreCase("customer")) {
                                     int sellerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < sellerSize; i++) {
                                         System.out.println(reader.readLine());
                                     }
-                                }
-                                else if (sOrC.equalsIgnoreCase("seller"))
-                                {
+                                } else if (sOrC.equalsIgnoreCase("seller")) {
                                     int customerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < customerSize; i++) {
                                         System.out.println(reader.readLine());
@@ -273,14 +282,11 @@ public class Client {
                                 break;
                             case "12":
                                 // create store / buy products
-                                if (sOrC.equalsIgnoreCase("customer"))
-                                {
+                                if (sOrC.equalsIgnoreCase("customer")) {
                                     int storeSize = Integer.parseInt(reader.readLine());
-                                    if (storeSize == 0)
-                                    {
+                                    if (storeSize == 0) {
                                         System.out.println("No available stores!");
-                                    }
-                                    else {
+                                    } else {
                                         for (int i = 0; i < storeSize; i++) {
                                             System.out.println(reader.readLine());
                                         }
@@ -308,8 +314,7 @@ public class Client {
                                     String items = scanner.nextLine();
                                     writer.println(items);
                                     writer.flush();
-                                    for (int i = 1; i <= Integer.parseInt(items); i++)
-                                    {
+                                    for (int i = 1; i <= Integer.parseInt(items); i++) {
                                         System.out.println("Name of product " + i + "?");
                                         writer.println(scanner.nextLine());
                                         writer.flush();
@@ -329,15 +334,12 @@ public class Client {
                                 String censorChoice = scanner.nextLine();
                                 writer.println(censorChoice);
                                 writer.flush();
-                                if (censorChoice.equals("2"))
-                                {
+                                if (censorChoice.equals("2")) {
                                     System.out.println("Enter your replacement words");
                                     String replace = scanner.nextLine();
                                     writer.println(replace);
                                     writer.flush();
-                                }
-                                else if (!censorChoice.equals("1"))
-                                {
+                                } else if (!censorChoice.equals("1")) {
                                     System.out.println("Invalid input.");
                                 }
                                 break;

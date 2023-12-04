@@ -457,10 +457,10 @@ public class Processor {
     }
 
     //handles the getStatistics functionality
-    public static void getStatistics(Users user) {
+    public static void getStatistics(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
-        boolean sort = scanner.nextLine().equals("1");
+        //System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
+        boolean sort = reader.readLine().equals("1");
         ArrayList<String> data = new ArrayList<String>();
         ArrayList<String> data2 = new ArrayList<String>();
         if (user instanceof Seller) {
@@ -470,7 +470,7 @@ public class Processor {
             }
         } else {
             for (Store x : allStores) {
-                data.add(x.getName() + " has received  " + x.getSeller().messagesReceived.size() + " messages.");
+                data.add(x.getName() + " has received " + x.getSeller().messagesReceived.size() + " messages.");
             }
             for (Store x : allStores) {
 
@@ -480,7 +480,7 @@ public class Processor {
                         count++;
                     }
                 }
-                data2.add(x.getName() + " has received  " + count + " messages from you.");
+                data2.add(x.getName() + " has received " + count + " messages from you.");
             }
         }
 
@@ -488,15 +488,20 @@ public class Processor {
             Collections.sort(data);
             Collections.sort(data2);
         }
+        writer.println(data.size());
+        writer.flush();
         for (String x : data) {
-            System.out.println(x);
+            writer.println(x);
+            writer.flush();
         }
-        System.out.println();
+
         if (user instanceof Customer) {
+            writer.println(data2.size());
+            writer.flush();
             for (String x : data2) {
-                System.out.println(x);
+                writer.println(x);
+                writer.flush();
             }
-            System.out.println();
         }
     }
 
@@ -753,7 +758,12 @@ public class Processor {
                 if (highestStrings.isEmpty()) {
                     System.out.println("The 'highestStrings' list is empty. No top words found.");
                 } else {
-                    return String.join(" ", highestStrings);
+                    String ret = "";
+                    for (String s : highestStrings)
+                    {
+                        ret += s + " ";
+                    }
+                    return ret;
                 }
             }
         }
