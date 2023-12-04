@@ -243,11 +243,24 @@ public class Client {
                                 if (sOrC.equalsIgnoreCase("customer"))
                                 {
                                     int sellerSize = Integer.parseInt(reader.readLine());
+                                    for (int i = 0; i < sellerSize; i++) {
+                                        System.out.println(reader.readLine());
+                                    }
                                 }
                                 else if (sOrC.equalsIgnoreCase("seller"))
                                 {
                                     int customerSize = Integer.parseInt(reader.readLine());
+                                    for (int i = 0; i < customerSize; i++) {
+                                        System.out.println(reader.readLine());
+                                    }
+
                                 }
+                                System.out.println("Whose conversation would you like to export (leave blank for all).");
+                                String name = scanner.nextLine();
+                                writer.println(name);
+                                writer.flush();
+                                System.out.println("Exported!");
+
                                 break;
                             case "12":
                                 // create store / buy products

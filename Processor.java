@@ -667,19 +667,22 @@ public class Processor {
     public static void exportCSV(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
         if (user instanceof Customer) {
+            writer.println(allSellers.size());
+            writer.flush();
             for (Seller x : allSellers) {
-                System.out.println(x.getEmail());
+                writer.println(x.getEmail());
+                writer.flush();
             }
         } else {
+            writer.println(allCustomers.size());
+            writer.flush();
             for (Customer allCustomer : allCustomers) {
-                if (!allCustomer.invisibleUsers.contains(user.getEmail())) {
-                    System.out.println(allCustomer.getEmail());
-                }
+                writer.println(allCustomer.getEmail());
+                writer.flush();
             }
         }
-        System.out.println();
-        System.out.println("Whose conversation would you like to export (leave blank for all).");
-        String name = scanner.nextLine();
+        //System.out.println("Whose conversation would you like to export (leave blank for all).");
+        String name = reader.readLine();
         File f = new File("messageHistory.csv");
         BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
         if (name.isEmpty()) {
@@ -701,7 +704,7 @@ public class Processor {
                 }
             }
         }
-        System.out.println("Exported!");
+        //System.out.println("Exported!");
         brw.close();
     }
 
