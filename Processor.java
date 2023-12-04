@@ -208,7 +208,7 @@ public class Processor {
         String numMessages = Integer.toString(numMes);
         writer.println(numMessages);
         writer.flush();
-        for (int i = 0; i < allMessages.size(); i++) {
+        for (int i = 0; i < numMes; i++) {
             if (user.haveCensor) {
                 for (int j = 0; i < user.censored.size(); i++) {
                     if (allMessages.get(i).getContent().contains(user.censored.get(i))) {
@@ -534,25 +534,29 @@ public class Processor {
     public static void deleteMessage(Users user) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Message> msgsSent = new ArrayList<Message>();
-        if (user.messagesSent != null) {
-            msgsSent = user.messagesSent;
-        }
+        msgsSent = user.messagesSent;
         int i = 1;
-        for (Message x : msgsSent) {
-            System.out.println(i + ": " + x.getContent());
-            i++;
-        }
+        writer.println(msgsSent.size());
+        writer.flush();
         if (msgsSent.isEmpty()) {
-            System.out.println("No messsage history.");
+            writer.println("No message history.");
+            writer.flush();
         } else {
-            System.out.println("\nEnter the number of the message you would like to delete:");
+            for (Message x : msgsSent) {
+                writer.println(i + ": " + x.getContent());
+                writer.flush();
+                i++;
+            }
+            //System.out.println("\nEnter the number of the message you would like to delete:");
             try {
-                Message message = msgsSent.get(scanner.nextInt() - 1);
-                scanner.nextLine();
+                Message message = msgsSent.get(Integer.parseInt(reader.readLine()) - 1);
                 user.deleteMessage(message);
-                System.out.println("Message deleted.");
+                allMessages.remove(message);
+                writer.println("Message deleted.");
+                writer.flush();
             } catch (Exception e) {
-                System.out.println("Invalid response.");
+                writer.println("Invalid response.");
+                writer.flush();
             }
         }
 

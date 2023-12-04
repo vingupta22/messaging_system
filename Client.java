@@ -221,6 +221,22 @@ public class Client {
                                 break;
                             case "10":
                                 // delete message
+                                int msgsSize = Integer.parseInt(reader.readLine());
+                                if (msgsSize == 0)
+                                {
+                                    System.out.println(reader.readLine());
+                                }
+                                else {
+                                    for (int i = 0; i < msgsSize; i++) {
+                                        System.out.println(reader.readLine());
+                                    }
+                                    System.out.println("Enter the number of the message you would like to delete:");
+                                    String index = scanner.nextLine();
+                                    writer.println(index);
+                                    writer.flush();
+                                    String result = reader.readLine();
+                                    System.out.println(result);
+                                }
                                 break;
                             case "11":
                                 // export csv
