@@ -1,0 +1,38 @@
+Customer
+vinay
+123
+;;
+||
+Sent
+22:05:02.608675,vinay,vinay_sell,Hi,false
+22:07:47.161262,vinay,vinay_sell,debug test,false
+22:24:12.928056,vinay,vinay_sell,test2,false
+22:26:54.872705,vinay,vinay_sell,test 4,false
+22:35:28.173717,vinay,vinay_sell,hi final test,false
+22:36:31.261049,vinay,vinay_sell,final,false
+22:38:49.446099,vinay,vinay_sell,fdf,false
+22:41:19.057719,vinay,vinay_sell,test,false
+22:43:08.000814,vinay,vinay_sell,testtt,false
+Received
+Purchased
+
+Done
+Seller
+vinay_sell
+123
+;;
+||
+Sent
+Received
+22:05:02.608675,vinay,vinay_sell,Hi,true
+22:07:47.161262,vinay,vinay_sell,debug test,true
+22:24:12.928056,vinay,vinay_sell,test2,true
+22:26:54.872705,vinay,vinay_sell,test 4,true
+22:35:28.173717,vinay,vinay_sell,hi final test,true
+22:36:31.261049,vinay,vinay_sell,final,true
+22:38:49.446099,vinay,vinay_sell,fdf,true
+22:41:19.057719,vinay,vinay_sell,test,true
+22:43:08.000814,vinay,vinay_sell,testtt,true
+Stores
+
+Done
