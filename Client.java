@@ -55,6 +55,9 @@ public class Client {
                     writer.flush();
                     String logInResult = reader.readLine();
                     System.out.println(logInResult);
+                    if(logInResult.equals("Email or password is incorrect.")){
+                        break;
+                    }
                     loggedIn = true;
 
 
@@ -112,17 +115,23 @@ public class Client {
                                 } else {
                                     System.out.println("1. View a list of stores to message.\n2. Message a specific seller.");
                                 }
-                                choice = scanner.nextLine();
-                                writer.println(choice);
+                                String messageChoice = scanner.nextLine();
+                                writer.println(messageChoice);
                                 writer.flush();
-                                switch (choice) {
+                                switch (messageChoice) {
                                     case "1":
                                         int size = Integer.parseInt(reader.readLine());
+                                        if(size==0){
+                                            if(sOrC.equals("customer")){
+                                                System.out.println("There are no stores!");
+                                            } else{
+                                                System.out.println("There are no customers right now!");
+                                            }
+                                        }
                                         for (int i = 0; i < size; i++) {
                                             System.out.println(reader.readLine());
                                         }
 
-                                        break;
                                     case "2":
                                         System.out.println("Who would you like to message?");
                                         String recipient = scanner.nextLine();

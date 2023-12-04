@@ -1,1 +1,26 @@
+Customer
+ihanda
+123
+;;
+||
+Sent
+15:53:42.741454,ihanda,vinay,hello again,true
+Received
+15:46:28.949577,vinay,ihanda,hello ihanda,true
+15:53:16.729669,vinay,ihanda,hello test final yeah,true
+Purchased
 
+Done
+Seller
+vinay
+123
+;;
+||
+Sent
+15:46:28.949577,vinay,ihanda,hello ihanda,true
+15:53:16.729669,vinay,ihanda,hello test final yeah,true
+Received
+15:53:42.741454,ihanda,vinay,hello again,true
+Stores
+
+Done
