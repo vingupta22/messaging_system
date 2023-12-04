@@ -193,7 +193,9 @@ public class Client {
                                 // get stats
                                 break;
                             case "8":
-                                // logout
+                               String logOutMessage = reader.readLine();
+                                System.out.println(logOutMessage);
+                                loggedIn = false;
                                 break;
                             case "9":
                                 // edit message

@@ -73,11 +73,11 @@ public class Processor {
                             if (user instanceof Seller) {
                                 writer.println("seller");
                                 writer.flush();
-                             //Prints seller menu
+                                //Prints seller menu
                             } else {
                                 writer.println("customer");
                                 writer.flush();
-                               //Prints customer menu
+                                //Prints customer menu
                             }
 
                             String choice = reader.readLine();
@@ -136,7 +136,8 @@ public class Processor {
                                     getStatistics(user);
                                     break;
                                 case "8":
-                                    System.out.println("Logging out!");
+                                    writer.println("Logged out!");
+                                    writer.flush();
                                     loggedIn = false;
                                     break;
                                 case "9":
