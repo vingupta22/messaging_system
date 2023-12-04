@@ -156,23 +156,24 @@ public class Processor {
                                     break;
                                 case "13":
                                     //censors cetain text
-                                    System.out.println("What text would you like to censor");
-                                    String censor = scanner.nextLine();
+                                    //System.out.println("What text would you like to censor");
+                                    String censor = reader.readLine();
                                     user.addCensored(censor);
                                     user.setHaveCensor(true);
-                                    System.out.println("How would you like to replace the censored texts?\n1" +
-                                            ".Use default which is ****\n2.Make your own replacement");
-                                    switch (scanner.nextLine()) {
+                                    //System.out.println("How would you like to replace the censored texts?\n1" +
+                                            //".Use default which is ****\n2.Make your own replacement");
+                                    String switc = reader.readLine();
+                                    switch (switc) {
                                         case "1":
                                             user.setCensorReplacement("****");
                                             break;
                                         case "2":
-                                            System.out.println("Enter your replacement words");
-                                            String replaceWords = scanner.nextLine();
+                                            //System.out.println("Enter your replacement words");
+                                            String replaceWords = reader.readLine();
                                             user.setCensorReplacement(replaceWords);
                                             break;
                                         default:
-                                            System.out.println("\nInvalid input.\n");
+                                            //System.out.println("Invalid input.");
                                             break;
                                     }
 
@@ -208,16 +209,21 @@ public class Processor {
         String numMessages = Integer.toString(numMes);
         writer.println(numMessages);
         writer.flush();
-        for (int i = 0; i < numMes; i++) {
-            if (user.haveCensor) {
-                for (int j = 0; i < user.censored.size(); i++) {
-                    if (allMessages.get(i).getContent().contains(user.censored.get(i))) {
-                        allMessages.get(i).editMessage(allMessages.get(i).getContent().replaceAll("\\b" +
-                                        user.censored.get(i) + "\\b",
+        if (user.haveCensor) {
+            for (int i = 0; i < numMes; i++)
+            {
+                for (int j = 0; j < user.censored.size(); j++) {
+                    if (allMessages.get(i).getContent().contains(user.censored.get(j))) {
+                        allMessages.get(i).editMessage(allMessages.get(i).getContent().replaceAll(
+                                user.censored.get(j),
                                 user.censorReplacement));
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < numMes; i++) {
+
             if (user.getEmail().equals(allMessages.get(i).getSenderID()) ||
                     user.getEmail().equals(allMessages.get(i).getRecipientID())) {
                 String content = allMessages.get(i).getContent();
@@ -233,15 +239,12 @@ public class Processor {
                             message.setHasRead(true);
                         }
                     }
-
                 } else {
                     if (!allMessages.get(i).isDisappearing()) {
                         writer.println("[" + time + "] " + "You messaged " + recipient +
                                 ": " + content);
                         writer.flush();
-
                     }
-
                 }
             }
         }

@@ -311,7 +311,26 @@ public class Client {
                                 break;
                             case "13":
                                 // censor texts
-
+                                System.out.println("What text would you like to censor");
+                                String censor = scanner.nextLine();
+                                writer.println(censor);
+                                writer.flush();
+                                System.out.println("How would you like to replace the censored texts?\n1" +
+                                        ".Use default which is ****\n2.Make your own replacement");
+                                String censorChoice = scanner.nextLine();
+                                writer.println(censorChoice);
+                                writer.flush();
+                                if (censorChoice.equals("2"))
+                                {
+                                    System.out.println("Enter your replacement words");
+                                    String replace = scanner.nextLine();
+                                    writer.println(replace);
+                                    writer.flush();
+                                }
+                                else if (!censorChoice.equals("1"))
+                                {
+                                    System.out.println("Invalid input.");
+                                }
                                 break;
 
                         }
