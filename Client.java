@@ -197,6 +197,27 @@ public class Client {
                                 break;
                             case "9":
                                 // edit message
+                                int size = Integer.parseInt(reader.readLine());
+                                for (int i = 0; i < size; i++) {
+                                    System.out.println(reader.readLine());
+                                }
+                                System.out.println("Enter the number of the message you would like to edit:");
+                                String editedMessage = scanner.nextLine();
+                                writer.println(editedMessage);
+                                writer.flush();
+                                String enteredTry = reader.readLine();
+                                if (enteredTry.equals("entered try."))
+                                {
+                                    System.out.println("What would you like the message to say now.");
+                                    String update = scanner.nextLine();
+                                    writer.println(update);
+                                    writer.flush();
+                                    System.out.println("Message updated.");
+                                }
+                                else {
+                                    System.out.println("Invalid response.");
+                                }
+
                                 break;
                             case "10":
                                 // delete message

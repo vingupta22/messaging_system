@@ -512,20 +512,27 @@ public class Processor {
             msgsSent = user.messagesSent;
         }
         int i = 1;
+        int size = msgsSent.size();
+        writer.println(size);
+        writer.flush();
         for (Message x : msgsSent) {
-            System.out.println(i + ": " + x.getContent());
+            writer.println(i + ": " + x.getContent());
+            writer.flush();
+            i++;
         }
-        System.out.println("\nEnter the number of the message you would like to edit:");
+        //System.out.println("\nEnter the number of the message you would like to edit:");
         try {
-            Message message = msgsSent.get(scanner.nextInt() - 1);
+            Message message = msgsSent.get(Integer.parseInt(reader.readLine()) - 1);
+            writer.println("entered try.");
+            writer.flush();
             String content = message.getContent();
-            scanner.nextLine();
-            System.out.println("What would you like the message to say now.");
-            String update = scanner.nextLine();
+            //System.out.println("What would you like the message to say now.");
+            String update = reader.readLine();
             message.editMessage(update);
-            System.out.println("Message updated.");
+            allMessages.get(allMessages.indexOf(message)).editMessage(update);
+            //System.out.println("Message updated.");
         } catch (Exception e) {
-            System.out.println("Invalid response.");
+            //System.out.println("Invalid response.");
         }
     }
 
