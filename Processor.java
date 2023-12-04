@@ -678,7 +678,6 @@ public class Processor {
             }
         }
         System.out.println();
-
         System.out.println("Whose conversation would you like to export (leave blank for all).");
         String name = scanner.nextLine();
         File f = new File("messageHistory.csv");

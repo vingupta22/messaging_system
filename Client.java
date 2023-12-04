@@ -240,12 +240,22 @@ public class Client {
                                 break;
                             case "11":
                                 // export csv
+                                if (sOrC.equalsIgnoreCase("customer"))
+                                {
+                                    int sellerSize = Integer.parseInt(reader.readLine());
+                                }
+                                else if (sOrC.equalsIgnoreCase("seller"))
+                                {
+                                    int customerSize = Integer.parseInt(reader.readLine());
+                                }
                                 break;
                             case "12":
                                 // create store / buy products
+
                                 break;
                             case "13":
                                 // censor texts
+
                                 break;
 
                         }
