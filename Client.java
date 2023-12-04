@@ -59,17 +59,14 @@ public class Client {
 
 
                     int unreadSize = Integer.parseInt(reader.readLine());
-                    if (unreadSize == 0) { // TODO: Not printing no new messages, prints 0.
-                        System.out.println("No new Messages!");
-                    } else {
-                        String messageTitle = reader.readLine();
-                        System.out.println(messageTitle);
-                        if (!messageTitle.equals("No new Messages!")) {
-                            for (int i = 0; i < unreadSize; i++) {
+                    String messageTitle = reader.readLine();
+                    System.out.println(messageTitle);
+                    if (!messageTitle.equals("No new Messages!")) {
+                        for (int i = 0; i < unreadSize; i++) {
                                 System.out.println(reader.readLine());
-                            }
                         }
                     }
+
 
                     do {
                         String userName = reader.readLine();
@@ -193,6 +190,7 @@ public class Client {
                                 // get stats
                                 break;
                             case "8":
+                                //logout
                                String logOutMessage = reader.readLine();
                                 System.out.println(logOutMessage);
                                 loggedIn = false;

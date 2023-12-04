@@ -9,14 +9,12 @@ import java.util.stream.Collectors;
 
 /**
  * Project 4 Option 2
- *
+ * <p>
  * This program holds the main method for the program, and uses the classes Message, Customer, Users, Seller, and Store
  * to create an e-commerce mockup with a focus on the messaging system.
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
- *
  * @version November 13, 2023
- *
  */
 public class Processor {
 
@@ -94,8 +92,8 @@ public class Processor {
                                     break;
                                 case "4":
                                     if (user instanceof Seller) {
-                                        for(Store x : allStores){
-                                            if(x.getSeller().getEmail().equals(user.getEmail())){
+                                        for (Store x : allStores) {
+                                            if (x.getSeller().getEmail().equals(user.getEmail())) {
                                                 allStores.remove(x);
                                             }
                                         }
@@ -252,34 +250,29 @@ public class Processor {
     //shows new messages when a user logs on
     public static void showNewMessages(Users user) {
         ArrayList<Message> messagesReceived = user.getMessagesReceived();
-        if (messagesReceived.isEmpty()) {
-            writer.println(0);
+        ArrayList<Message> unread = new ArrayList<>();
+        for (Message message : messagesReceived) {
+            if (message.getRecipientID().equals(user.getEmail()) && !message.HasRead()) {
+                unread.add(message);
+                message.setHasRead(true);
+            }
+        }
+        writer.println(unread.size());
+        writer.flush();
+        if (unread.isEmpty()) {
+            writer.println("No new Messages!");
             writer.flush();
         } else {
-
-            ArrayList<Message> unread = new ArrayList<>();
-            for (Message message : messagesReceived) {
-                if (message.getRecipientID().equals(user.getEmail()) && !message.HasRead()) {
-                    unread.add(message);
-                    message.setHasRead(true);
-                }
-            }
-            writer.println(unread.size());
+            writer.println("Unread messages: ");
             writer.flush();
-            if (unread.isEmpty()) {
-                writer.println("No new Messages!");
+            for (Message m : unread) {
+                writer.println("[" + m.getTimeStamp() + "] " + m.getSenderID() + " messaged you" +
+                        ": " + m.getContent());
                 writer.flush();
-            } else {
-                writer.println("Unread messages: ");
-                writer.flush();
-                for (Message m : unread) {
-                    writer.println("[" + m.getTimeStamp() + "] " + m.getSenderID() + " messaged you" +
-                            ": " + m.getContent());
-                    writer.flush();
-                }
             }
-
         }
+
+
     }
 
     //Method for login functionality
@@ -547,7 +540,7 @@ public class Processor {
         int i = 1;
         for (Message x : msgsSent) {
             System.out.println(i + ": " + x.getContent());
-            i ++;
+            i++;
         }
         if (msgsSent.isEmpty()) {
             System.out.println("No messsage history.");
