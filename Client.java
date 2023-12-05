@@ -141,7 +141,6 @@ public class Client {
                                         writer.println(recipient);
                                         writer.flush();
                                         String blockMessage = reader.readLine();
-                                        System.out.println(blockMessage);
                                         if (!blockMessage.isEmpty()) {
                                             System.out.println(blockMessage);
                                             break;
@@ -223,6 +222,20 @@ public class Client {
                                 break;
                             case "6":
                                 // block users
+                                size = Integer.parseInt(reader.readLine());
+                                for (int i = 0; i < size; i++) {
+                                    String userNames = reader.readLine();
+                                    if(!userNames.equals("hidden")) {
+                                        System.out.println(userNames);
+                                    }
+                                }
+                                System.out.println("Enter user you would like to block:");
+                                String block = scanner.nextLine();
+                                writer.println(block);
+                                writer.flush();
+                                String blockMessage = reader.readLine();
+                                System.out.println(blockMessage);
+
                                 break;
                             case "7":
                                 // get stats

@@ -123,15 +123,16 @@ public class Processor {
                                     break;
                                 case "6":
                                     printUsers(user, "seller");
-                                    System.out.println("Enter user you would like to block:");
+//                                    System.out.println("Enter user you would like to block:");
                                     //blocks a user by adding them to a users blocked list
-                                    String blocked = scanner.nextLine();
+                                    String blocked = reader.readLine();
                                     for (Users allUser : allUsers) {
                                         if (allUser.getEmail().equalsIgnoreCase(blocked)) {
                                             user.block(allUser.getEmail());
                                         }
                                     }
-                                    System.out.println("User blocked.");
+                                    writer.println("User blocked.");
+                                    writer.flush();
                                     break;
                                 case "7":
                                     getStatistics(user);
