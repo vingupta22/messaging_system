@@ -438,22 +438,24 @@ public class Processor {
     }
 
     //edit account functionality
-    public static void editAccount(Users user) {
+    public static void editAccount(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter updated email:");
-        String email = scanner.nextLine();
+//        System.out.println("Enter updated email:");
+        String email = reader.readLine();
         boolean alrExists = false;
+        String existMessage = "0";
         for (Users allUser : allUsers) {
             if (allUser.getEmail().equals(email)) {
-                System.out.println("Account with that email already exists.");
+                existMessage = "Account with that email already exists.";
                 alrExists = true;
             }
         }
-        if (!alrExists) {
-            System.out.println("Enter updated password:");
-            String password = scanner.nextLine();
+        writer.println(existMessage);
+        writer.flush();
+//            System.out.println("Enter updated password:");
+            String password = reader.readLine();
             user.editAccnt(email, password);
-        }
+
     }
 
     //handles the getStatistics functionality

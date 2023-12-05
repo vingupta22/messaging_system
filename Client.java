@@ -184,7 +184,19 @@ public class Client {
 
                                 break;
                             case "3":
-                                // edit account
+                                System.out.println("Enter updated email:");
+                                email = scanner.nextLine();
+                                writer.println(email);
+                                writer.flush();
+                                String existMessage = reader.readLine();
+                                if(!existMessage.equals("0")){
+                                    System.out.println(existMessage);
+                                    break;
+                                }
+                                System.out.println("Enter updated password:");
+                                password = scanner.nextLine();
+                                writer.println(password);
+                                writer.flush();
                                 break;
                             case "4":
                                 // delete account
