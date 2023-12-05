@@ -109,19 +109,20 @@ public class Processor {
                                     loggedIn = false;
                                     break;
                                 case "5":
-                                    printUsers(user);
-                                    System.out.println("Enter user you would like to hide from:");
+                                    printUsers(user, "seller");
+//                                    System.out.println("Enter user you would like to hide from:");
                                     //hides from a user by adding to a users hidden list
-                                    String hidden = scanner.nextLine();
+                                    String hidden = reader.readLine();
                                     for (Users allUser : allUsers) {
                                         if (allUser.getEmail().equalsIgnoreCase(hidden)) {
                                             user.hide(allUser.getEmail());
                                         }
                                     }
-                                    System.out.println("User hidden.");
+                                    writer.println("User hidden.");
+                                    writer.flush();
                                     break;
                                 case "6":
-                                    printUsers(user);
+                                    printUsers(user, "seller");
                                     System.out.println("Enter user you would like to block:");
                                     //blocks a user by adding them to a users blocked list
                                     String blocked = scanner.nextLine();
@@ -313,7 +314,7 @@ public class Processor {
         String choice = reader.readLine();
         switch (choice) {
             case "1":
-                printUsers(user);
+                printUsers(user, "store");
             case "2":
 //                System.out.println("Who would you like to message?");
                 String recipient = reader.readLine();
@@ -418,13 +419,29 @@ public class Processor {
     }
 
     //prints a list of messageable users
-    public static void printUsers(Users user) {
+    public static void printUsers(Users user, String storeOrSeller) {
+
         if (user instanceof Customer) {
-            writer.println(allStores.size());
+            if (storeOrSeller.equals("store")){
+                writer.println(allStores.size());
             writer.flush();
             for (Store allStore : allStores) {
                 writer.println(allStore.getName());
                 writer.flush();
+            }
+        } else{ //storeOrSeller is equal to "seller"
+                writer.println(allSellers.size());
+                writer.flush();
+                for(Seller seller: allSellers){
+                    if(!seller.invisibleUsers.contains(user.getEmail())) {
+                        writer.println(seller.getEmail());
+                        writer.flush();
+                    } else{
+                        writer.println("hidden");
+                        writer.flush();
+                    }
+                }
+
             }
         } else {
             writer.println(allCustomers.size());
@@ -432,6 +449,9 @@ public class Processor {
             for (Customer allCustomer : allCustomers) {
                 if (!allCustomer.invisibleUsers.contains(user.getEmail())) {
                     writer.println(allCustomer.getEmail());
+                    writer.flush();
+                } else{
+                    writer.println("hidden");
                     writer.flush();
                 }
             }

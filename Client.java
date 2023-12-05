@@ -28,7 +28,7 @@ public class Client {
         }
         exit = false;
         Scanner scanner = new Scanner(System.in);
-
+        int size = 0;
         // Main menu switch case
 
         do {
@@ -120,7 +120,7 @@ public class Client {
                                 writer.flush();
                                 switch (messageChoice) {
                                     case "1":
-                                        int size = Integer.parseInt(reader.readLine());
+                                        size = Integer.parseInt(reader.readLine());
                                         if (size == 0) {
                                             if (sOrC.equals("customer")) {
                                                 System.out.println("There are no stores!");
@@ -129,7 +129,10 @@ public class Client {
                                             }
                                         }
                                         for (int i = 0; i < size; i++) {
-                                            System.out.println(reader.readLine());
+                                            String userNames = reader.readLine();
+                                            if(!userNames.equals("hidden")) {
+                                                System.out.println(userNames);
+                                            }
                                         }
 
                                     case "2":
@@ -204,7 +207,19 @@ public class Client {
                                 loggedIn = false;
                                 break;
                             case "5":
-                                // hide users
+                                size = Integer.parseInt(reader.readLine());
+                                for (int i = 0; i < size; i++) {
+                                    String userNames = reader.readLine();
+                                    if(!userNames.equals("hidden")) {
+                                        System.out.println(userNames);
+                                    }
+                                }
+                                System.out.println("Enter user you would like to hide from:");
+                                String hidden = scanner.nextLine();
+                                writer.println(hidden);
+                                writer.flush();
+                                String hiddenMessage = reader.readLine();
+                                System.out.println(hiddenMessage);
                                 break;
                             case "6":
                                 // block users
@@ -236,7 +251,7 @@ public class Client {
                                 break;
                             case "9":
                                 // edit message
-                                int size = Integer.parseInt(reader.readLine());
+                                size = Integer.parseInt(reader.readLine());
                                 for (int i = 0; i < size; i++) {
                                     System.out.println(reader.readLine());
                                 }
