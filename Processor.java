@@ -103,6 +103,8 @@ public class Processor {
                                         allCustomers.remove(user);
                                     }
                                     allUsers.remove(user);
+                                    writer.println("User " + user.getEmail() + " has been deleted");
+                                    writer.flush();
                                     user.deleteAccnt();
                                     loggedIn = false;
                                     break;

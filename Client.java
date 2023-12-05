@@ -199,7 +199,9 @@ public class Client {
                                 writer.flush();
                                 break;
                             case "4":
-                                // delete account
+                                String deleteMessage = reader.readLine();
+                                System.out.println(deleteMessage);
+                                loggedIn = false;
                                 break;
                             case "5":
                                 // hide users
