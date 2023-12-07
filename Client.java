@@ -22,7 +22,7 @@ public class Client {
         try {
             socket = new Socket("localhost", 12345);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream());
+            writer = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +91,6 @@ public class Client {
                         writer.println(choice);
                         writer.flush();
                         switch (choice) {
-
 
                             //See messages
                             case "1":
