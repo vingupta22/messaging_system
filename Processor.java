@@ -25,6 +25,7 @@ public class Processor {
     private static final ArrayList<Users> allUsers = new ArrayList<Users>();
     public static final Object obj = new Object();
 
+    public static boolean filesRead = false;
 
     //main method to run program
     public static void main(String[] args) throws IOException {
@@ -186,7 +187,7 @@ public class Processor {
                             writer.flush();
                         }
                     }
-                } else {
+                } else{
                     for (Seller allSeller : allSellers) {
                         if (allSeller.getEmail().equals(recipient)) {
                             if (allSeller.blockedUsers.contains(user.getEmail())) {
@@ -235,7 +236,9 @@ public class Processor {
                         if (confirm.equalsIgnoreCase("yes")) {
                             message.setDisappearing(true);
                         }
-                        allMessages.add(message);
+                        if(!allMessages.contains(message)) {
+                            allMessages.add(message);
+                        }
                         writer.println(user.sendMessage(message, recipUser));
                         writer.flush();
                         for (var i = 0; i < user.messagesSent.size(); i++) {
@@ -252,7 +255,9 @@ public class Processor {
                         if (!content.equals("Wrong")) {
                             message = new Message(content, user.getEmail(), recipUser.getEmail(),
                                     LocalTime.now().toString(), false);
-                            allMessages.add(message);
+                            if(!allMessages.contains(message)) {
+                                allMessages.add(message);
+                            }
                             user.sendMessage(message, recipUser);
                             break;
                         } else {
@@ -512,8 +517,10 @@ public class Processor {
                 products.add(reader.readLine());
             }
             Store store = new Store(name, products, user);
-            allStores.add(store);
-            user.addStore(store);
+            if(!allStores.contains(store)) {
+                allStores.add(store);
+                user.addStore(store);
+            }
             writer.println("Store made!");
             writer.flush();
         } catch (Exception e) {
@@ -549,16 +556,20 @@ public class Processor {
         switch (accountChoice) {
             case "1":
                 Customer customer = new Customer(email, password);
-                allCustomers.add(customer);
-                allUsers.add(customer);
+                if(!allUsers.contains(customer) && !allCustomers.contains(customer)) {
+                    allCustomers.add(customer);
+                    allUsers.add(customer);
+                }
                 writer.println("Account created! You may now login.");
                 writer.flush();
                 return "Account created! You may now login.";
 
             case "2":
                 Seller seller = new Seller(email, password);
-                allSellers.add(seller);
-                allUsers.add(seller);
+                if(!allUsers.contains(seller) && !allSellers.contains(seller)) {
+                    allSellers.add(seller);
+                    allUsers.add(seller);
+                }
                 writer.println("Account created! You may now login.");
                 writer.flush();
                 return "Account created! You may now login.";
@@ -787,7 +798,7 @@ public class Processor {
     //loads files that have saved data from previous uses
     public static void loadFiles(File fileOne, File fileTwo, File fileThree) throws
             IOException {
-
+        synchronized (obj){
         try (BufferedReader bfr = new BufferedReader(new FileReader(fileOne))) {
             String line = bfr.readLine();
             while (line != null) {
@@ -864,9 +875,13 @@ public class Processor {
                     if (storesExist) {
                         seller.setStores(stores);
                     }
-
-                    allSellers.add(seller);
-                    allUsers.add(seller);
+                    if (!allUsers.contains(seller) && !allSellers.contains(seller)) {
+                        allSellers.add(seller);
+                        allUsers.add(seller);
+                    }
+                    for(Users i: allUsers){
+                        System.out.println(i.getEmail());
+                    }
 
                 } else {
                     Customer customer = new Customer(email, password);
@@ -882,8 +897,10 @@ public class Processor {
                     customer.setProductsPurchased(purchased);
 
                     line = bfr.readLine();
-                    allCustomers.add(customer);
-                    allUsers.add(customer);
+                    if (!allUsers.contains(customer) && !allCustomers.contains(customer)) {
+                        allCustomers.add(customer);
+                        allUsers.add(customer);
+                    }
                 }
                 line = bfr.readLine();
             }
@@ -909,7 +926,9 @@ public class Processor {
 
                 Store store = new Store(storeName, prodList, storeSeller);
 
-                allStores.add(store);
+                if (!allStores.contains(store)) {
+                    allStores.add(store);
+                }
                 line = bfr2.readLine();
             }
         }
@@ -920,10 +939,13 @@ public class Processor {
                 String[] messageInfo = line.split(",");
                 Message message = new Message(messageInfo[3], messageInfo[1], messageInfo[2], messageInfo[0],
                         Boolean.parseBoolean(messageInfo[4]));
-                allMessages.add(message);
+                if (!allMessages.contains(message)) {
+                    allMessages.add(message);
+                }
                 line = bfr3.readLine();
             }
         }
+    }
     }
 
     //imports text from a file to be used in a message
@@ -969,8 +991,10 @@ public class Processor {
                     File f2 = new File("store_info.txt");
                     File f3 = new File("message_info.txt");
                     if (f1.exists() && f2.exists() && f3.exists()) {
-                        fileCheck = true;
-                        loadFiles(f1, f2, f3);
+                        if(!filesRead) {
+                            filesRead = true;
+                            loadFiles(f1, f2, f3);
+                        }
                     }
                     boolean exit = false;
                     Scanner scanner = new Scanner(System.in);
