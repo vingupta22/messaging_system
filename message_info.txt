@@ -1,2 +1,0 @@
-12:22:04.829949,ihanda,vinay,hello vinay test,true
-12:22:26.176621,vinay,ihanda,hello ihanda,true

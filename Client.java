@@ -1,5 +1,6 @@
 package messaging_system;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,11 +30,16 @@ public class Client {
         exit = false;
         Scanner scanner = new Scanner(System.in);
         int size = 0;
-        // Main menu switch case
 
+        // Main menu switch case
         do {
-            System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
-            String menuOption = scanner.nextLine();
+            //System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
+            // Drop down
+            String[] options = {"1", "2", "3"};
+            String menuOption = (String) JOptionPane.showInputDialog(null,
+                    "Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit",
+                    "Messaging System", JOptionPane.QUESTION_MESSAGE, null, options,
+                    options[0]);
             // sending first choice 1-3
             writer.println(menuOption);
             writer.flush();
@@ -42,25 +48,32 @@ public class Client {
 
 
             switch (menuOption) {
-
+                // dropdown
                 case "1":
                     // user logs in
-                    System.out.println("Enter your email:");
-                    email = scanner.nextLine();
+                    // System.out.println("Enter your email:");
+                    email = JOptionPane.showInputDialog(null, "Enter your email: ",
+                            "Messaging System",
+                            JOptionPane.QUESTION_MESSAGE);
+                    // email = scanner.nextLine();
                     writer.println(email);
                     writer.flush();
-                    System.out.println("Enter your password:");
-                    password = scanner.nextLine();
+                    password = JOptionPane.showInputDialog(null, "Enter your password: ",
+                            "Messaging System",
+                            JOptionPane.QUESTION_MESSAGE);
+                    // System.out.println("Enter your password:");
+                    // password = scanner.nextLine();
                     writer.println(password);
                     writer.flush();
                     String logInResult = reader.readLine();
+                    JOptionPane.showMessageDialog(null, logInResult, "Messaging System", JOptionPane.PLAIN_MESSAGE);
                     System.out.println(logInResult);
                     if (logInResult.equals("Email or password is incorrect.")) {
                         break;
                     }
                     loggedIn = true;
 
-
+                    // Change to a long string and print in a JOption Message
                     int unreadSize = Integer.parseInt(reader.readLine());
                     String messageTitle = reader.readLine();
                     System.out.println(messageTitle);
@@ -73,8 +86,10 @@ public class Client {
 
                     do {
                         String userName = reader.readLine();
+                        // Change to a long string and print in a JOption Message
                         System.out.println(userName);
                         String sOrC = reader.readLine();
+                        // Change to a long string and print in a JOption Message
                         if (sOrC.equals("customer")) {
                             System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
                                     + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
@@ -98,6 +113,7 @@ public class Client {
                                 System.out.println(numMessages + " messages total");
                                 String msgs = "";
 
+                                // Change to a long string and print in a JOption Message
                                 for (int i = 0; i < numMessages; i++) {
                                     msgs = reader.readLine();
                                     System.out.println(msgs);
