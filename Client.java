@@ -1,5 +1,9 @@
 package messaging_system;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +16,16 @@ import java.util.*;
 public class Client {
     public static boolean loggedIn;
     public static boolean exit;
+    static BufferedReader reader = null;
+    static PrintWriter writer = null;
+    private static JFrame frame;
+    private static JPanel mainPanel;
+    private static CardLayout cardLayout;
 
     public static void main(String[] args) throws IOException {
         // Socket setup
         Socket socket = new Socket();
-        BufferedReader reader = null;
-        PrintWriter writer = null;
+
 
         try {
             socket = new Socket("localhost", 12345);
@@ -30,6 +38,69 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         int size = 0;
         // Main menu switch case
+
+        frame = new JFrame("Messaging System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(700, 400);
+
+        mainPanel = new JPanel();
+        cardLayout = new CardLayout();
+        mainPanel.setLayout(cardLayout);
+
+        // Create and add panels to the mainPanel
+        JPanel homeScreen = new JPanel();
+        JPanel loginScreen = new JPanel();
+        JPanel createScreen = new JPanel();
+        JPanel selectionScreen = new JPanel();
+        JPanel seeMsgScreen = new JPanel();
+        JPanel sendMsgScreen = new JPanel();
+        JPanel editAccntScreen = new JPanel();
+        JPanel hideScreen = new JPanel();
+        JPanel blockScreen = new JPanel();
+        JPanel statisticsScreen = new JPanel();
+        JPanel deleteMsgScreen = new JPanel();
+        JPanel editMsgScreen = new JPanel();
+        JPanel censorScreen = new JPanel();
+        JPanel buyScreen = new JPanel();
+        JPanel storeScreen = new JPanel();
+
+        mainPanel.add(homeScreen, "Home");
+        mainPanel.add(loginScreen, "Login");
+        mainPanel.add(createScreen, "Create Account");
+        mainPanel.add(selectionScreen, "Selection Screen");
+        mainPanel.add(seeMsgScreen, "See Messages");
+        mainPanel.add(sendMsgScreen, "Send Messages");
+        mainPanel.add(editAccntScreen, "Edit Account");
+        mainPanel.add(hideScreen, "Hide Account");
+        mainPanel.add(blockScreen, "Block Account");
+        mainPanel.add(statisticsScreen, "Statistics");
+        mainPanel.add(deleteMsgScreen, "Delete Message");
+        mainPanel.add(editMsgScreen, "Edit Message");
+        mainPanel.add(censorScreen, "Censor Message");
+        mainPanel.add(buyScreen, "Buy Product");
+        mainPanel.add(storeScreen, "Create Store");
+
+        // Create buttons to switch between panels
+        JButton login = new JButton("Login");
+        JButton createAccount = new JButton("Create Account");
+        JButton leave = new JButton("Exit");
+
+        homeScreen.add(login);
+        homeScreen.add(createAccount);
+        homeScreen.add(leave);
+
+        login.addActionListener(e -> cardLayout.show(mainPanel, "Login")); //switches to login panel
+        createAccount.addActionListener(e -> cardLayout.show(mainPanel, "Create Account")); //switches to create  panel
+        leave.addActionListener(e -> frame.dispose()); //closes program if exit button clicked
+
+
+        //makes each separate panel
+        makeLoginScreen(loginScreen);
+        // Add mainPanel and buttonPanel to the frame
+        frame.add(mainPanel, BorderLayout.CENTER);
+
+        frame.setVisible(true);
+
 
         do {
             System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
@@ -426,5 +497,50 @@ public class Client {
                     break;
             }
         } while (!exit);
+
+
+    }
+
+    public static void makeLoginScreen(JPanel panel) {
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel userPanel = new JPanel();
+        JPanel passPanel = new JPanel();
+        JPanel bottom = new JPanel();
+        panel.add(userPanel);
+        panel.add(passPanel);
+        panel.add(bottom);
+        JLabel userLabel = new JLabel("Username:");
+
+        JTextField username = new JTextField(20);
+        userPanel.add(userLabel);
+        userPanel.add(username);
+        JLabel passLabel = new JLabel("Password:");
+        JTextField password = new JTextField(20);
+        passPanel.add(passLabel);
+        passPanel.add(password);
+
+        JButton login = new JButton("Login");
+        bottom.add(login);
+        login.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                //Check if username and password is valid, if not show error, feel free to switch order
+                if (true) {
+                    cardLayout.show(mainPanel, "Selection Screen");
+                } else if (password.getText().isEmpty() || username.getText().isEmpty()) { //if either box is null
+                    JOptionPane.showMessageDialog(null, "Username/Password cannot be blank!",
+                            "Messaging System", JOptionPane.ERROR_MESSAGE);
+                } else { //incorrect username or password
+                    JOptionPane.showMessageDialog(null, "Incorrect username/password!",
+                            "Messaging System", JOptionPane.ERROR_MESSAGE);
+                }
+
+                writer.write("test, normally username and password would be written here");
+                writer.flush();
+                System.out.println("Written!");
+
+
+            }
+        });
     }
 }

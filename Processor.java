@@ -54,7 +54,10 @@ public class Processor {
         do {
             saveAll(); //Saves all data everytime outer-main menu is loaded
             //System.out.println("Main Menu. Please choose an option.\n1.Login\n2.Create Account\n3.Exit");
+            System.out.println("about to read");
             String menuChoice = reader.readLine();
+            System.out.println(menuChoice);
+            System.out.println("Read!");
             switch (menuChoice) {
                 case "1":
                     Users user = login();
