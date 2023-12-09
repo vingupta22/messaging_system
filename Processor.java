@@ -110,7 +110,8 @@ public class Processor {
                                         allCustomers.remove(user);
                                     }
                                     allUsers.remove(user);
-                                    writer.println("User " + user.getEmail() + " has been deleted");
+                                    //writer.println("User " + user.getEmail() + " has been deleted");
+                                    writer.println("Deleted!");
                                     writer.flush();
                                     user.deleteAccnt();
                                     loggedIn = false;
@@ -759,7 +760,7 @@ public class Processor {
         String name = reader.readLine();
         File f = new File("messageHistory.csv");
         BufferedWriter brw = new BufferedWriter(new FileWriter("messageHistory.csv"));
-        if (name.isEmpty()) {
+        if (name.equalsIgnoreCase("All.")) {
             for (Message allMessage : allMessages) {
                 if (allMessage.getRecipientID().equals(user.email) || allMessage.getSenderID().equals(user.email)) {
                     String content = allMessage.getContent();

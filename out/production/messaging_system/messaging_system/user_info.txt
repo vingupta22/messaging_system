@@ -7,7 +7,7 @@ Sent
 14:33:44.341945400,vinay,nandini,hi,false
 Received
 Stores
-
+drinks,vinay,;water,milk,juice,soda;
 Done
 Customer
 nandini
@@ -17,6 +17,16 @@ pande
 Sent
 Received
 14:33:44.341945400,vinay,nandini,hi,true
+Purchased
+
+Done
+Customer
+red
+blue
+;;
+||
+Sent
+Received
 Purchased
 
 Done

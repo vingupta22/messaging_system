@@ -42,6 +42,7 @@ public class Client {
     static JPanel censorScreen = new JPanel();
     static JPanel buyScreen = new JPanel();
     static JPanel storeScreen = new JPanel();
+    static JPanel csvScreen = new JPanel();
 
 
     public static void main(String[] args) throws IOException {
@@ -89,6 +90,7 @@ public class Client {
         mainPanel.add(censorScreen, "Censor Message");
         mainPanel.add(buyScreen, "Buy Product");
         mainPanel.add(storeScreen, "Create Store");
+        mainPanel.add(csvScreen, "Export CSV");
 
         // Create buttons to switch between panels
         JButton login = new JButton("Login");
@@ -161,16 +163,16 @@ public class Client {
         //makeCreateScreen(createScreen);
         //makeSelectionScreen(selectionScreen);
         //makeSeeMsgScreen(seeMsgScreen);
-        makeSendMsgScreen(sendMsgScreen);
-        makeEditAccntScreen(editAccntScreen);
-        makeHideScreen(hideScreen);
+        //makeSendMsgScreen(sendMsgScreen);
+        //makeEditAccntScreen(editAccntScreen);
+        //makeHideScreen(hideScreen);
         //makeBlockScreen(blockScreen);
         //makeStatisticsScreen(statisticsScreen);
-        makeDeleteMsgScreen(deleteMsgScreen);
-        makeEditMsgScreen(editMsgScreen);
-        makeCensorScreen(censorScreen);
-        makeBuyScreen(buyScreen);
-        makeStoreScreen(storeScreen);
+        //makeDeleteMsgScreen(deleteMsgScreen);
+        //makeEditMsgScreen(editMsgScreen);
+        //makeCensorScreen(censorScreen);
+        //makeBuyScreen(buyScreen);
+        //makeStoreScreen(storeScreen);
 
         frame.add(mainPanel, BorderLayout.CENTER);
 
@@ -759,6 +761,7 @@ public class Client {
 
                 writer.println("2");
                 writer.flush();
+                makeSendMsgScreen(sendMsgScreen);
                 cardLayout.show(mainPanel, "Send Messages");
 
 
@@ -774,6 +777,7 @@ public class Client {
 
                 writer.println("3");
                 writer.flush();
+                makeEditAccntScreen(editAccntScreen);
                 cardLayout.show(mainPanel, "Edit Account");
 
 
@@ -788,6 +792,14 @@ public class Client {
 
                 writer.println("4");
                 writer.flush();
+                try {
+                    if (reader.readLine().equalsIgnoreCase("Deleted!")) {
+                        JOptionPane.showMessageDialog(null, "Your account has been deleted.", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
 
             }
@@ -802,6 +814,7 @@ public class Client {
 
                 writer.println("5");
                 writer.flush();
+                makeHideScreen(hideScreen);
                 cardLayout.show(mainPanel, "Hide Account");
 
 
@@ -864,6 +877,11 @@ public class Client {
 
                 writer.println("9");
                 writer.flush();
+                try {
+                    makeEditMsgScreen(editMsgScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 cardLayout.show(mainPanel, "Edit Message");
 
 
@@ -877,6 +895,11 @@ public class Client {
 
                 writer.println("10");
                 writer.flush();
+                try {
+                    makeDeleteMsgScreen(deleteMsgScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 cardLayout.show(mainPanel, "Delete Message");
 
 
@@ -891,6 +914,7 @@ public class Client {
 
                 writer.println("13");
                 writer.flush();
+                makeCensorScreen(censorScreen);
                 cardLayout.show(mainPanel, "Censor Message");
 
 
@@ -904,6 +928,13 @@ public class Client {
 
                 writer.println("11");
                 writer.flush();
+                try {
+                    makeCSVScreen(csvScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                cardLayout.show(mainPanel, "Export CSV");
+                //new panel will need to be made for csv export
 
 
             }
@@ -926,6 +957,7 @@ public class Client {
 
                     writer.println("12");
                     writer.flush();
+                    makeBuyScreen(buyScreen);
                     cardLayout.show(mainPanel, "Buy Product");
 
                 }
@@ -939,6 +971,7 @@ public class Client {
 
                     writer.println("12");
                     writer.flush();
+                    makeStoreScreen(storeScreen);
                     cardLayout.show(mainPanel, "Create Store");
 
                 }
@@ -1565,6 +1598,49 @@ public class Client {
 
         panel.add(create);
 
+    }
+
+    public static void makeCSVScreen(JPanel panel) throws IOException {
+        panel.removeAll();
+        panel.setLayout(new GridLayout(2, 0));
+        JLabel recLabel = new JLabel("Select the convo to export:");
+        JComboBox<String> convos = new JComboBox();
+
+        JPanel top = new JPanel();
+        top.setLayout(new GridLayout(0, 2));
+        panel.add(top);
+
+        //need a for loop adding all messages the user has sent
+       /* for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+            convos.addItem("All.")
+            convos.addItem(reader.readLine());
+        } */
+
+
+        top.add(recLabel);
+        top.add(convos);
+
+        panel.add(top);
+
+        JButton export = new JButton("Export");
+        export.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                writer.println(String.valueOf(convos.getSelectedItem()));
+
+                writer.flush();
+                JOptionPane.showMessageDialog(null, "Exported!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+                try {
+
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                cardLayout.show(mainPanel, "Selection Screen");
+            }
+        });
+
+        panel.add(export);
     }
 
 

@@ -1,0 +1,1 @@
+drinks,vinay,;water,milk,juice,soda;
