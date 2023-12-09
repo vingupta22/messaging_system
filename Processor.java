@@ -57,7 +57,11 @@ public class Processor {
             System.out.println("about to read");
             String menuChoice = reader.readLine();
             System.out.println(menuChoice);
-            System.out.println("Read!");
+            /*System.out.println("Read, will write now!");
+            writer.println("hey");
+            writer.flush();
+            System.out.println("read!");*/
+
             switch (menuChoice) {
                 case "1":
                     Users user = login();
@@ -72,12 +76,12 @@ public class Processor {
                             writer.flush();
                             //switch case for menu
                             if (user instanceof Seller) {
-                                writer.println("seller");
-                                writer.flush();
+                                //writer.println("seller");
+                                //writer.flush();
                                 //Prints seller menu
                             } else {
-                                writer.println("customer");
-                                writer.flush();
+                                //writer.println("customer");
+                                //writer.flush();
                                 //Prints customer menu
                             }
 
@@ -210,6 +214,7 @@ public class Processor {
         } while (!exit);
     }
 
+
     //prints message history depending on the user, includes disappearing and censor functionality
     public static void printMsgs(Users user) {
         int numMes = user.getMessagesReceived().size() + user.getMessagesSent().size();
@@ -287,13 +292,25 @@ public class Processor {
 
     //Method for login functionality
     public static Users login() throws IOException {
+        //System.out.println("yo");
         String email = reader.readLine();
         String password = reader.readLine();
         for (Users allUser : allUsers) {
             if (allUser.getEmail().equals(email)) {
                 if (allUser.getPassword().equals(password)) {
                     writer.println("Logged in!");
+                    System.out.println("Written hahahah");
                     writer.flush();
+                    if (allUser instanceof Seller) {
+                        writer.println("seller");
+                        writer.flush();
+                        System.out.println("seller@");
+                    } else {
+                        writer.println("customer");
+                        writer.flush();
+                    }
+
+
                     return allUser;
                 }
             }
@@ -306,7 +323,7 @@ public class Processor {
     //Handles all functionality for sending a message
     public static void sendMessage(Users user) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        if (user instanceof Seller) {
+        /*if (user instanceof Seller) {
             writer.println("seller");
             writer.flush();
 //            System.out.println("1. View a list of people to message.\n2. Message a specific user.");
@@ -314,7 +331,7 @@ public class Processor {
             writer.println("customer");
             writer.flush();
 //            System.out.println("1. View a list of stores to message.\n2. Message a specific seller.");
-        }
+        } */
         String choice = reader.readLine();
         switch (choice) {
             case "1":
@@ -645,6 +662,7 @@ public class Processor {
         //System.out.println("How many items will you be selling?");
         try {
             int count = Integer.parseInt(reader.readLine());
+            //int count = 1;
             ArrayList<String> products = new ArrayList<String>();
             for (int i = 1; i <= count; i++) {
                 //System.out.println("Name of product " + i + "?");
@@ -667,6 +685,7 @@ public class Processor {
         Scanner scanner = new Scanner(System.in);
         //System.out.println("Enter your email:");
         String email = reader.readLine();
+        System.out.println(email);
         for (Users user : allUsers) {
             if (user.getEmail().equalsIgnoreCase(email)) {
                 writer.println("Account with that email already exists.");
@@ -681,8 +700,10 @@ public class Processor {
 
         // System.out.println("Enter your password:");
         String password = reader.readLine();
+        System.out.println(password);
         // System.out.println("Choose type of account to create:\n1.Customer\n2.Seller\n");
         String accountChoice = reader.readLine();
+        System.out.println(accountChoice);
         switch (accountChoice) {
             case "1":
                 Customer customer = new Customer(email, password);
