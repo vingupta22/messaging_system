@@ -96,6 +96,7 @@ public class Client {
         homeScreen.add(createAccount);
         homeScreen.add(leave);
 
+
         //login.addActionListener(e -> cardLayout.show(mainPanel, "Login")); //switches to login panel
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -928,8 +929,8 @@ public class Client {
 
 
     public static void makeSeeMsgScreen(JPanel panel) throws IOException {
-        writer.write(1);
-        writer.flush();
+        //writer.write("1");
+        //writer.flush();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JLabel messages = new JLabel("Messages:\n");
