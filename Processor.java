@@ -576,9 +576,11 @@ public class Processor {
         }
         //System.out.println("\nEnter the number of the message you would like to edit:");
         try {
-            Message message = msgsSent.get(Integer.parseInt(reader.readLine()) - 1);
-            writer.println("entered try.");
-            writer.flush();
+            //Message message = msgsSent.get(Integer.parseInt(reader.readLine()) - 1);
+            //since combo box starts counting from 0
+            Message message = msgsSent.get(Integer.parseInt(reader.readLine()));
+            //writer.println("entered try.");
+            //writer.flush();
             String content = message.getContent();
             //System.out.println("What would you like the message to say now.");
             String update = reader.readLine();
@@ -609,7 +611,7 @@ public class Processor {
             }
             //System.out.println("\nEnter the number of the message you would like to delete:");
             try {
-                Message message = msgsSent.get(Integer.parseInt(reader.readLine()) - 1);
+                Message message = msgsSent.get(Integer.parseInt(reader.readLine()));
                 user.deleteMessage(message);
                 allMessages.remove(message);
                 writer.println("Message deleted.");

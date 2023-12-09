@@ -1041,6 +1041,7 @@ public class Client {
                 writer.println("2");
                 writer.flush();
                 writer.println(recp.getText());
+                writer.flush();
                 try {
                     if (reader.readLine().equalsIgnoreCase("You cannot message that customer.") || reader.readLine().equalsIgnoreCase("You cannot message that seller.")) {
                         JOptionPane.showMessageDialog(null, "You cannot message that person!",
@@ -1295,7 +1296,7 @@ public class Client {
 
     }
 
-    public static void makeDeleteMsgScreen(JPanel panel) {
+    public static void makeDeleteMsgScreen(JPanel panel) throws IOException {
         panel.removeAll();
         panel.setLayout(new GridLayout(2, 0));
         JLabel recLabel = new JLabel("Delete Which Message");
@@ -1308,6 +1309,13 @@ public class Client {
         //need a for loop adding all messages the user has sent
         users.addItem("Message 1");
         users.addItem("Message 2");
+        /*var size = reader.readLine();
+        for(var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+            if (reader.readLine().equalsIgnoreCase("No message history.")) {
+                break;
+            }
+            users.addItem(reader.readLine());
+        } */
 
         top.add(recLabel);
         top.add(users);
@@ -1317,19 +1325,23 @@ public class Client {
         JButton delete = new JButton("Delete");
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+                writer.println(String.valueOf(users.getSelectedIndex()));
+                writer.flush();
                 try {
-                    cardLayout.show(mainPanel, "Selection Screen");
+
                     makeSelectionScreen(selectionScreen);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                cardLayout.show(mainPanel, "Selection Screen");
             }
         });
 
         panel.add(delete);
     }
 
-    public static void makeEditMsgScreen(JPanel panel) {
+    public static void makeEditMsgScreen(JPanel panel) throws IOException {
         panel.removeAll();
         panel.setLayout(new GridLayout(4, 1));
         JLabel recLabel = new JLabel("Edit Which Message");
@@ -1342,6 +1354,9 @@ public class Client {
         //need a for loop adding all messages the user has sent
         users.addItem("Message 1");
         users.addItem("Message 2");
+        /*for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+            users.addItem(reader.readLine());
+        }*/
 
         top.add(recLabel);
         top.add(users);
@@ -1356,9 +1371,15 @@ public class Client {
         top.add(label);
         top.add(message);
 
-        JButton delete = new JButton("Delete");
+        JButton delete = new JButton("Edit");
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+                writer.println(String.valueOf(users.getSelectedIndex()));
+                writer.flush();
+                writer.println(message.getText());
+                writer.flush();
+
                 cardLayout.show(mainPanel, "Selection Screen");
                 try {
                     makeSelectionScreen(selectionScreen);
@@ -1378,7 +1399,7 @@ public class Client {
         JLabel censorLabel = new JLabel("Text You Want Censored:");
         JTextField censorText = new JTextField();
         JLabel replacement = new JLabel("Replacement Text:");
-        JTextField replacementText = new JTextField("*****");
+        JTextField replacementText = new JTextField("****");
         JPanel top = new JPanel();
         top.setLayout(new GridLayout(0, 2));
         panel.add(top);
@@ -1391,12 +1412,24 @@ public class Client {
         censor.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Selection Screen");
+
+                writer.println(censor.getText());
+                writer.flush();
+                if (replacementText.getText().equals("****")) {
+                    writer.println("1");
+                    writer.flush();
+                } else {
+                    writer.println("2");
+                    writer.flush();
+                    writer.println(replacementText.getText());
+                    writer.flush();
+                }
                 try {
                     makeSelectionScreen(selectionScreen);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                cardLayout.show(mainPanel, "Selection Screen");
 
             }
         });
