@@ -76,33 +76,38 @@ public class Client {
                     // Change to a long string and print in a JOption Message
                     int unreadSize = Integer.parseInt(reader.readLine());
                     String messageTitle = reader.readLine();
-                    System.out.println(messageTitle);
+                    String ret = "";
+                    ret += (messageTitle);
                     if (!messageTitle.equals("No new Messages!")) {
                         for (int i = 0; i < unreadSize; i++) {
-                            System.out.println(reader.readLine());
+                            ret += (reader.readLine()) + "\n";
                         }
                     }
-
-
+                    JOptionPane.showMessageDialog(null, ret, "Messaging System",
+                            JOptionPane.PLAIN_MESSAGE);
                     do {
+                        String ret2 = "";
                         String userName = reader.readLine();
                         // Change to a long string and print in a JOption Message
-                        System.out.println(userName);
+                        ret2 += (userName);
                         String sOrC = reader.readLine();
                         // Change to a long string and print in a JOption Message
                         if (sOrC.equals("customer")) {
-                            System.out.println("1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
+                            ret2 += ("\n1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
                                     + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
                                     "9.Edit Message\n10.Delete Message\n11.Export CSV\n" +
                                     "12.Buy products\n13.Censor Texts");
                         } else {
-                            System.out.println("1.See messages\n2.Send message\n3.Edit Account\n" +
+                            ret2 += ("\n1.See messages\n2.Send message\n3.Edit Account\n" +
                                     "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                     "7.Get Statistics\n8.Logout\n"
                                     + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
                                     "Create Store\n13.Censor Texts");
                         }
-                        String choice = scanner.nextLine();
+                        String[] options2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+                        String choice = (String) JOptionPane.showInputDialog(null,
+                                ret2, "Messaging System", JOptionPane.QUESTION_MESSAGE, null, options2,
+                                options2[0]);
                         writer.println(choice);
                         writer.flush();
                         switch (choice) {
@@ -110,27 +115,37 @@ public class Client {
                             //See messages
                             case "1":
                                 int numMessages = Integer.parseInt(reader.readLine());
-                                System.out.println(numMessages + " messages total");
                                 String msgs = "";
-
+                                msgs += (numMessages + " messages total\n");
                                 // Change to a long string and print in a JOption Message
                                 for (int i = 0; i < numMessages; i++) {
-                                    msgs = reader.readLine();
-                                    System.out.println(msgs);
+                                    msgs += reader.readLine() + "\n";
                                 }
-
+                                JOptionPane.showMessageDialog(null, msgs, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 break;
 
 
                             // send messages
                             case "2":
                                 sOrC = reader.readLine();
+                                String[] msgOption = {"1", "2"};
+                                String messageChoice = "";
                                 if (sOrC.equals("seller")) {
-                                    System.out.println("1. View a list of people to message.\n2. Message a specific user.");
+                                    String question = ("1. View a list of people to message.\n2. Message a specific " +
+                                            "user.");
+                                    messageChoice = (String) JOptionPane.showInputDialog(null,
+                                            question, "Messaging System", JOptionPane.QUESTION_MESSAGE, null, msgOption,
+                                            msgOption[0]);
+
                                 } else {
-                                    System.out.println("1. View a list of stores to message.\n2. Message a specific seller.");
+                                    String question = ("1. View a list of people to message.\n2. Message a specific " +
+                                            "user.");
+                                    messageChoice = (String) JOptionPane.showInputDialog(null,
+                                            question, "Messaging System", JOptionPane.QUESTION_MESSAGE, null,
+                                            msgOption, msgOption[0]);
                                 }
-                                String messageChoice = scanner.nextLine();
+
                                 writer.println(messageChoice);
                                 writer.flush();
                                 switch (messageChoice) {
@@ -138,119 +153,154 @@ public class Client {
                                         size = Integer.parseInt(reader.readLine());
                                         if (size == 0) {
                                             if (sOrC.equals("customer")) {
-                                                System.out.println("There are no stores!");
+                                                JOptionPane.showMessageDialog(null, "There are no stores!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                             } else {
-                                                System.out.println("There are no customers right now!");
+                                                JOptionPane.showMessageDialog(null, "There are no customers right " +
+                                                        "now!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+
                                             }
                                         }
+                                        String printNames = "";
                                         for (int i = 0; i < size; i++) {
                                             String userNames = reader.readLine();
-                                            if(!userNames.equals("hidden")) {
-                                                System.out.println(userNames);
+                                            if (!userNames.equals("hidden")) {
+                                                printNames += (userNames) + "\n";
                                             }
                                         }
+                                        JOptionPane.showMessageDialog(null, printNames,
+                                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                                     case "2":
-                                        System.out.println("Who would you like to message?");
-                                        String recipient = scanner.nextLine();
+                                        String recipient = JOptionPane.showInputDialog(null, "Who would you like to " +
+                                                        "message?",
+                                                "Messaging System", JOptionPane.QUESTION_MESSAGE);
                                         writer.println(recipient);
                                         writer.flush();
                                         String blockMessage = reader.readLine();
                                         if (!blockMessage.isEmpty()) {
                                             System.out.println(blockMessage);
+                                            JOptionPane.showMessageDialog(null, blockMessage, "Messaging System",
+                                                    JOptionPane.PLAIN_MESSAGE);
                                             break;
                                         }
                                         String nullCheck = reader.readLine();
                                         if (!nullCheck.isEmpty()) {
-                                            System.out.println(nullCheck);
+                                            JOptionPane.showMessageDialog(null, nullCheck, "Messaging System",
+                                                    JOptionPane.PLAIN_MESSAGE);
                                             break;
                                         }
-                                        System.out.println("How would you like to send the message?\n1. Type the message\n2. " +
+                                        String q = ("How would you like to send the message?\n1. Type the message\n2." +
+                                                " " +
                                                 "Import a text file");
-                                        String choice2 = scanner.nextLine();
+                                        //here
+                                        String[] choices = {"1", "2"};
+                                        String choice2 = (String) JOptionPane.showInputDialog(null,
+                                                q, "Messaging System", JOptionPane.QUESTION_MESSAGE, null,
+                                                choices, choices[0]);
                                         writer.println(choice2);
                                         writer.flush();
                                         switch (choice2) {
                                             case "1":
-                                                System.out.println("Do you want your message to disappear after it's read? (Yes/No)");
-                                                String disappear = scanner.nextLine();
+                                                String[] array = {"yes", "no"};
+                                                String prompt = ("Do you want your message to disappear after it's " +
+                                                        "read? " +
+                                                        "(Yes/No)");
+                                                String disappear = (String) JOptionPane.showInputDialog(null,
+                                                        prompt, "Messaging System", JOptionPane.QUESTION_MESSAGE, null,
+                                                        array, array[0]);
                                                 writer.println(disappear);
                                                 writer.flush();
-                                                System.out.println("What is your message?");
-                                                String message = scanner.nextLine();
+                                                String message = JOptionPane.showInputDialog(null,
+                                                        "What is your message?", "Messaging System",
+                                                        JOptionPane.QUESTION_MESSAGE);
                                                 writer.println(message);
                                                 writer.flush();
-                                                System.out.println(reader.readLine());
+                                                JOptionPane.showMessageDialog(null, reader.readLine(), "Messaging System",
+                                                        JOptionPane.PLAIN_MESSAGE);
                                                 break;
                                             case "2":
-                                                System.out.println("What is the text file you would like to import?");
-                                                String file = scanner.nextLine();
+                                                String file = JOptionPane.showInputDialog(null,
+                                                        "What is the text file you would like to import?",
+                                                        "Messaging System", JOptionPane.QUESTION_MESSAGE);
                                                 writer.println(file);
                                                 writer.flush();
                                                 break;
                                             default:
-                                                System.out.println("Invalid input.");
+                                                JOptionPane.showMessageDialog(null,"Invalid input.", "Messaging System",
+                                                        JOptionPane.PLAIN_MESSAGE);
                                                 break;
-
                                         }
                                         break;
                                     default:
-                                        System.out.println("Invalid input.");
+                                        JOptionPane.showMessageDialog(null,"Invalid input.", "Messaging System",
+                                                JOptionPane.PLAIN_MESSAGE);
                                         break;
                                 }
 
                                 break;
                             case "3":
-                                System.out.println("Enter updated email:");
-                                email = scanner.nextLine();
+                                email = JOptionPane.showInputDialog(null,
+                                        "Enter updated email:", "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(email);
                                 writer.flush();
                                 String existMessage = reader.readLine();
-                                if(!existMessage.equals("0")){
-                                    System.out.println(existMessage);
+                                if (!existMessage.equals("0")) {
+                                    JOptionPane.showMessageDialog(null,existMessage, "Messaging System",
+                                            JOptionPane.PLAIN_MESSAGE);
                                     break;
                                 }
-                                System.out.println("Enter updated password:");
-                                password = scanner.nextLine();
+                                password = JOptionPane.showInputDialog(null,
+                                        "Enter updated password:", "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(password);
                                 writer.flush();
                                 break;
                             case "4":
                                 String deleteMessage = reader.readLine();
-                                System.out.println(deleteMessage);
+                                JOptionPane.showMessageDialog(null, deleteMessage, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 loggedIn = false;
                                 break;
                             case "5":
                                 size = Integer.parseInt(reader.readLine());
+                                String out = "";
                                 for (int i = 0; i < size; i++) {
                                     String userNames = reader.readLine();
-                                    if(!userNames.equals("hidden")) {
-                                        System.out.println(userNames);
+                                    if (!userNames.equals("hidden")) {
+                                        out += (userNames) + "\n";
                                     }
                                 }
-                                System.out.println("Enter user you would like to hide from:");
-                                String hidden = scanner.nextLine();
+
+                                out += ("\nEnter user you would like to hide from:");
+                                String hidden = JOptionPane.showInputDialog(null,
+                                        out, "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(hidden);
                                 writer.flush();
                                 String hiddenMessage = reader.readLine();
-                                System.out.println(hiddenMessage);
+                                JOptionPane.showMessageDialog(null, hiddenMessage, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 break;
                             case "6":
                                 // block users
                                 size = Integer.parseInt(reader.readLine());
+                                String outBlock = "";
                                 for (int i = 0; i < size; i++) {
                                     String userNames = reader.readLine();
-                                    if(!userNames.equals("hidden")) {
-                                        System.out.println(userNames);
+                                    if (!userNames.equals("hidden")) {
+                                        outBlock += (userNames) + "\n";
                                     }
                                 }
-                                System.out.println("Enter user you would like to block:");
-                                String block = scanner.nextLine();
+                                outBlock += ("Enter user you would like to block:\n");
+                                String block = JOptionPane.showInputDialog(null,
+                                        outBlock, "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(block);
                                 writer.flush();
                                 String blockMessage = reader.readLine();
-                                System.out.println(blockMessage);
-
+                                JOptionPane.showMessageDialog(null, blockMessage, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 break;
                             case "7":
                                 // get stats
