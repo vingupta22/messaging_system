@@ -264,7 +264,7 @@ public class Client {
                                 break;
                             case "5":
                                 size = Integer.parseInt(reader.readLine());
-                                String out = "";
+                                String out = "Users:\n";
                                 for (int i = 0; i < size; i++) {
                                     String userNames = reader.readLine();
                                     if (!userNames.equals("hidden")) {
@@ -285,7 +285,7 @@ public class Client {
                             case "6":
                                 // block users
                                 size = Integer.parseInt(reader.readLine());
-                                String outBlock = "";
+                                String outBlock = "Users:\n";
                                 for (int i = 0; i < size; i++) {
                                     String userNames = reader.readLine();
                                     if (!userNames.equals("hidden")) {
@@ -304,22 +304,28 @@ public class Client {
                                 break;
                             case "7":
                                 // get stats
-                                System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
-                                String sort = scanner.nextLine();
+                                String[] choices = {"1","2"};
+                                String sort = (String) JOptionPane.showInputDialog(null,
+                                        "Would you like to sort your data?\n1. Yes\n2. No",
+                                        "Messaging System", JOptionPane.QUESTION_MESSAGE, null,
+                                        choices, choices[0]);
                                 writer.println(sort);
                                 writer.flush();
-
+                                String stats = "";
                                 int sizeData = Integer.parseInt(reader.readLine());
                                 for (int i = 0; i < sizeData; i++) {
-                                    System.out.println(reader.readLine());
+                                    stats += (reader.readLine()) + "\n";
                                 }
 
                                 if (sOrC.equalsIgnoreCase("customer")) {
                                     int size2 = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < size2; i++) {
-                                        System.out.println(reader.readLine());
+                                        //check if this should be a separate message
+                                        stats += (reader.readLine()) + "\n";
                                     }
                                 }
+                                JOptionPane.showMessageDialog(null, stats, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 break;
                             case "8":
                                 //logout
