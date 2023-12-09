@@ -219,7 +219,9 @@ public class Processor {
     public static void printMsgs(Users user) {
         int numMes = user.getMessagesReceived().size() + user.getMessagesSent().size();
         String numMessages = Integer.toString(numMes);
+        System.out.println("what gives?");
         writer.println(numMessages);
+        System.out.println(numMessages);
         writer.flush();
         if (user.haveCensor) {
             for (int i = 0; i < numMes; i++)
@@ -406,6 +408,7 @@ public class Processor {
                         allMessages.add(message);
                         writer.println(user.sendMessage(message, recipUser));
                         writer.flush();
+                        System.out.println("SENT");
                         for (var i = 0; i < user.messagesSent.size(); i++) {
                             if (user.messagesSent.get(i).isDisappearing()) {
                                 user.messagesSent.remove(i);
@@ -503,9 +506,11 @@ public class Processor {
 
     //handles the getStatistics functionality
     public static void getStatistics(Users user) throws IOException {
+        System.out.println("STARTING");
         Scanner scanner = new Scanner(System.in);
         //System.out.println("Would you like to sort your data?\n1. Yes\n2. No");
         boolean sort = reader.readLine().equals("1");
+        System.out.println(sort);
         ArrayList<String> data = new ArrayList<String>();
         ArrayList<String> data2 = new ArrayList<String>();
         if (user instanceof Seller) {
@@ -534,10 +539,12 @@ public class Processor {
             Collections.sort(data2);
         }
         writer.println(data.size());
+        System.out.println(data.size() + "weird");
         writer.flush();
         for (String x : data) {
             writer.println(x);
             writer.flush();
+            System.out.println(x);
         }
 
         if (user instanceof Customer) {

@@ -1,1 +1,0 @@
-fruit,one,;apples,bananas,grapes;drinks,one,;water,coke,lemonade;

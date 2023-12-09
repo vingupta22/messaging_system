@@ -23,8 +23,25 @@ public class Client {
     private static CardLayout cardLayout;
     static String accType = "hi";
     static String acountExists = "no";
-    static int numMessages = 0;
+    static int numMessages = 5;
     static String message = "one";
+
+
+    static JPanel homeScreen = new JPanel();
+    static JPanel loginScreen = new JPanel();
+    static JPanel createScreen = new JPanel();
+    static JPanel selectionScreen = new JPanel();
+    static JPanel seeMsgScreen = new JPanel();
+    static JPanel sendMsgScreen = new JPanel();
+    static JPanel editAccntScreen = new JPanel();
+    static JPanel hideScreen = new JPanel();
+    static JPanel blockScreen = new JPanel();
+    static JPanel statisticsScreen = new JPanel();
+    static JPanel deleteMsgScreen = new JPanel();
+    static JPanel editMsgScreen = new JPanel();
+    static JPanel censorScreen = new JPanel();
+    static JPanel buyScreen = new JPanel();
+    static JPanel storeScreen = new JPanel();
 
 
     public static void main(String[] args) throws IOException {
@@ -55,21 +72,7 @@ public class Client {
         mainPanel.setLayout(cardLayout);
 
         // Create and add panels to the mainPanel
-        JPanel homeScreen = new JPanel();
-        JPanel loginScreen = new JPanel();
-        JPanel createScreen = new JPanel();
-        JPanel selectionScreen = new JPanel();
-        JPanel seeMsgScreen = new JPanel();
-        JPanel sendMsgScreen = new JPanel();
-        JPanel editAccntScreen = new JPanel();
-        JPanel hideScreen = new JPanel();
-        JPanel blockScreen = new JPanel();
-        JPanel statisticsScreen = new JPanel();
-        JPanel deleteMsgScreen = new JPanel();
-        JPanel editMsgScreen = new JPanel();
-        JPanel censorScreen = new JPanel();
-        JPanel buyScreen = new JPanel();
-        JPanel storeScreen = new JPanel();
+
 
         mainPanel.add(homeScreen, "Home");
         mainPanel.add(loginScreen, "Login");
@@ -106,8 +109,9 @@ public class Client {
                 writer.flush();
                 System.out.println("Written!");
 
-
                 cardLayout.show(mainPanel, "Login");
+                makeLoginScreen(loginScreen);
+
 
 
 
@@ -122,6 +126,11 @@ public class Client {
                 writer.flush();
                 System.out.println("Written!");
                 cardLayout.show(mainPanel, "Create Account");
+                try {
+                    makeCreateScreen(createScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
 
             }
@@ -148,15 +157,15 @@ public class Client {
         //makes each separate panel
         //makeLoginScreen(loginScreen);
         // Add mainPanel and buttonPanel to the frame
-        makeLoginScreen(loginScreen);
-        makeCreateScreen(createScreen);
-        makeSelectionScreen(selectionScreen);
-        makeSeeMsgScreen(seeMsgScreen);
+        //makeLoginScreen(loginScreen);
+        //makeCreateScreen(createScreen);
+        //makeSelectionScreen(selectionScreen);
+        //makeSeeMsgScreen(seeMsgScreen);
         makeSendMsgScreen(sendMsgScreen);
         makeEditAccntScreen(editAccntScreen);
         makeHideScreen(hideScreen);
-        makeBlockScreen(blockScreen);
-        makeStatisticsScreen(statisticsScreen);
+        //makeBlockScreen(blockScreen);
+        //makeStatisticsScreen(statisticsScreen);
         makeDeleteMsgScreen(deleteMsgScreen);
         makeEditMsgScreen(editMsgScreen);
         makeCensorScreen(censorScreen);
@@ -565,6 +574,7 @@ public class Client {
     }
 
     public static void makeLoginScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JPanel userPanel = new JPanel();
         JPanel passPanel = new JPanel();
@@ -602,6 +612,7 @@ public class Client {
                             throw new RuntimeException(ex);
                         }
                         cardLayout.show(mainPanel, "Selection Screen");
+                        makeSelectionScreen(selectionScreen);
                     } else if (password.getText().isEmpty() || username.getText().isEmpty()) { //if either box is null
                         JOptionPane.showMessageDialog(null, "Username/Password cannot be blank!",
                                 "Messaging System", JOptionPane.ERROR_MESSAGE);
@@ -622,6 +633,7 @@ public class Client {
 
     }
     public static void makeCreateScreen(JPanel panel) throws IOException {
+        //panel.removeAll();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -704,6 +716,7 @@ public class Client {
 
     public static void makeSelectionScreen(JPanel panel) throws IOException {
         //String accType = null;
+        panel.removeAll();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         JLabel username = new JLabel("User: "/* + Add username here */);
 
@@ -727,6 +740,11 @@ public class Client {
                 writer.println("1");
                 writer.flush();
                 //System.out.println("Written!");
+                try {
+                    makeSeeMsgScreen(seeMsgScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 cardLayout.show(mainPanel, "See Messages");
 
 
@@ -799,6 +817,8 @@ public class Client {
                 writer.println("6");
                 writer.flush();
                 cardLayout.show(mainPanel, "Block Account");
+                makeBlockScreen(blockScreen);
+                //makeBlockScreen(blockScreen);
 
 
             }
@@ -813,6 +833,11 @@ public class Client {
 
                 writer.println("7");
                 writer.flush();
+                try {
+                    makeStatisticsScreen(statisticsScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 cardLayout.show(mainPanel, "Statistics");
 
 
@@ -931,32 +956,49 @@ public class Client {
     public static void makeSeeMsgScreen(JPanel panel) throws IOException {
         //writer.write("1");
         //writer.flush();
+        panel.removeAll();
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JLabel messages = new JLabel("Messages:\n");
         JTextArea messagesText = new JTextArea("");
         //I would include all messages in this label, just iterate through the list
 
-        //numMessages = Integer.parseInt(reader.readLine());
+
+        System.out.println(Integer.valueOf(reader.readLine()));
         String allMessages = "";
-        System.out.println(numMessages);
+        System.out.println(numMessages + " why");
         for (var i = 0; i < numMessages; i++) {
 
             //message = reader.readLine();
             allMessages.concat(message);
+            System.out.println("done");
 
 
         }
         messagesText.setText(allMessages);
+        System.out.println(messagesText.getText());
 
 
         JButton back = new JButton("Go Back");
-        back.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                cardLayout.show(mainPanel, "Selection Screen");
+
+            }
+        });
+        //back.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
         panel.add(messages);
         panel.add(back);
     }
 
     public static void makeSendMsgScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(4, 1));
         JLabel recLabel = new JLabel("Recipient:");
         JComboBox<String> recipients = new JComboBox();
@@ -1010,7 +1052,6 @@ public class Client {
                         JOptionPane.showMessageDialog(null, "Invalid recipient!",
                                 "Messaging System", JOptionPane.ERROR_MESSAGE);
                     } else {
-
                         if (message.getText().isEmpty()) {
                             writer.println("2");
                             writer.flush();
@@ -1023,10 +1064,10 @@ public class Client {
                                     JOptionPane.YES_NO_OPTION,
                                     JOptionPane.QUESTION_MESSAGE);
                             if (option == JOptionPane.YES_OPTION) {
-                                writer.write("yes");
+                                writer.println("yes");
                                 writer.flush();
                             } else {
-                                writer.write("no");
+                                writer.println("no");
                                 writer.flush();
                             }
                             writer.println(message.getText());
@@ -1049,6 +1090,7 @@ public class Client {
     }
 
     public static void makeEditAccntScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JPanel userPanel = new JPanel();
         JPanel passPanel = new JPanel();
@@ -1087,6 +1129,7 @@ public class Client {
                                 "Messaging System", JOptionPane.ERROR_MESSAGE);
                     } else { //if username is taken
                         cardLayout.show(mainPanel, "Selection Screen");
+                        makeSelectionScreen(selectionScreen);
 
                     }
                 } catch (IOException ex) {
@@ -1099,6 +1142,8 @@ public class Client {
     }
 
     public static void makeHideScreen(JPanel panel) {
+
+        panel.removeAll();
         panel.setLayout(new GridLayout(2, 0));
         JLabel recLabel = new JLabel("Hide from Which User:");
         JComboBox<String> users = new JComboBox();
@@ -1134,6 +1179,11 @@ public class Client {
                     throw new RuntimeException(ex);
                 }
                 cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
 
@@ -1143,6 +1193,7 @@ public class Client {
     }
     //hide and block very similar
     public static void makeBlockScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(2, 0));
         JLabel recLabel = new JLabel("Block Which User:");
         JComboBox<String> users = new JComboBox();
@@ -1182,6 +1233,11 @@ public class Client {
                     throw new RuntimeException(ex);
                 }
                 cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });
@@ -1189,7 +1245,8 @@ public class Client {
         panel.add(block);
     }
 
-    public static void makeStatisticsScreen(JPanel panel) {
+    public static void makeStatisticsScreen(JPanel panel) throws IOException {
+        panel.removeAll();
         panel.setLayout(new GridLayout(4, 0));
         JButton sort = new JButton("Sort");
         //sort the data based on the value of this toggle
@@ -1198,12 +1255,15 @@ public class Client {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (option == JOptionPane.YES_OPTION) {
-            writer.write("1");
+            writer.println("1");
             writer.flush();
         } else {
-            writer.write("2");
+            writer.println("2");
             writer.flush();
         }
+        String data = "";
+        System.out.println(reader.readLine() + "Where");
+
 
         //add the correct info to these two labels
         //for buyers, one label should be how many messages each store has received
@@ -1214,16 +1274,29 @@ public class Client {
                 "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam");
         JLabel data2 = new JLabel("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
                 "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam");
+        data1.setText(data);
         panel.add(data1);
-        panel.add(data2);
+       // panel.add(data2);
 
         JButton back = new JButton("Go Back");
-        back.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
+        //back.addActionListener(e -> );
         panel.add(back);
 
     }
 
     public static void makeDeleteMsgScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(2, 0));
         JLabel recLabel = new JLabel("Delete Which Message");
         JComboBox<String> users = new JComboBox();
@@ -1242,12 +1315,22 @@ public class Client {
         panel.add(top);
 
         JButton delete = new JButton("Delete");
-        delete.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        delete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cardLayout.show(mainPanel, "Selection Screen");
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
         panel.add(delete);
     }
 
     public static void makeEditMsgScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(4, 1));
         JLabel recLabel = new JLabel("Edit Which Message");
         JComboBox<String> users = new JComboBox();
@@ -1274,12 +1357,23 @@ public class Client {
         top.add(message);
 
         JButton delete = new JButton("Delete");
-        delete.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        delete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
 
         panel.add(delete);
     }
 
     public static void makeCensorScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(4,1));
         JLabel censorLabel = new JLabel("Text You Want Censored:");
         JTextField censorText = new JTextField();
@@ -1294,12 +1388,25 @@ public class Client {
         top.add(replacementText);
 
         JButton censor = new JButton("Censor");
-        censor.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        censor.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        });
+
         panel.add(censor);
 
     }
 
     public static void makeBuyScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(0, 1));
 
         JPanel top = new JPanel();
@@ -1336,12 +1443,26 @@ public class Client {
         panel.add(middle);
 
         JButton buy = new JButton("Buy");
-        buy.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        buy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                cardLayout.show(mainPanel, "Selection Screen");
+
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
         panel.add(buy);
 
     }
 
     public static void makeStoreScreen(JPanel panel) {
+        panel.removeAll();
         panel.setLayout(new GridLayout(0, 1));
 
         JPanel top = new JPanel();
@@ -1395,10 +1516,25 @@ public class Client {
         });
 
         JButton create = new JButton("Create");
-        create.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        create.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Selection Screen");
+                try {
+                    makeSelectionScreen(selectionScreen);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+
+            }
+        });
+
         panel.add(create);
 
     }
+
+
 
 
 

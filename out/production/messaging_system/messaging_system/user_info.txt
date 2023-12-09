@@ -1,54 +1,22 @@
-Customer
-ihanda
-123
-;;
-||
-Sent
-12:22:04.829949,ihanda,vinay,hello vinay test,true
-Received
-12:22:26.176621,vinay,ihanda,hello ihanda,true
-Purchased
-
-Done
 Seller
 vinay
 123
 ;;
 ||
 Sent
-12:22:26.176621,vinay,ihanda,hello ihanda,true
+14:33:44.341945400,vinay,nandini,hi,false
 Received
-12:22:04.829949,ihanda,vinay,hello vinay test,true
 Stores
 
 Done
-Seller
-one
-two
-;;
-||
-Sent
-Received
-Stores
-fruit,one,;apples,bananas,grapes;drinks,one,;water,coke,lemonade;
-Done
 Customer
-8
-3
-;;
-||
-Sent
-Received
-Purchased
-
-Done
-Customer
-pande
 nandini
+pande
 ;;
 ||
 Sent
 Received
+14:33:44.341945400,vinay,nandini,hi,true
 Purchased
 
 Done
