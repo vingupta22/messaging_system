@@ -1006,7 +1006,7 @@ public class Client {
         System.out.println(numMessages + " why");
         for (var i = 0; i < numMessages; i++) {
 
-            //message = reader.readLine();
+            message = reader.readLine();
             allMessages.concat(message);
             System.out.println("done");
 
@@ -1346,13 +1346,13 @@ public class Client {
         //need a for loop adding all messages the user has sent
         users.addItem("Message 1");
         users.addItem("Message 2");
-        /*var size = reader.readLine();
+        var size = reader.readLine();
         for(var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
             if (reader.readLine().equalsIgnoreCase("No message history.")) {
                 break;
             }
             users.addItem(reader.readLine());
-        } */
+        }
 
         top.add(recLabel);
         top.add(users);
@@ -1391,9 +1391,9 @@ public class Client {
         //need a for loop adding all messages the user has sent
         users.addItem("Message 1");
         users.addItem("Message 2");
-        /*for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+        for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
             users.addItem(reader.readLine());
-        }*/
+        }
 
         top.add(recLabel);
         top.add(users);
@@ -1649,10 +1649,10 @@ public class Client {
         panel.add(top);
 
         //need a for loop adding all messages the user has sent
-       /* for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
-            convos.addItem("All.")
+        for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+            convos.addItem("All.");
             convos.addItem(reader.readLine());
-        } */
+        }
 
 
         top.add(recLabel);
