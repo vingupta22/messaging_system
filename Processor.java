@@ -634,12 +634,13 @@ public class Processor {
             for (Store allStore : allStores) {
                 writer.println(i + ". " + allStore.getName());
                 writer.flush();
+                System.out.println("Sent!!!");
                 i++;
             }
         }
         //System.out.println("Enter the number for the store you want to purchase from:");
         try {
-            Store store = allStores.get(Integer.parseInt(reader.readLine()) - 1);
+            Store store = allStores.get(Integer.parseInt(reader.readLine()));
             i = 1;
             writer.println(store.getProductList().size());
             writer.flush();
@@ -650,7 +651,7 @@ public class Processor {
             }
             //System.out.println("Enter the number for the product you want to buy:");
             ArrayList<String> finalList = new ArrayList<>();
-            String product = store.getProductList().get(Integer.parseInt(reader.readLine()) - 1);
+            String product = store.getProductList().get(Integer.parseInt(reader.readLine()));
             if (user.getProductsPurchased() != null) {
                 finalList = user.getProductsPurchased();
             }

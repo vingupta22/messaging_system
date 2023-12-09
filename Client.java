@@ -957,7 +957,11 @@ public class Client {
 
                     writer.println("12");
                     writer.flush();
-                    makeBuyScreen(buyScreen);
+                    try {
+                        makeBuyScreen(buyScreen);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     cardLayout.show(mainPanel, "Buy Product");
 
                 }
@@ -1471,20 +1475,30 @@ public class Client {
 
     }
 
-    public static void makeBuyScreen(JPanel panel) {
+    public static void makeBuyScreen(JPanel panel) throws IOException {
+        // don't worry about just stops elements from repeating
         panel.removeAll();
         panel.setLayout(new GridLayout(0, 1));
-
+        //gui setup
         JPanel top = new JPanel();
         top.setLayout(new GridLayout(0, 2));
 
         JLabel storeLabel = new JLabel("Store:");
         top.add(storeLabel);
+        // will store stores in dropdown format
         JComboBox<String> stores = new JComboBox<>();
 
         //for loop to add all the stores here
-        stores.addItem("store 1");
-        stores.addItem("store 2");
+        // idea is reader reads number of stores from processor and then
+        // adds each store to dropdown. Reader stalls here
+        System.out.println("Yeah the reader is the problem");
+
+        for (var i = 0; i < Integer.valueOf(reader.readLine()); i++) {
+            stores.addItem(reader.readLine());
+            //added never gets printed, if it did that means dropdown should have stores
+            System.out.println("added!");
+
+        }
 
         top.add(stores);
         panel.add(top);
@@ -1494,7 +1508,21 @@ public class Client {
         selectStore.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Add any products from the selected store to the products ComboBox
-                products.addItem("Item 1");
+                writer.println(String.valueOf(stores.getSelectedIndex()));
+                var productsSize = 2;
+                try {
+                    productsSize = Integer.valueOf(reader.readLine());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                for (var i = 0; i < productsSize; i++) {
+                    try {
+                        products.addItem(reader.readLine());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
             }
         });
 
@@ -1512,13 +1540,23 @@ public class Client {
         buy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                cardLayout.show(mainPanel, "Selection Screen");
+                writer.println(String.valueOf(products.getSelectedIndex()));
+                writer.flush();
+
+                try {
+                    if (reader.readLine().equalsIgnoreCase("Purchased!")) {
+                        JOptionPane.showMessageDialog(null, "Purchased!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 try {
                     makeSelectionScreen(selectionScreen);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                cardLayout.show(mainPanel, "Selection Screen");
 
 
             }
