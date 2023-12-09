@@ -1070,16 +1070,27 @@ public class Client {
         bottom.add(update);
         update.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                writer.println(username.getText());
+                writer.flush();
+                writer.println(password.getText());
+                writer.flush();
+
 
                 //Check if username and password is valid, if not show error, feel free to switch order
-                if (true) {
-                    cardLayout.show(mainPanel, "Selection Screen");
-                } else if (password.getText().isEmpty() || username.getText().isEmpty()) { //if either box is null
-                    JOptionPane.showMessageDialog(null, "Username/Password cannot be blank!",
-                            "Messaging System", JOptionPane.ERROR_MESSAGE);
-                } else { //if username is taken
-                    JOptionPane.showMessageDialog(null, "Username is taken",
-                            "Messaging System", JOptionPane.ERROR_MESSAGE);
+                try {
+                    if (reader.readLine().equalsIgnoreCase("Account with that email already exists.")) {
+
+                        JOptionPane.showMessageDialog(null, "Username is taken",
+                                "Messaging System", JOptionPane.ERROR_MESSAGE);
+                    } else if (password.getText().isEmpty() || username.getText().isEmpty()) { //if either box is null
+                        JOptionPane.showMessageDialog(null, "Username/Password cannot be blank!",
+                                "Messaging System", JOptionPane.ERROR_MESSAGE);
+                    } else { //if username is taken
+                        cardLayout.show(mainPanel, "Selection Screen");
+
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
 
 
@@ -1100,13 +1111,33 @@ public class Client {
         users.addItem("Person 1");
         users.addItem("Person 2");
 
-        top.add(recLabel);
-        top.add(users);
+        //top.add(recLabel);
+        //top.add(users);
+        JLabel hideLabel = new JLabel("Type in who you want to block:");
+        JTextField userHide = new JTextField(20);
+        top.add(hideLabel);
+        top.add(userHide);
 
         panel.add(top);
 
         JButton hide = new JButton("Hide");
-        hide.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+        hide.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e){
+                writer.println(userHide.getText());
+                writer.flush();
+
+                try {
+                    if (reader.readLine().equalsIgnoreCase("User hidden.")) {
+                        JOptionPane.showConfirmDialog(null, "User hidden.", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                cardLayout.show(mainPanel, "Selection Screen");
+
+            }
+
+        });
 
         panel.add(hide);
     }
@@ -1120,26 +1151,59 @@ public class Client {
         top.setLayout(new GridLayout(0, 2));
         panel.add(top);
 
+        JLabel blockLabel = new JLabel("Type in who you want to block:");
+        JTextField userBlock = new JTextField(20);
+
+
+
         //need a for loop adding all the users here
         users.addItem("Person 1");
         users.addItem("Person 2");
 
-        top.add(recLabel);
-        top.add(users);
+        //top.add(recLabel);
+        //top.add(users);
+        top.add(blockLabel);
+        top.add(userBlock);
 
         panel.add(top);
 
         JButton block = new JButton("Block");
-        block.addActionListener(e -> cardLayout.show(mainPanel, "Selection Screen"));
+
+
+        block.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e){
+                writer.println(userBlock.getText());
+                writer.flush();
+                try {
+                    if (reader.readLine().equalsIgnoreCase("User blocked.")) {
+                        JOptionPane.showConfirmDialog(null, "User blocked.", "Messaging System", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                cardLayout.show(mainPanel, "Selection Screen");
+
+            }
+        });
 
         panel.add(block);
     }
 
     public static void makeStatisticsScreen(JPanel panel) {
         panel.setLayout(new GridLayout(4, 0));
-        JToggleButton sort = new JToggleButton("Sort");
+        JButton sort = new JButton("Sort");
         //sort the data based on the value of this toggle
-        panel.add(sort);
+        //panel.add(sort);
+        int option = JOptionPane.showConfirmDialog(null,"Do you want to sort the data?", "Messaging System",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (option == JOptionPane.YES_OPTION) {
+            writer.write("1");
+            writer.flush();
+        } else {
+            writer.write("2");
+            writer.flush();
+        }
 
         //add the correct info to these two labels
         //for buyers, one label should be how many messages each store has received
