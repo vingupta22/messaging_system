@@ -139,7 +139,7 @@ public class Client {
                                             msgOption[0]);
 
                                 } else {
-                                    String question = ("1. View a list of people to message.\n2. Message a specific " +
+                                    String question = ("1. View a list of stores to message.\n2. Message a specific " +
                                             "user.");
                                     messageChoice = (String) JOptionPane.showInputDialog(null,
                                             question, "Messaging System", JOptionPane.QUESTION_MESSAGE, null,
@@ -159,16 +159,17 @@ public class Client {
                                                         "now!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                                             }
-                                        }
-                                        String printNames = "";
-                                        for (int i = 0; i < size; i++) {
-                                            String userNames = reader.readLine();
-                                            if (!userNames.equals("hidden")) {
-                                                printNames += (userNames) + "\n";
+                                        } else {
+                                            String printNames = "";
+                                            for (int i = 0; i < size; i++) {
+                                                String userNames = reader.readLine();
+                                                if (!userNames.equals("hidden")) {
+                                                    printNames += (userNames) + "\n";
+                                                }
                                             }
+                                            JOptionPane.showMessageDialog(null, printNames,
+                                                    "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                         }
-                                        JOptionPane.showMessageDialog(null, printNames,
-                                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                                     case "2":
                                         String recipient = JOptionPane.showInputDialog(null, "Who would you like to " +
@@ -330,130 +331,203 @@ public class Client {
                             case "8":
                                 //logout
                                 String logOutMessage = reader.readLine();
-                                System.out.println(logOutMessage);
+                                JOptionPane.showMessageDialog(null, logOutMessage, "Messaging System",
+                                        JOptionPane.PLAIN_MESSAGE);
                                 loggedIn = false;
                                 break;
                             case "9":
                                 // edit message
+                                String printNames = "";
                                 size = Integer.parseInt(reader.readLine());
                                 for (int i = 0; i < size; i++) {
-                                    System.out.println(reader.readLine());
+                                    String userNames = reader.readLine();
+                                    if(!userNames.equals("hidden")){
+                                        printNames += (userNames) + "\n";
+                                    }
                                 }
-                                System.out.println("Enter the number of the message you would like to edit:");
-                                String editedMessage = scanner.nextLine();
+                                JOptionPane.showMessageDialog(null, printNames,
+                                        "Messaging System", JOptionPane.PLAIN_MESSAGE);
+
+
+                                String editedMessage = JOptionPane.showInputDialog(null,
+                                        printNames + "\nEnter the number of the message you would like to edit:",
+                                        "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(editedMessage);
                                 writer.flush();
                                 String enteredTry = reader.readLine();
                                 if (enteredTry.equals("entered try.")) {
-                                    System.out.println("What would you like the message to say now.");
-                                    String update = scanner.nextLine();
+                                    String update = JOptionPane.showInputDialog(null,
+                                            printNames + "What would you like the message to say?",
+                                            "Messaging System",
+                                            JOptionPane.QUESTION_MESSAGE);
                                     writer.println(update);
                                     writer.flush();
-                                    System.out.println("Message updated.");
+                                    JOptionPane.showMessageDialog(null, "Message Updated",
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 } else {
-                                    System.out.println("Invalid response.");
+                                    JOptionPane.showMessageDialog(null, printNames,
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 }
 
                                 break;
                             case "10":
                                 // delete message
+                                String printMsgs = "";
                                 int msgsSize = Integer.parseInt(reader.readLine());
                                 if (msgsSize == 0) {
-                                    System.out.println(reader.readLine());
+                                    printMsgs = reader.readLine();
+                                    JOptionPane.showMessageDialog(null, printMsgs,
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 } else {
                                     for (int i = 0; i < msgsSize; i++) {
-                                        System.out.println(reader.readLine());
+                                        String userNames = reader.readLine();
+                                        if(!userNames.equals("hidden")){
+                                            printMsgs += (userNames) + "\n";
+                                        }
                                     }
-                                    System.out.println("Enter the number of the message you would like to delete:");
-                                    String index = scanner.nextLine();
+
+
+
+
+
+
+                                    String index = JOptionPane.showInputDialog(null,
+                                            printMsgs + "\nEnter the number of the message you would like to delete",
+                                            "Messaging System",
+                                            JOptionPane.QUESTION_MESSAGE);
                                     writer.println(index);
                                     writer.flush();
                                     String result = reader.readLine();
-                                    System.out.println(result);
+                                    JOptionPane.showMessageDialog(null, result,
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 }
                                 break;
                             case "11":
                                 // export csv
+                                String printUser = "";
                                 if (sOrC.equalsIgnoreCase("customer")) {
                                     int sellerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < sellerSize; i++) {
-                                        System.out.println(reader.readLine());
+                                        String userNames = reader.readLine();
+                                        if (!userNames.equals("hidden")) {
+                                            printUser += (userNames) + "\n";
+                                        }
                                     }
                                 } else if (sOrC.equalsIgnoreCase("seller")) {
                                     int customerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < customerSize; i++) {
-                                        System.out.println(reader.readLine());
+                                        String userNames = reader.readLine();
+                                        if (!userNames.equals("hidden")) {
+                                            printUser += (userNames) + "\n";
+                                        }
                                     }
 
                                 }
-                                System.out.println("Whose conversation would you like to export (leave blank for all).");
-                                String name = scanner.nextLine();
+                                String name = JOptionPane.showInputDialog(null,
+                                        printUser + "\nWhose conversation would you like to export (leave blank for all).",
+                                        "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
                                 writer.println(name);
                                 writer.flush();
-                                System.out.println("Exported!");
+                                JOptionPane.showMessageDialog(null, "Exported!",
+                                        "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                                 break;
                             case "12":
                                 // create store / buy products
                                 if (sOrC.equalsIgnoreCase("customer")) {
+                                    String printStore = "";
                                     int storeSize = Integer.parseInt(reader.readLine());
                                     if (storeSize == 0) {
-                                        System.out.println("No available stores!");
+                                        JOptionPane.showMessageDialog(null, "No Stores Available!",
+                                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                     } else {
+
+
                                         for (int i = 0; i < storeSize; i++) {
-                                            System.out.println(reader.readLine());
+                                            String userNames = reader.readLine();
+                                            printStore += (userNames) + "\n";
                                         }
-                                        System.out.println("Enter the number for the store you want to purchase from:");
-                                        String store = scanner.nextLine();
+                                        String store = JOptionPane.showInputDialog(null,
+                                                printStore + "\nEnter the number for the store you want to purchase from:",
+                                                "Messaging System",
+                                                JOptionPane.QUESTION_MESSAGE);
                                         writer.println(store);
                                         writer.flush();
+                                        String printItems = "";
                                         int itemsSize = Integer.parseInt(reader.readLine());
                                         for (int i = 0; i < itemsSize; i++) {
-                                            System.out.println(reader.readLine());
+                                            String userNames = reader.readLine();
+                                            printItems += (userNames) + "\n";
                                         }
-                                        System.out.println("Enter the number for the product you want to buy:");
-                                        String item = scanner.nextLine();
+
+
+                                        String item = JOptionPane.showInputDialog(null,
+                                                printStore + "\nEnter the number for the store you want to purchase from:",
+                                                "Messaging System",
+                                                JOptionPane.QUESTION_MESSAGE);
                                         writer.println(item);
                                         writer.flush();
                                         String result = reader.readLine();
-                                        System.out.println(result);
+                                        JOptionPane.showMessageDialog(null, result,
+                                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                     }
                                 } else if (sOrC.equalsIgnoreCase("seller")) {
-                                    System.out.println("Enter the store name:");
-                                    String storeName = scanner.nextLine();
+                                    String storeName = JOptionPane.showInputDialog(null,
+                                            "Enter the store name:",
+                                            "Messaging System",
+                                            JOptionPane.QUESTION_MESSAGE);
                                     writer.println(storeName);
                                     writer.flush();
                                     System.out.println("How many items will you be selling?");
-                                    String items = scanner.nextLine();
+                                    String items = JOptionPane.showInputDialog(null,
+                                            "How many items will you be selling?",
+                                            "Messaging System",
+                                            JOptionPane.QUESTION_MESSAGE);
                                     writer.println(items);
                                     writer.flush();
                                     for (int i = 1; i <= Integer.parseInt(items); i++) {
-                                        System.out.println("Name of product " + i + "?");
-                                        writer.println(scanner.nextLine());
+                                        String itemName = JOptionPane.showInputDialog(null,
+                                                "Name of product " + i + "?",
+                                                "Messaging System",
+                                                JOptionPane.QUESTION_MESSAGE);
+                                        writer.println(itemName);
                                         writer.flush();
                                     }
                                     String resultStore = reader.readLine();
-                                    System.out.println(resultStore);
+                                    JOptionPane.showMessageDialog(null, resultStore,
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 }
                                 break;
                             case "13":
                                 // censor texts
-                                System.out.println("What text would you like to censor");
-                                String censor = scanner.nextLine();
+                                String censor = JOptionPane.showInputDialog(null,
+                                        "What text would you like to censor",
+                                        "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
+
                                 writer.println(censor);
                                 writer.flush();
-                                System.out.println("How would you like to replace the censored texts?\n1" +
-                                        ".Use default which is ****\n2.Make your own replacement");
-                                String censorChoice = scanner.nextLine();
+
+                                String censorChoice = JOptionPane.showInputDialog(null,
+                                        "How would you like to replace the censored texts?\n1" +
+                                                "Use default which is ****\n2.Make your own replacement",
+                                        "Messaging System",
+                                        JOptionPane.QUESTION_MESSAGE);
+
                                 writer.println(censorChoice);
                                 writer.flush();
                                 if (censorChoice.equals("2")) {
-                                    System.out.println("Enter your replacement words");
-                                    String replace = scanner.nextLine();
+                                    String replace = JOptionPane.showInputDialog(null,
+                                            "Enter your replacement words",
+                                            "Messaging System",
+                                            JOptionPane.QUESTION_MESSAGE);
                                     writer.println(replace);
                                     writer.flush();
                                 } else if (!censorChoice.equals("1")) {
-                                    System.out.println("Invalid input.");
+                                    JOptionPane.showMessageDialog(null, "Invalid Input!",
+                                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                 }
                                 break;
 
@@ -464,28 +538,38 @@ public class Client {
 
                 case "2":
                     // user create account
-                    System.out.println("Enter your email:");
-                    email = scanner.nextLine();
+                    email = JOptionPane.showInputDialog(null,
+                            "Enter your email",
+                            "Messaging System",
+                            JOptionPane.QUESTION_MESSAGE);
                     writer.println(email);
                     writer.flush();
 
                     String successfulCreation = reader.readLine();
                     if (!successfulCreation.equals("Account with that email already exists.")) {
                         System.out.println("Enter your password:");
-                        password = scanner.nextLine();
+                        password = JOptionPane.showInputDialog(null,
+                                "Enter your password",
+                                "Messaging System",
+                                JOptionPane.QUESTION_MESSAGE);
                         writer.println(password);
                         writer.flush();
 
-                        System.out.println("Choose type of account to create:\n1.Customer\n2.Seller\n");
-                        String accountChoice = scanner.nextLine();
+
+                        String accountChoice = JOptionPane.showInputDialog(null,
+                                "Choose type of account to create:\n1.Customer\n2.Seller\n",
+                                "Messaging System",
+                                JOptionPane.QUESTION_MESSAGE);
                         writer.println(accountChoice);
                         writer.flush();
 
                         String finalMessage = reader.readLine();
-                        System.out.println(finalMessage);
+                        JOptionPane.showMessageDialog(null, finalMessage,
+                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                     } else {
-                        System.out.println("Account with that email already exists.");
+                        JOptionPane.showMessageDialog(null, "Account with that email already exists!",
+                                "Messaging System", JOptionPane.PLAIN_MESSAGE);
                     }
                     break;
 
@@ -493,7 +577,8 @@ public class Client {
                     // user exits application
                     exit = true;
                     String exitMessage = reader.readLine();
-                    System.out.println(exitMessage);
+                    JOptionPane.showMessageDialog(null, exitMessage,
+                            "Messaging System", JOptionPane.PLAIN_MESSAGE);
                     break;
             }
         } while (!exit);
