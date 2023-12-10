@@ -3,31 +3,34 @@ package messaging_system;
 import java.util.*;
 
 /**
- * Project 4 Option 2
+ * Project 5 Option 2
  *
  * This program holds a class called Customer that models a type of customer in an e-commerce system (extends user).
+ * Includes functions such as being able to buy products, specifically for users that defined themselves as
+ * customers
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
- * @version November 13, 2023
+ * @version December 10, 2023
  *
  */
 
 public class Customer extends Users {
-    private ArrayList<String> productsPurchased;
+    private ArrayList<String> productsPurchased; // create productPurchase list field
 
     public Customer(String email, String password) {
         super(email, password);
         this.productsPurchased = new ArrayList<>();
-    }
+    } // constructor for customers that allows them to initialize email, password, and a new list of products
+      // purchased
 
     public ArrayList<String> getProductsPurchased() {
         return productsPurchased;
-    }
+    } // return the products purchased by customers
 
     public void setProductsPurchased(ArrayList<String> products) {
         this.productsPurchased = products;
-    }
+    } // change products purchases list that a customer has bought
 
     //main method for testing
     public static void main(String[] args) {
