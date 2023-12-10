@@ -3,48 +3,52 @@ package messaging_system;
 import java.util.ArrayList;
 
 /**
- * Project 4 Option 2
+ * Project 5 Option 2
  *
  * This program holds a class called Seller that models a type of seller in an e-commerce system (extends user).
+ * It's responsible for functions relating to creating and adding stores, and messages that sellers receives
+ * This class will later be used in the server/client (processor/client) classes when user choose their user type to be
+ * seller
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
- * @version November 13, 2023
+ * @version December 10, 2023
  *
  */
 
 public class Seller extends Users {
 
 
-    private ArrayList<Store> stores;
-    private final ArrayList<Message> messageThread;
+    private ArrayList<Store> stores; // creating store list field
+    private final ArrayList<Message> messageThread; // creating messageThread list field
 
     public Seller(String email, String password) {
         super(email, password);
         this.stores = new ArrayList<>();
         this.messageThread = new ArrayList<>();
-    }
+    } // Seller constructor, that allows seller to get set their email,password by using methods in user,
+    // Also creates a blank store and messageThread list
 
 
     public ArrayList<Store> getStores() {
         return stores;
-    }
+    } // returns the seller's store
 
     public void addStore(Store store) {
         stores.add(store);
-    }
+    } // adds a store in the seller's store list
 
     public ArrayList<Message> getMessageThread() {
         return messageThread;
-    }
+    } // return the seller's messages
 
     public void addMessage(Message message) {
         messageThread.add(message);
-    }
+    } // adds a message in the seller's messageThread list
 
     public void setStores(ArrayList<Store> storeList) {
         this.stores = storeList;
-    }
+    } // allows the seller to adjust the store list
 
     //main method for testing
     public static void main(String[] args) {
