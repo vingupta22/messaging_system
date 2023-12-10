@@ -5,8 +5,9 @@ import java.util.ArrayList;
 /**
  * Project 5 Option 2
  * <p>
- * This program holds a class called Store that models a type of store in an e-commerce system that is created by
- * sellers. It allows seller to modify store by adding products and changing store names when extends this class.
+ * This program holds a class called Store that models a type of store in an e-commerce system that is 
+ * created by sellers. It allows seller to modify store by adding products and changing store names 
+ * when extends this class.
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
  * @version December 10, 2023
