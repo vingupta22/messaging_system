@@ -10,6 +10,20 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * Project 5 Option 2
+ *
+ * This class is responsible for the client side of the messaging system. Directly relates to the processor
+ * class which is the server side. Key components of this class contains socket which allows server connections
+ * and multithreadding, GUI which allows user to view a colorful frontend, and functions that are required
+ * to match with the server side, to help the program runs smoothly
+ *
+ * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
+ *
+ * @version December 10, 2023
+ *
+ */
+
 public class Client {
     public static boolean loggedIn;
     public static boolean exit;
