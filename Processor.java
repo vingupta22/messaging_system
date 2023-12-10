@@ -8,14 +8,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Project 4 Option 2
+ * Project 5 Option 2
  * <p>
+ *
  * This program holds the main method for the program, and uses the classes Message, Customer, Users, Seller, and Store
  * to create an e-commerce mockup with a focus on the messaging system.
+ * It's also the server side of the server/client network io. Which works when clients connects its socket
+ * and will slowly follow the logic we created in the main method by using switch cases and methods, to
+ * apply features that the client clicked the button.
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  * @version November 13, 2023
  */
+
 public class Processor {
 
     private static final ArrayList<Store> allStores = new ArrayList<Store>();
