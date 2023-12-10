@@ -30,10 +30,11 @@ public class Client {
 
 
     public static void main(String[] args) throws IOException {
-        // Socket setup
-        // Replace "path_to_custom_icon.png" with the actual path to your custom icon
+
+        // Custom pete image
         ImageIcon customIcon = new ImageIcon("messaging_system/pete.png");
 
+        //GUI styling
         UIManager.put("OptionPane.informationIcon", customIcon);
         UIManager.put("OptionPane.warningIcon", customIcon);
         UIManager.put("OptionPane.errorIcon", customIcon);
@@ -47,11 +48,12 @@ public class Client {
         UIManager.put("OptionPane.messageForeground", Color.WHITE);
         UIManager.put("Button.border", BorderFactory.createEmptyBorder(8, 20, 8, 20));
 
-
+        // Socket setup
         Socket socket = new Socket();
         BufferedReader reader = null;
         PrintWriter writer = null;
 
+        //Try connection
         try {
             socket = new Socket("localhost", 12345);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -124,18 +126,21 @@ public class Client {
                         ret2 += (userName);
                         String sOrC = reader.readLine();
                         // Change to a long string and print in a JOption Message
+                        //Menu
                         if (sOrC.equals("customer")) {
                             ret2 += ("\n1.See messages\n2.Send message\n3.Edit Account\n4.Delete Account\n"
                                     + "5.Hide User\n6.Block User\n7.Get Statistics\n8.Logout\n" +
                                     "9.Edit Message\n10.Delete Message\n11.Export CSV\n" +
                                     "12.Buy products\n13.Censor Texts");
                         } else {
+                            //Menu
                             ret2 += ("\n1.See messages\n2.Send message\n3.Edit Account\n" +
                                     "4.Delete Account\n" + "5.Hide User\n6.Block User\n" +
                                     "7.Get Statistics\n8.Logout\n"
                                     + "9.Edit Message\n10.Delete Message\n11.Export CSV\n12." +
                                     "Create Store\n13.Censor Texts");
                         }
+                        //Dropdown for choosing menu option
                         String[] options2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
                         String choice = (String) JOptionPane.showInputDialog(null,
                                 ret2, "Messaging System", JOptionPane.QUESTION_MESSAGE, null, options2,
@@ -181,6 +186,7 @@ public class Client {
                                 writer.println(messageChoice);
                                 writer.flush();
                                 switch (messageChoice) {
+                                    //View stores to message
                                     case "1":
                                         size = Integer.parseInt(reader.readLine());
                                         if (size == 0) {
@@ -191,10 +197,11 @@ public class Client {
                                                         "now!", "Messaging System", JOptionPane.PLAIN_MESSAGE);
 
                                             }
-                                        } else {
+                                        } else { //Message specific person
                                             String printNames = "";
                                             for (int i = 0; i < size; i++) {
                                                 String userNames = reader.readLine();
+                                                //Print unhidden users
                                                 if (!userNames.equals("hidden")) {
                                                     printNames += (userNames) + "\n";
                                                 }
@@ -202,7 +209,7 @@ public class Client {
                                             JOptionPane.showMessageDialog(null, printNames,
                                                     "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                         }
-
+                                        // Select recipient
                                     case "2":
                                         String recipient = JOptionPane.showInputDialog(null, "Who would you like to " +
                                                         "message?",
@@ -222,6 +229,7 @@ public class Client {
                                                     JOptionPane.PLAIN_MESSAGE);
                                             break;
                                         }
+                                        //Message type menu
                                         String q = ("How would you like to send the message?\n1. Type the message\n2." +
                                                 " " +
                                                 "Import a text file");
@@ -234,6 +242,7 @@ public class Client {
                                         writer.flush();
                                         switch (choice2) {
                                             case "1":
+                                                // Disappearing message
                                                 String[] array = {"yes", "no"};
                                                 String prompt = ("Do you want your message to disappear after it's " +
                                                         "read? " +
@@ -252,6 +261,7 @@ public class Client {
                                                         JOptionPane.PLAIN_MESSAGE);
                                                 break;
                                             case "2":
+                                                // Import file
                                                 String file = JOptionPane.showInputDialog(null,
                                                         "What is the text file you would like to import?",
                                                         "Messaging System", JOptionPane.QUESTION_MESSAGE);
@@ -272,6 +282,7 @@ public class Client {
 
                                 break;
                             case "3":
+                                // Edit account
                                 email = JOptionPane.showInputDialog(null,
                                         "Enter updated email:", "Messaging System",
                                         JOptionPane.QUESTION_MESSAGE);
@@ -290,12 +301,14 @@ public class Client {
                                 writer.flush();
                                 break;
                             case "4":
+                                // Delete account
                                 String deleteMessage = reader.readLine();
                                 JOptionPane.showMessageDialog(null, deleteMessage, "Messaging System",
                                         JOptionPane.PLAIN_MESSAGE);
                                 loggedIn = false;
                                 break;
                             case "5":
+                                // Hide users
                                 size = Integer.parseInt(reader.readLine());
                                 String out = "Users:\n";
                                 for (int i = 0; i < size; i++) {
@@ -361,7 +374,7 @@ public class Client {
                                         JOptionPane.PLAIN_MESSAGE);
                                 break;
                             case "8":
-                                //logout
+                                // Logout
                                 String logOutMessage = reader.readLine();
                                 JOptionPane.showMessageDialog(null, logOutMessage, "Messaging System",
                                         JOptionPane.PLAIN_MESSAGE);
@@ -407,6 +420,7 @@ public class Client {
                                 // delete message
                                 String printMsgs = "";
                                 int msgsSize = Integer.parseInt(reader.readLine());
+                                //Prints messages
                                 if (msgsSize == 0) {
                                     printMsgs = reader.readLine();
                                     JOptionPane.showMessageDialog(null, printMsgs,
@@ -418,12 +432,7 @@ public class Client {
                                             printMsgs += (userNames) + "\n";
                                         }
                                     }
-
-
-
-
-
-
+                                    // Which message to delete
                                     String index = JOptionPane.showInputDialog(null,
                                             printMsgs + "\nEnter the number of the message you would like to delete",
                                             "Messaging System",
@@ -439,6 +448,7 @@ public class Client {
                                 // export csv
                                 String printUser = "";
                                 if (sOrC.equalsIgnoreCase("customer")) {
+                                    // If user is a customer
                                     int sellerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < sellerSize; i++) {
                                         String userNames = reader.readLine();
@@ -447,6 +457,7 @@ public class Client {
                                         }
                                     }
                                 } else if (sOrC.equalsIgnoreCase("seller")) {
+                                    //If user is a seller
                                     int customerSize = Integer.parseInt(reader.readLine());
                                     for (int i = 0; i < customerSize; i++) {
                                         String userNames = reader.readLine();
@@ -469,14 +480,15 @@ public class Client {
                             case "12":
                                 // create store / buy products
                                 if (sOrC.equalsIgnoreCase("customer")) {
+                                    // If user is a customer
                                     String printStore = "";
                                     int storeSize = Integer.parseInt(reader.readLine());
                                     if (storeSize == 0) {
+                                        // If stores is empty
                                         JOptionPane.showMessageDialog(null, "No Stores Available!",
                                                 "Messaging System", JOptionPane.PLAIN_MESSAGE);
                                     } else {
-
-
+                                        // Print stores
                                         for (int i = 0; i < storeSize; i++) {
                                             String userNames = reader.readLine();
                                             printStore += (userNames) + "\n";
@@ -488,6 +500,7 @@ public class Client {
                                         writer.println(store);
                                         writer.flush();
                                         String printItems = "";
+                                        // Print items
                                         int itemsSize = Integer.parseInt(reader.readLine());
                                         for (int i = 0; i < itemsSize; i++) {
                                             String userNames = reader.readLine();
@@ -576,10 +589,10 @@ public class Client {
                             JOptionPane.QUESTION_MESSAGE);
                     writer.println(email);
                     writer.flush();
-
+                    // Message if account is created successfully
                     String successfulCreation = reader.readLine();
                     if (!successfulCreation.equals("Account with that email already exists.")) {
-                        //System.out.println("Enter your password:");
+                        // Account exists
                         password = JOptionPane.showInputDialog(null,
                                 "Enter your password",
                                 "Messaging System",
@@ -587,7 +600,7 @@ public class Client {
                         writer.println(password);
                         writer.flush();
 
-
+                        // Account type choice
                         String accountChoice = JOptionPane.showInputDialog(null,
                                 "Choose type of account to create:\n1.Customer\n2.Seller\n",
                                 "Messaging System",
