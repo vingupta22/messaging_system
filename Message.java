@@ -4,8 +4,8 @@ package messaging_system;
  * Project 5 Option 2
  *
  * This program holds a class called message that models a message object in an e-commerce chat system.
- * Functions includes a timestamp on messages, the content of it, if its read, the sender and recipient's id, and some
- * additional features such as if a message will be disappearing
+ * Functions includes a timestamp on messages, the content of it, if its read, the sender and 
+ * recipient's id, and some additional features such as if a message will be disappearing
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
