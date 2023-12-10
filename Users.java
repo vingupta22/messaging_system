@@ -119,21 +119,23 @@ public class Users {
     }
 
     // not sure how to actually send the message?
-    public void sendMessage(Message msg, Users user) {
+    public String sendMessage(Message msg, Users user) {
+        String confirm = "";
         //messageSent
         // confirmation message
         if ((this instanceof Seller && user instanceof Customer) || (this instanceof Customer && user
                 instanceof Seller)) {
             user.messagesReceived.add(msg);
-            System.out.println("Message sent!");
+
+            confirm = "Message sent!";
         } else if (this instanceof Seller) {
-            System.out.println("Sorry, you cannot message another seller!");
+            confirm = "Sorry, you cannot message another seller!";
         } else {
-            System.out.println("Sorry, you cannot message another customer!");
+            confirm = "Sorry, you cannot message another customer!";
         }
 
         messagesSent.add(msg);
-
+        return confirm;
     }
 
     public ArrayList<Message> getMessagesSent() {
