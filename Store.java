@@ -3,48 +3,48 @@ package messaging_system;
 import java.util.ArrayList;
 
 /**
- * Project 4 Option 2
+ * Project 5 Option 2
  * <p>
  * This program holds a class called Store that models a type of store in an e-commerce system that is created by
- * sellers.
+ * sellers. It allows seller to modify store by adding products and changing store names when extends this class.
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishou, LO1
- * @version November 13, 2023
+ * @version December 10, 2023
  */
 
 public class Store {
 
-    private String name;
-    ArrayList<String> productList;
-    private Seller seller;
+    private String name; // creating name field
+    ArrayList<String> productList; // creating product list field
+    private Seller seller; // creating seller field
 
 
     public Store(String name, ArrayList<String> productList, Seller seller) {
         this.name = name;
         this.productList = productList;
         this.seller = seller;
-    }
+    } //Store constructor that sets the naem and product of a store and who owns the store
 
     public String getName() {
         return name;
-    }
+    } // return the name of the store
 
     public void setName(String name) {
         this.name = name;
-    }
+    } // change the name of the store
 
     public ArrayList<String> getProductList() {
         return productList;
-    }
+    } // get the products that are in the store
 
 
     public Seller getSeller() {
         return seller;
-    }
+    } // get the seller of the store
 
     public void setSeller(Seller s) {
         this.seller = s;
-    }
+    } // change the seller of the store
 
     public boolean itemExists(String item) {
         for (String product : productList) {
@@ -53,7 +53,7 @@ public class Store {
             }
         }
         return false;
-    }
+    } // check if a product are still available in the store
 
     //Main method for testing
     public static void main(String[] args) {
