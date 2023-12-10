@@ -1,12 +1,12 @@
 package messaging_system;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.security.spec.RSAOtherPrimeInfo;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -14,8 +14,26 @@ public class Client {
     public static boolean loggedIn;
     public static boolean exit;
 
+
     public static void main(String[] args) throws IOException {
         // Socket setup
+        // Replace "path_to_custom_icon.png" with the actual path to your custom icon
+        ImageIcon customIcon = new ImageIcon("messaging_system/pete.png");
+
+        UIManager.put("OptionPane.informationIcon", customIcon);
+        UIManager.put("OptionPane.warningIcon", customIcon);
+        UIManager.put("OptionPane.errorIcon", customIcon);
+        UIManager.put("OptionPane.questionIcon", customIcon);
+        UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, 16));
+        UIManager.put("Button.font", new Font("Segoe UI", Font.BOLD, 14));
+        UIManager.put("OptionPane.background", new Color(60, 63, 65));
+        UIManager.put("Panel.background", new Color(60, 63, 65));
+        UIManager.put("Button.background", new Color(75, 110, 175));
+        UIManager.put("Button.foreground", Color.WHITE);
+        UIManager.put("OptionPane.messageForeground", Color.WHITE);
+        UIManager.put("Button.border", BorderFactory.createEmptyBorder(8, 20, 8, 20));
+
+
         Socket socket = new Socket();
         BufferedReader reader = null;
         PrintWriter writer = null;
