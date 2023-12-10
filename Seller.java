@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * Project 5 Option 2
  *
  * This program holds a class called Seller that models a type of seller in an e-commerce system (extends user).
- * It's responsible for functions relating to creating and adding stores, and messages that sellers receives
- * This class will later be used in the server/client (processor/client) classes when user choose their user type to be
- * seller
+ * It's responsible for functions relating to creating and adding stores, and messages that sellers 
+ * receives This class will later be used in the server/client (processor/client) classes when user 
+ * choose their user type to be seller
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
