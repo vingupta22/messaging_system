@@ -565,7 +565,7 @@ public class Client {
 
                     String successfulCreation = reader.readLine();
                     if (!successfulCreation.equals("Account with that email already exists.")) {
-                        System.out.println("Enter your password:");
+                        //System.out.println("Enter your password:");
                         password = JOptionPane.showInputDialog(null,
                                 "Enter your password",
                                 "Messaging System",
