@@ -1,9 +1,10 @@
-# messaging_system
-
-1. To run and compile the program you need to run the Processor class. One possible way to do this is to execute the following:
+# BoilerNetwork
+1. To run and compile the program you need to run the Processor class, and then an instance of the Client class for each client required. One possible way to do this is to execute the following:
 ```
    javac Processor.java
    java Processor
+   javac Client.java
+   java Client.java
 ```
 2. Nandini Pande submitted the report on brightspace and Nick Patel submitted the Vocareum Workspace.
 3. **Classes:**
@@ -441,8 +442,7 @@ Main Method:
 
 The main method is the entry point of the program.
 It initializes variables and checks for the existence of files (user_info.txt, store_info.txt, and message_info.txt) to load data.
-It presents a menu for options like Login, Create Account, and Exit.
-Based on the user's choice, it calls different methods to handle login, account creation, and various user actions.
+It acts as the backend processor for handling all readng/writing of data.
 
 Methods:
 
@@ -466,10 +466,45 @@ File Handling:
 loadFiles(File f1, File f2, File f3): Loads data from files.
 saveAll(): Saves data to files.
 
+Client.java: 
+- Import Statements
+   Imports necessary Java libraries for GUI components (javax.swing.*), network communication (java.io.*, java.net.Socket), and other utilities (java.awt.*, java.security.spec.RSAOtherPrimeInfo, java.time.LocalTime,    java.util.*).
+   Class Variables
+   public static boolean loggedIn: Indicates if a user is currently logged in.
+   public static boolean exit: Flag to control the main loop, indicating if the application should exit.
+- Main Method
+   public static void main(String[] args): The entry point of the application.
+   Initializes a socket connection to the server.
+   Configures the UI elements (icons, fonts, colors).
+   Implements a main menu loop with options to log in, create an account, or exit.
+   Handles user inputs through GUI dialogs and communicates with the server via the socket.
+   Displays messages and responses received from the server.
+   Implements various functionalities based on user's role (customer/seller) such as sending messages, editing account details, viewing messages, deleting accounts, hiding/blocking users, obtaining statistics,    logging out, editing/deleting messages, exporting conversations to CSV, creating stores (for sellers), buying products (for customers), and censoring texts.
+- Methods and Functionalities
+   Socket Setup: Configures a socket for network communication and initializes BufferedReader and PrintWriter for reading from and writing to the socket.
+   GUI Configuration: Sets custom icons, fonts, colors, and styles for the UI components.
+   Main Menu: Presents a main menu with options to log in, create an account, or exit. Handles user interaction through GUI input dialogs.
+   Login Functionality: Handles user login, displaying messages for login success or failure.
+   Account Creation: Allows new users to create either a customer or seller account.
+- User Interactions:
+   Viewing, sending, editing, and deleting messages.
+   Account management (editing and deleting accounts).
+   Hiding and blocking other users.
+   Viewing statistics (for sellers).
+   Exporting conversation history to a CSV file.
+   Additional functionalities specific to customer and seller roles:
+   Customers can buy products.
+   Sellers can create stores and manage products.
+   Message Censoring: Provides an option to censor specific texts in messages.
+   Loop Control: The main loop continues until the user chooses to exit, controlled by the exit variable.
+- Exception Handling
+   Handles IOException for network communication errors.
+The Client class itself is overall responsible for all user input and returning an output through a sleek GUI.
+
 Other Features:
 
 The class handles the creation and management of different types of accounts (Customer, Seller).
 It allows users to perform various actions like sending messages, editing accounts, getting statistics, and more.
 
-The Processor class was tested manually so that we could test as many options and scenarios as possible, as well as provide as many different correct/incorrect inputs to ensure the program did not crash and functioned properly.
+The Processor and Client classes were tested manually so that we could test as many options and scenarios as possible, as well as provide as many different correct/incorrect inputs to ensure the program did not crash and functioned properly.
 
