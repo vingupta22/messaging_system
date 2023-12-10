@@ -16,7 +16,7 @@ import java.util.*;
  * This class is responsible for the client side of the messaging system. Directly relates to the processor
  * class which is the server side. Key components of this class contains socket which allows server connections
  * and multithreading, GUI which allows user to view a colorful frontend, and functions that are required
- * to match with the server side, to help the program runs smoothly
+ * to match with the server side, to help the program run smoothly
  *
  * @author Ishaan, Nandini, Nick, Vinay, Zishuo, LO1
  *
